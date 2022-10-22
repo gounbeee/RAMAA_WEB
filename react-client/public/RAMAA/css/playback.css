@@ -1,0 +1,30 @@
+.bl_playback {
+
+
+
+
+}
+
+
+
+.ly_playback {
+
+
+  position: absolute;
+  top: 10px;
+  left: 82%;
+  z-index: 2;
+
+
+}
+
+
+@media (max-width: 35em) {
+  .ly_playback {
+    top: 1em;
+    right: 3em;
+    position: absolute;
+    z-index: 2;
+
+  }
+}

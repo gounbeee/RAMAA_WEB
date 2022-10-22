@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="./css/base.css"></link>
+    <link rel="stylesheet" href="./css/menubar.css"></link>
+    <link rel="stylesheet" href="./css/attribManager.css"></link>
+    <link rel="stylesheet" href="./css/toolbox.css"></link>
+    <link rel="stylesheet" href="./css/footer.css"></link>
+    <link rel="stylesheet" href="./css/workarea.css"></link>
+
+    <link rel="stylesheet" href="./css/login/login-base.css"></link>
+
+  </head>
+
+
+  <body>
+
+    <div id="allArea">
+
+      <div class="bl_ramaaApp ly_ramaaApp" id="ramaaApp">
+
+        <div class="loginBase">
+
+
+          <div class="loginInner">
+            <a class="back_btn" href="/">< back</a>
+
+            <div class="loginTitle">
+              <p>Log in</p>
+            </div>
+            <div class="loginFlag" id="isOKtoLogin" style="display: none">
+              <label for="loginFlag">Current :</label>
+              <% if(loginFlag === undefined) loginFlag = 'You are not logged in' 
+                 else loginFlag = 'You are already logged in'
+              %>
+              <input type="text" name="loginFlag" id="loginFlag" disabled="disabled" value="<%= loginFlag %>">
+            </div>
+
+            <% if (errorMessage) { %>
+            <div class="user-message user-message-error">
+              <%= errorMessage %>
+            </div>
+            <% } %>
+
+            <div class="loginContainer">
+              <form class="loginForm" id="loginForm" action="/login" method="POST">
+                <ul>
+                  <li>
+                    <label for="userEmail">Email</label>
+                  </li>
+                  <li>
+                    <input type="text" name="userEmail" id="userEmail" required>
+                  </li>
+
+                  <li>
+                    <label for="userPass">Password</label>
+                  </li>
+                  <li>
+                    <input type="password" name="userPass" id="userPass" required>
+                  </li>
+
+                  <li>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  </li>
+                  <li>
+                    <button type="submit">LOGIN</button>
+                  </li>
+                </ul>
+              </form>
+
+              <a href="/resetpass">Reset Password</a>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="user_logo" id="user_logo">
+        </div>
+
+        <div class="bl_menu_wrapper ly_menu_wrapper disable-select" id="menu_wrapper">
+        </div>
+
+
+
+
+
+
+      </div>
+
+
+    </div>
+
+
+
+  </body>
+
+
+
+
+</html>

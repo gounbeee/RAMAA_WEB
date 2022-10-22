@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    
+
+    <meta name="referrer" content="always">
+
+
+
+    <title>Gounbeee.com</title>
+
+
+
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+
+    <!--  BELOW FIXED THE PROBLEM ::    DOES NOT LOAD THIS FILE'S CONTENTS NOT PROPERLY  -->
+    <!--  WE CAN USE PUBLIC FOLDER'S PATH WITH %PUBLIC_URL% !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!   -->
+
+
+
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+
+    <!--  CSS FILES FOR RAMAA APP -->
+
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/base.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/menubar.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/attribManager.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/toolbox.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/footer.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/workarea.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/svg.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/modal.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/arrow.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/timeline.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/playback.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/button.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/scenechange.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/htmlCanvas.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/animManager.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/bitmapPad.css"></link>
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/contents.css"></link>
+
+    <link rel="stylesheet" href="%PUBLIC_URL%/RAMAA/css/debug.css"></link>
+
+    <script src="https://unpkg.com/rxjs@^7/dist/bundles/rxjs.umd.min.js"></script>
+    <!-- <script src="%PUBLIC_URL%/RAMAA/lib/rxjs.umd.min.js"></script> -->
+
+
+  </head>
+
+  <body>
+
+
+    <!-- UNDER BELOW DOM, RAMAA APP WILL BE FILLED !!!! -->
+    <div id="allArea">
+
+
+      <div class="bl_ramaaApp ly_ramaaApp" id="ramaaApp">
+
+        <!-- ELEMENT CREATION -->
+        <!-- MENU BAR -->
+
+
+
+
+
+        <div class="user_logo" id="user_logo"></div>
+
+        <div class="bl_menu_wrapper ly_menu_wrapper disable-select" id="menu_wrapper">
+
+          <!-- LOGO BUTTON -->
+          <a class="bl_menu ly_menu" id="menu_logo">
+            <!-- MENU BUTTON -->
+            <div class="bl_menu_btn ly_menu_btn" id="menu_logo_btn">About
+              <!-- SVG_LOGO HERE -->
+              <!-- TODO -->
+            </div>
+            <!-- MENU LIST -->
+            <div class="bl_menu_list ly_menu_list" id="menu_about_dialog" style="display:none;">
+              <div class="bl_menu_item ly_menu_item" id="menu_about">What is this project?</div>
+
+            </div>
+          </a>
+
+          <!-- CREATE BUTTON -->
+          <div class="bl_menu ly_menu" id="menu_create">
+            <!-- MENU BUTTON -->
+            <div class="bl_menu_btn ly_menu_btn" id="menu_create_btn">Create</div>
+            <!-- MENU LIST -->
+            <div class="bl_menu_list ly_menu_list" id="menu_create_dialog" style="display:none;">
+              <!-- CREATE MENU ITEMS -->
+              <!-- 1 RECTANGLE -->
+              <div class="bl_menu_item ly_menu_item" id="menu_create_textarea">Text Area</div>
+              <div class="bl_menu_item ly_menu_item" id="menu_create_bitmap">Drawing</div>
+              <div class="bl_menu_item ly_menu_item" id="menu_create_rect">Rectangle</div>
+              <div class="bl_menu_item ly_menu_item" id="menu_create_arrow">Bridge</div>
+              <div class="bl_menu_item ly_menu_item" id="menu_create_ball">Ball</div>
+
+              <!-- TODO ::MORE -->
+
+            </div>
+          </div>
+
+          <!-- SOURCE BUTTON -->
+          <div class="bl_menu ly_menu" id="menu_source">
+            <!-- MENU BUTTON -->
+            <div class="bl_menu_btn ly_menu_btn" id="menu_source_btn">Source</div>
+
+            <!-- MENU LIST -->
+            <div class="bl_menu_list ly_menu_list" id="menu_source_dialog" style="display:none;">
+              <!-- CREATE MENU ITEMS -->
+              <!-- 1 RECTANGLE -->
+              <div class="bl_menu_item ly_menu_item"><input class="source_openfile" type="file" name="" id="loadJsonFile"><button class="source_loadfile" id="sendJsonFile">Load</button></div>
+              <div class="bl_menu_item ly_menu_item" id="menu_source_qsave">QUICK SAVE</div>
+              <div class="bl_menu_item ly_menu_item" id="menu_source_json">EXPORT JSON</div>
+              <div class="bl_menu_item ly_menu_item" id="menu_source_svg" style="display: none;">EXPORT SVG</div>
+
+            </div>
+          </div>
+
+
+
+          <!-- RIGHT SIDE OF MENUBAR -->
+          <div class="bl_menu_r ly_menu_r">
+            
+            <div class="bl_menu_articleList ly_menu_articleList" id="menu_r_btn_article">
+              Articles
+            </div>
+            <div class="bl_menu_dispAttrBox ly_menu_dispAttrBox" id="menu_r_btn_attr">
+              Attributes
+            </div>
+
+            <div class="bl_menu_sns ly_menu_sns" id="menu_r_btn">
+              <a href="https://twitter.com/gounbeee" target="_blank" >Tw </a>
+            </div>
+
+
+          </div>
+
+
+          <div id="REACT_ROOT"></div>
+
+
+
+        </div> <!-- END OF MENU BAR -->
+
+
+        <!-- RIGHT PANEL -->
+        <!-- WE CALL THIS 'attribManager' -->
+        <div class="bl_attribManager_wrapper ly_attribManager_wrapper" id="attribManager_wrapper">
+          <!-- DEFAULT attribManager -->
+          
+          <div class="bl_attribManager_desc ly_attribManager_desc" id="attribManager_desc">
+
+            <div class="bl_btn_deleteall ly_btn_deleteall" id="btn_delete_all">
+              <img src="%PUBLIC_URL%/RAMAA/resources/BTN_DELETEALL.svg"
+                alt="CLEAR ALL OBJECTS"
+                width="40px" height="40px" />
+            </div>
+
+            <div class="bl_zoomSelect ly_zoomSelect">
+              <h3>ZOOM</h3>
+              <label class="bl_attribManager_label ly_attribManager_label">
+                
+                <select class="zoom_select" id="zoom_select">
+                <option value="6">6%</option>
+                <option value="12">12%</option>
+                <option value="16">16%</option>
+                <option value="25">25%</option>
+                <option value="50">50%</option>
+                <option value="75">75%</option>
+                <option value="100"  selected="selected">100%</option>
+                <option value="150">150%</option>
+                <option value="200">200%</option>
+                <option value="300">300%</option>
+                <option value="400">400%</option>
+                <option value="600">600%</option>
+                <option value="800">800%</option>
+                <option value="1600">1600%</option>
+                </select>
+
+              </label>
+            </div>
+            <button class="bl_animManager_btn ly_animManager_btn" id="animManager_btn">Animation Editor</button>
+          </div>
+
+
+        </div><!-- END OF RIGHT PANEL attribManager -->
+
+
+
+        <!-- FOOTER AREA -->
+        <div class="bl_footer_wrapper ly_footer_wrapper" id="footer_wrapper">
+          <div class="ly_footer_inner">
+            <!-- MAIN TIMELINE -->
+            <div class="bl_timeline ly_timeline" id="timeline_wrapper"></div>
+            <!-- LOCAL TIMELINE -->
+            <div class="bl_timeline ly_timeline" id="timeline_local_wrapper"></div>
+            <!-- PLAY BUTTON -->
+            <div class="bl_playback ly_playback" id="plaback_wrapper"></div>
+            <!-- SCENE CHANGE BUTTON -->
+            <div class="bl_scenechange ly_scenechange" id="scene_change_wrapper"></div>
+          </div>
+        </div> <!-- END OF FOOTER -->
+
+
+        <!-- ANIM EDITOR -->
+        <div class="bl_animManager_wrapper ly_animManager_wrapper" id="animManager_wrapper">
+        </div>
+
+      </div>  <!-- END OF raamaApp -->
+
+       
+        
+
+
+    </div>
+
+
+    <script type="text/javascript" src="%PUBLIC_URL%/RAMAA/js/main_global.js"></script>
+    <script type="module" src="%PUBLIC_URL%/RAMAA/js/main.js"></script>
+
+  </body>
+</html>

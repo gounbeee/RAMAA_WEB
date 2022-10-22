@@ -1,0 +1,5 @@
+.env
+ca.crt
+server.crt
+server.key
+node_modules

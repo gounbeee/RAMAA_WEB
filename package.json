@@ -1,0 +1,27 @@
+{
+  "name": "RAMAA",
+  "version": "0.0.1",
+  "description": "RAMAA-APP",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "body-parser": "^1.19.0",
+    "connect-flash": "^0.1.1",
+    "connect-mongodb-session": "^3.0.0",
+    "cookie-parser": "^1.4.6",
+    "crypto": "^1.0.1",
+    "csurf": "^1.11.0",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.6",
+    "elix": "^15.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.1.1",
+    "mongoose": "^6.6.5",
+    "nodemailer": "^6.8.0",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "nodemon": "^2.0.20",
+    "rxjs": "^7.3.0",
+    "socket.io": "^4.1.3"
+  }
+}

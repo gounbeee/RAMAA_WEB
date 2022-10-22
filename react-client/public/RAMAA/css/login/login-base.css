@@ -1,0 +1,154 @@
+
+body {
+
+  background-color: #111827;
+  font-family: "nsjp";
+
+}
+
+
+.loginBase {
+
+  width: 100%;
+  height: 100%;
+  background-color: #CCCCCF;
+  /*text-align: center;*/
+  color: #111827;
+  /*align-items: center;
+  justify-content: center;*/
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 32px;
+
+
+}
+
+.loginBase .back_btn {
+  position: absolute;
+  width: 30%;
+  margin-top: 1em;
+  color: #FFFFFF;
+}
+
+
+.loginInner {
+
+  position: absolute;
+  width: 30%;
+  height: 100%;
+  left: 20%;
+  top: 0%;
+
+}
+
+.loginTitle {
+
+  font-size: 4em;
+  font-weight: lighter;
+  opacity: 0.2;
+
+}
+
+.loginTitle p {
+
+  margin-bottom: 0em;
+
+}
+
+.loginFlag input {
+  text-decoration: none;
+  outline: none;
+  background: transparent;
+  border: none;
+
+}
+
+
+
+.user-message {
+  margin: auto;
+  width: 90%;
+  border: 1px solid red;
+  padding: 1rem;
+  border-radius: 3px;
+  text-align: center;
+
+
+}
+
+
+.user-message-error {
+  border-color: red;
+  background: #ffdddd;
+}
+
+
+
+.loginContainer {
+  margin-top: 1em;
+  font-size: 1.2em;
+
+
+}
+
+
+.loginForm li{
+
+  list-style-type: none;
+  margin-left: -2em;
+  margin-top: 0.5em;
+  padding: 0;
+
+
+}
+
+
+.loginForm label{
+  font-weight: 600;
+  font-size: 1em;
+
+}
+
+
+.loginForm input{
+
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 12px 20px;
+  width: 100%;
+}
+
+
+.loginForm button {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-bottom: 4px;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  background-color: #848790;
+  border: none;
+  font-family: 'nsjp';
+  color: #FFAFFA;
+  font-size: 1.5em;
+  font-weight: 900;
+  width: 100%;
+  margin-top: 1em;
+
+}
+
+
+.loginForm button:hover {
+
+  background-color: #ff3892;
+  
+}
+
+
+
+.loginContainer a{
+

@@ -1,0 +1,28 @@
+.posts-container {
+  display:  grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2em 25px;
+  color: #DDDDDD;
+/*  padding-top: 10em;
+  padding-bottom: 10em;*/
+}
+
+
+.post {
+
+
+  margin-bottom: 4em;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+.post h3 {
+  margin-left: 45px;
+}
+
+.post p {
+  margin-left: 45px;
+
+}

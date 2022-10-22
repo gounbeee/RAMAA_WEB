@@ -1,0 +1,56 @@
+
+svg.static {
+  cursor: not-allowed;
+}
+
+
+svg.draggable {
+  cursor: move;
+
+}
+
+svg.textarea {
+  font-family: "sawa_m";
+  font-size: 14px;
+
+
+}
+
+
+@font-face {
+  font-family: "nsjp";
+  font-weight: 700;
+  src: local("Noto Sans CJK JP"),
+     local("NotoSansCJKjp-Bold"),
+     local("NotoSansJP-Bold"),
+     url("../fonts/nsjp-bold.woff2") format("woff2"),
+     url("../fonts/nsjp-bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: "sawa_m";
+  font-weight: 700;
+  src: url("../fonts/sawa_m.woff2") format("woff2"),
+       url("../fonts/sawa_m.woff") format("woff");
+}
+
+@font-face {
+  font-family: "dot_g";
+  font-weight: 700;
+  src: url("../fonts/dotgothic16.woff2") format("woff2"),
+       url("../fonts/dotgothic16.woff") format("woff");
+}
+
+svg.tspans {
+
+
+}
+
+
+svg.animboxTitle {
+
+  font-size: 10px;
+
+}
+
+

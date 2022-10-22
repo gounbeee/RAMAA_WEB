@@ -1,0 +1,46 @@
+.bl_workarea {
+  background-color: #b4b7bd;
+
+
+}
+
+.bl_presentationarea {
+  background-color: #b4b7bd;
+
+
+}
+
+.bl_svgcanvas {
+  background-color: #2b313f;
+
+}
+
+
+
+.ly_workarea {
+  display: block;
+  position: absolute;
+  z-index: 1;
+
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+
+}
+
+.ly_presentationarea {
+  display: block;
+  position: absolute;
+  z-index: 1;
+
+  top: 10%;
+  left: 20%;
+  width: 60%;
+  height: 60%;
+
+}
+
+.ly_svgcanvas {
+
+}

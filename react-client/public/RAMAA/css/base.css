@@ -1,0 +1,145 @@
+body {
+  width: 100%;
+  height: 100%;
+  color: #b4b7bd;
+  background-color: #111827;
+  margin: 0;
+  overflow: hidden; /* TO DISABLE SCROLL BAR */
+
+     
+}
+
+
+a {
+  font-size: 16px;
+  text-decoration: none;
+}
+
+
+
+img {
+  max-width: 100%;
+  vertical-align: top;
+}
+
+
+div {
+  display: block;
+}
+
+
+
+.disable-select {
+    user-select: none; /* supported by Chrome and Opera */
+   -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+   -moz-user-select: none; /* Firefox */
+   -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+
+
+
+.fullscreen {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: purple;
+  z-index: 9000;
+  opacity: 0.0;
+}
+
+
+.visible {
+  display: block;
+  outline: 0;
+}
+
+
+.hidden {
+  display: none;
+  outline: 0;
+}
+
+.visible: hover,
+.visible: active,
+.visible: focus
+ {
+
+  outline: none;
+}
+
+
+.hidden: hover,
+.hidden: active,
+.hidden: focus {
+
+  outline: none;
+}
+
+
+.user_logo {
+  position: absolute;
+  background-color: #222222;
+  width: 69px;
+  height: 32px;
+  z-index: 9999;
+}
+
+
+
+#allArea {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+.ball {
+  animation-name: ball-anim-right;
+  animation-duration: 3s;
+  animation-delay: 1s;
+  animation-iteration-count: 3;
+  animation-direction: alternate;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes ball-anim-right {
+  0% {
+    background: blue;
+    transform: translate(0);
+  }
+
+  50% {
+    background: purple;
+    transform: translate(50px);
+  }
+
+  100% {
+    background: red;
+    transform: translate(100px);
+  }
+
+}
+*/

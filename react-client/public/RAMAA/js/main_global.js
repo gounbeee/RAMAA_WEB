@@ -1,0 +1,5 @@
+// GLOBAL SCOPE OF RAMAA APP
+
+let gl_SCENEINDEX = 0
+
+
