@@ -24,7 +24,7 @@ function UserAdmin() {
 	console.log(params)
 
 
-	// 
+	// WHEN STARTING THIS PAGE
 	const getUserData = async () => {
 
 		// ENTERING LOADING START
@@ -124,7 +124,7 @@ function UserAdmin() {
 	};
 
 
-
+	// WHEN BACK BUTTON PRESSED
 	const bckBtn = async () => {
 
 
@@ -136,6 +136,52 @@ function UserAdmin() {
 	}
 
 
+	// WHEN RESET PASSWORD BUTTON CLICKED
+	const chngPwBtn = async () => {
+
+
+		console.log("CHANGE PASSWORD BUTTON CLICKED")
+
+		//navigate("/api")
+
+	}
+
+	// WHEN EDIT USERNAME BUTTON CLICKED
+	const edtNameBtn = async () => {
+
+
+		console.log("CHANGE USERNAME BUTTON CLICKED")
+
+		//navigate("/api")
+
+	}
+
+	// WHEN EDIT EMAIL BUTTON CLICKED
+	const edtEmailBtn = async () => {
+
+		console.log("CHANGE EMAIL BUTTON CLICKED")
+
+		//navigate("/api")
+
+	}
+
+	// WHEN EDIT EMAIL BUTTON CLICKED
+	const rvwBillingBtn = async () => {
+
+		console.log("REVIEW BILLING BUTTON CLICKED")
+
+		//navigate("/api")
+
+	}
+
+	// WHEN EDIT EMAIL BUTTON CLICKED
+	const delAccountBtn = async () => {
+
+		console.log("DELETE ACCOUNT BUTTON CLICKED")
+
+		//navigate("/api")
+
+	}
 
 	const hideWorkArea = () => {
 		if(document.getElementById("workarea").style.display !== 'none')
@@ -180,23 +226,23 @@ function UserAdmin() {
 			<div className="grid grid-cols-3 gap-4 place-items-start">
 				<h3>User Name</h3>
 				<p>{userInfo?.name}</p>
-				<p className="hover:text-amber-600">edit</p>
+				<p className="hover:text-amber-600" onClick={edtNameBtn}>edit</p>
 			</div>
 			<div className="grid grid-cols-3 gap-4 place-items-start">
 				<h3>Email</h3>
 				<p>{userInfo?.email}</p>
-				<p className="hover:text-amber-600">edit</p>
+				<p className="hover:text-amber-600" onClick={edtEmailBtn}>edit</p>
 			</div>
 			<div className="grid grid-cols-3 gap-4 place-items-start">
 				<h3>Billing Data</h3>
 				<p> SAMPLE BILLING DATA </p>
-				<p className="hover:text-amber-600">review</p>
+				<p className="hover:text-amber-600" onClick={rvwBillingBtn}>review</p>
 			</div>
 			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<Link className="hover:text-amber-600" to="/api/auth/login">Reset Password</Link>
+				<Link className="hover:text-amber-600" onClick={chngPwBtn} to="/api/auth/login">Change Password</Link>
 			</div>
 			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<Link className="text-amber-600 hover:text-amber-800" to="/api/auth/delete-account">Delete Account</Link>
+				<Link className="text-amber-600 hover:text-amber-800" onClick={delAccountBtn} to="/api/auth/delete-account">Delete Account</Link>
 			</div>
 
       	</div>
