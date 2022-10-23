@@ -1,5 +1,5 @@
 .bl_attribManager_wrapper {
-  background-color: #111827;
+  background-color: #1e2433;
   overflow-y: scroll;
   /*border-radius: 0.4em;*/
 
@@ -350,8 +350,9 @@
   right: 0;
   width: 18em;
   box-sizing: border-box;
-  height: 43em;
-  z-index: 2;
+  height: 100%;
+  z-index: 10;
+  box-shadow: -3px 0px #555555;
 }
 
 

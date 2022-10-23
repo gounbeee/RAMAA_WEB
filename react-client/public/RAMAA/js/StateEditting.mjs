@@ -888,17 +888,6 @@ class StateEditting extends State {
 
 
     // SETTING UP MENU BUTTONS (ITEMS)
-    this.aboutBtn = document.getElementById("menu_logo_btn")
-    this.aboutBtn.addEventListener("click", this.aboutBtnClick )
-
-    this.aboutBtnAbout = document.getElementById("menu_about")
-    this.aboutBtnAbout.addEventListener("click", this.aboutBtnAboutClick )
-
-    this.aboutBtnConfig = document.getElementById("menu_config")
-    if(this.aboutBtnConfig) this.aboutBtnConfig.addEventListener("click", this.aboutBtnConfigClick )
-
-    this.aboutBtnCollab = document.getElementById("menu_collab")
-    if(this.aboutBtnCollab) this.aboutBtnCollab.addEventListener("click", this.aboutBtnCollabClick )
 
     this.createBtn = document.getElementById("menu_create_btn")
     this.createBtn.addEventListener("click", this.createBtnClick )
