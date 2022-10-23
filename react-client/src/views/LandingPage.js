@@ -12,17 +12,13 @@ import React, {useState, useEffect} from 'react'
 // navigate programmatically, for example in an effect:
 // 
 // YOU CAN 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 
 
 // ----------------------------------------------------
 // < FOR GETTING AND POSTING HTTP REQUEST >
 // *** MORE EASILY ***
 import axios from "axios";
-
-// ----------------------------------------------------
-// < CREATING LINK HTML ELEMENT EASILY >
-import {Link} from "react-router-dom"
 
 // ----------------------------------------------------
 // < DISPLAYING OVERLAY >
@@ -229,18 +225,6 @@ function LandingPage() {
 	}, [userInfo]);
 
 
-	// < TOGGLING COMPONENT WITH FLAG >
-	// https://bobbyhadz.com/blog/react-onclick-show-component
-	//
-	// + WITH BELOWS
-	// <Link className="ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={showModal}>modal TEST</Link>
-	// {modalView && ( <Modal id="testId" question="Change your name ?" /> )}
-	const [modalView, setModalView] = useState(false);
-	const showModal = (ev) => {
-		setModalView(current => !current)
-	}
-
-
 
 
 
@@ -283,10 +267,8 @@ function LandingPage() {
 		
 			{userInfo == null && (
 				<div>
-					<Link className="ml-20 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/api/auth/login">LOGIN</Link>
-					<Link className="ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/api/auth/make-account">SIGNUP</Link>
-					<Link className="ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={showModal}>modal TEST</Link>
-					{modalView && ( <Modal id="testId" question="Change your name ?" /> )}
+					<Link className="hidden ml-20 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/api/auth/login">LOGIN</Link>
+					<Link className="hidden ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/api/auth/make-account">SIGNUP</Link>
 				</div>
 	        )}
 

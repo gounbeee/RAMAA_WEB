@@ -3,6 +3,8 @@ import toast from "react-hot-toast";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
+import Modal from './Modal'
+
 
 
 
@@ -151,6 +153,8 @@ function UserAdmin() {
 
 
 		console.log("CHANGE USERNAME BUTTON CLICKED")
+		showModal()
+
 
 		//navigate("/api")
 
@@ -199,14 +203,39 @@ function UserAdmin() {
 		hideWorkArea()
 		getUserData()
 
+
 	},[])
+
+
+
+
+	// < TOGGLING COMPONENT WITH FLAG >
+	// https://bobbyhadz.com/blog/react-onclick-show-component
+	//
+	// + WITH BELOWS
+	// <Link className="ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={showModal}>modal TEST</Link>
+	// {modalView && ( <Modal id="testId" question="Change your name ?" /> )}
+	const [modalView, setModalView] = useState(false);
+	const [modalQues, setModalQues] = useState("Initial Question");
+
+
+	const showModal = (ev) => {
+
+		console.log(ev)
+
+		//setModalQues("SECOND QUESTION")
+
+		setModalView(current => !current)
+
+
+	}
 
 
 
 
 
   return (
-    <div className="absolute top-0 left-0 w-full h-[550px] z-20 bg-slate-500">
+    <div className="animate-fade-in absolute top-0 left-0 w-full h-[550px] z-20 bg-slate-500">
 	    <h2 className="p-10 font-semibold text-2xl">
 	      Account settings
 	    </h2>
@@ -218,6 +247,8 @@ function UserAdmin() {
 
 		<div className="bg-slate-500 p-10 space-y-7">
 			<input name="_csrf" value={csrf_tkn} type="hidden" />
+
+			{modalView && ( <Modal id="modal" question={modalQues} /> )}
 
 			<div className="grid grid-cols-3 gap-4 place-items-start">
 				<h3>Unique ID</h3>

@@ -1,7 +1,7 @@
 .bl_attribManager_wrapper {
   background-color: #111827;
   overflow-y: scroll;
-  border-radius: 0.4em;
+  /*border-radius: 0.4em;*/
 
   display: none;
 
@@ -10,14 +10,13 @@
 
 .bl_btn_deleteall {
   background-color:none;
-  border-radius: 16px;
+/*  border-radius: 16px;*/
 }
 
 
 .bl_btn_deleteall:hover {
 
-  background-color: #daa5ff;
-
+/*  background-color: #daa5ff;*/
 }
 
 
@@ -32,13 +31,19 @@
   text-align: center;
   text-decoration: none;
   outline: none;
-  color: #fff;
-  background-color: #FFAFFA;
+  color: #2FAFFA;
+  /*background-color: #FFAFFA;*/
   border: none;
-  border-radius: 12px;
-  box-shadow: 0 4px #ee5035;
+/*border-radius: 12px;*/
+/*  box-shadow: 0 4px #ee5035;*/
   font-family: 'nsjp';
 
+
+}
+
+.bl_attribManager_edit_btn:hover {
+
+  color: #5FEFFF;
 
 }
 
@@ -166,7 +171,7 @@
   border:  none;
   cursor:  pointer;
   background-color: #848790;
-  color: #FFAFFA;
+  color: #FF7FFA;
   font-size: 1.25em;
   font-weight: 700;
 
@@ -177,7 +182,7 @@
   outline: none;
   border:  none;
   cursor:  pointer;
-  background-color: #ff3892;
+  /*background-color: #ff3892;*/
   color: #FFBFFB;
   font-size: 1.25em;
   font-weight: 700;
@@ -191,7 +196,7 @@
   border:  none;
   cursor:  pointer;
   background-color: #ba8790;
-  color: #fee6e1;
+  color: #FF5F5A;
   font-size: 1.25em;
   font-weight: 700;
 
@@ -205,8 +210,8 @@
   outline: none;
   border:  none;
   cursor:  pointer;
-  background-color: #fa8790;
-  color: #fee6e1;
+  /*background-color: #fa8790;*/
+  color: #fa8790;
   font-size: 1.25em;
   font-weight: 700;
 
@@ -219,8 +224,8 @@
   outline: none;
   border:  none;
   cursor:  pointer;
-  background-color: #227a5e;
-  color: #fee6e1;
+  /*background-color: #227a5e;*/
+  color: #0ebf82;
   font-size: 1.25em;
   font-weight: 700;
 
@@ -234,8 +239,8 @@
   outline: none;
   border:  none;
   cursor:  pointer;
-  background-color: #0ebf82;
-  color: #fee6e1;
+  /*background-color: #0ebf82;*/
+  color: #aeef82;
   font-size: 1.25em;
   font-weight: 700;
 
@@ -345,7 +350,7 @@
   right: 0;
   width: 18em;
   box-sizing: border-box;
-  height: 35em;
+  height: 43em;
   z-index: 2;
 }
 
@@ -387,7 +392,7 @@
   margin-left: 12em;
   display: block;
   width:  8em;
-  height: 7em;
+  height: 4em;
 }
 
 

@@ -936,10 +936,6 @@ class StateEditting extends State {
     this.sourceSendJson.addEventListener('click', this.sourceSendJsonClick)
 
 
-    this.articleBtn = document.getElementById("menu_r_btn_article")
-    this.articleBtn.addEventListener("click", this.articlesBtnClick )
-
-
     // LISTENING EVENT WHEN THE OBJECT WAS DELETED
     // EVERY ELEMENTS MIGHT BE DELETED BY THE OBJECT ITSELF,
     // SO HERE WE DO CARE ABOUT this.renderListAll LIST
