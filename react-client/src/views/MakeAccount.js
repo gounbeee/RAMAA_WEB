@@ -137,15 +137,15 @@ function MakeAccount() {
 
 	return (
 
-		<div className="flex w-full items-center h-screen text-amber-700 ">
+		<div className="absolute w-[500px]">
 
-			<div className="flex flex-col space-y-5">
+			<div className="absolute top-[70px]">
 				
-				<h1 className="text-6xl text-center">
+				<h1 className="text-5xl my-7">
 					Make Your Account
 				</h1>
 
-				<div className="flex flex-col space-y-3 p-5">
+				<div className="space-y-3">
 					<input name="_csrf" value={csrf_tkn} type="hidden" />
 						
 					<h3>Your Email Address</h3>
@@ -181,7 +181,7 @@ function MakeAccount() {
 						onChange={(e) => setConfirmPassword(e.target.value)}
 					/>
 					<button
-						className="py-5 py-5 text-4xl hover:text-amber-600"
+						className="w-full py-5 py-5 text-4xl hover:text-amber-600"
 						onClick={registerUser}
 					>
 					Make Account
@@ -195,6 +195,8 @@ function MakeAccount() {
 					>
 					Already have account?
 					</Link>
+					<br />
+					<br />
 					<Link
 						className="text-xl hover:text-amber-600"
 						onClick={

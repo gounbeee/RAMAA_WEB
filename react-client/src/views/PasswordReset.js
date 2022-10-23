@@ -98,7 +98,7 @@ function PasswordReset() {
 
         <input
           type="password"
-          className="py-1 px-3 border-2 text-amber-700 border-secondary focus:outline-none w-full"
+          className="py-1 px-3 border-2 border-secondary focus:outline-none w-full"
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
@@ -107,7 +107,7 @@ function PasswordReset() {
 
         <input
           type="password"
-          className="py-1 px-3 border-2 text-amber-700 border-secondary focus:outline-none w-full"
+          className="py-1 px-3 border-2 border-secondary focus:outline-none w-full"
           placeholder="confirm password"
           onChange={(e) => setConfirmPassword(e.target.value)}
           value={confirmpassword}
@@ -119,7 +119,7 @@ function PasswordReset() {
         <div className="flex justify-center items-center">
 
           <button
-            className="text-5xl py-1 px-10 text-amber-700 hover:text-amber-600"
+            className="text-5xl py-1 px-10 hover:text-amber-600"
             onClick={resetPassword}
           >
             Reset Password

@@ -200,7 +200,7 @@ function Login() {
 	// AS A REACT COMPONENT, WE RETURN JSX CODES TO CONSTRUCT THE HTML PAGE !
 	return (
 
-		<div className="flex w-full items-center h-screen text-amber-700 ">
+		<div className="flex w-full items-center h-screen">
 
 
 			{!isPwForgot && (
@@ -234,7 +234,7 @@ function Login() {
 						/>
 
 						<button
-							className="py-1 py-5 text-4xl hover:text-amber-600"
+							className="h-[90px] py-1 py-5 text-4xl hover:text-amber-600"
 							onClick={loginUser}
 						>
 						Login
@@ -295,7 +295,7 @@ function Login() {
 						/>
 
 						<button
-							className="py-1 py-5 text-3xl hover:text-amber-600"
+							className="h-[90px] text-3xl hover:text-amber-600"
 							onClick={setIsPwForgot}
 						>
 						Send Email to Reset password
@@ -307,8 +307,6 @@ function Login() {
 			            >
 			            Click Here To Login
 			            </h1>
-
-
 						<Link
 							className="py-1 py-5 text-xl hover:text-amber-600"
 							onClick={
