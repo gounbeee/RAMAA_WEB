@@ -125,6 +125,16 @@ function UserAdmin() {
 
 
 
+	const bckBtn = async () => {
+
+
+		console.log("BACK BUTTON IS PRESSED")
+
+		displayWorkArea()
+
+
+	}
+
 
 
 	const hideWorkArea = () => {
@@ -155,31 +165,37 @@ function UserAdmin() {
 	      Account settings
 	    </h2>
 
-		<Link className="hover:text-amber-600 p-10" to="/">Back</Link>
+		<Link className="hover:text-amber-600 p-10" 
+			  to="/member-area"
+			  onClick={bckBtn}
+			  >Back</Link>
 
 		<div className="bg-slate-500 p-10 space-y-7">
 			<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-			<div className="grid grid-cols-2 gap-4 place-items-start">
-				<h3 className="hover:text-amber-600">User No.</h3>
+			<div className="grid grid-cols-3 gap-4 place-items-start">
+				<h3>Unique ID</h3>
 				<p>{userInfo?._id}</p>
 			</div>
-			<div className="grid grid-cols-2 gap-4 place-items-start">
-				<h3 className="hover:text-amber-600">User Name</h3>
+			<div className="grid grid-cols-3 gap-4 place-items-start">
+				<h3>User Name</h3>
 				<p>{userInfo?.name}</p>
+				<p className="hover:text-amber-600">edit</p>
 			</div>
-			<div className="grid grid-cols-2 gap-4 place-items-start">
-				<h3 className="hover:text-amber-600">Email</h3>
+			<div className="grid grid-cols-3 gap-4 place-items-start">
+				<h3>Email</h3>
 				<p>{userInfo?.email}</p>
+				<p className="hover:text-amber-600">edit</p>
 			</div>
-			<div className="grid grid-cols-2 gap-4 place-items-start">
-				<h3 className="hover:text-amber-600">Billing Data</h3>
+			<div className="grid grid-cols-3 gap-4 place-items-start">
+				<h3>Billing Data</h3>
 				<p> SAMPLE BILLING DATA </p>
+				<p className="hover:text-amber-600">review</p>
 			</div>
-			<div className="grid grid-cols-2 gap-4 place-items-start">
+			<div className="grid grid-cols-3 gap-4 place-items-start">
 				<Link className="hover:text-amber-600" to="/api/auth/login">Reset Password</Link>
 			</div>
-			<div className="grid grid-cols-2 gap-4 place-items-start">
+			<div className="grid grid-cols-3 gap-4 place-items-start">
 				<Link className="text-amber-600 hover:text-amber-800" to="/api/auth/delete-account">Delete Account</Link>
 			</div>
 

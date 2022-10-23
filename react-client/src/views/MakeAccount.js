@@ -109,9 +109,29 @@ function MakeAccount() {
 
 	};
 
+
+
+	const hideWorkArea = () => {
+		if(document.getElementById("workarea").style.display !== 'none')
+			document.getElementById("workarea").style.display = 'none';
+
+	}
+
+	const displayWorkArea = () => {
+		if(document.getElementById("workarea").style.display === 'none')
+			document.getElementById("workarea").style.display = '';
+	}
+
+
+
+
+
 	useEffect(() => {
 		getCSRFToken()
 	}, []);
+
+
+
 
 
 
@@ -178,7 +198,10 @@ function MakeAccount() {
 					<Link
 						className="text-xl hover:text-amber-600"
 						onClick={
-							() => console.log("Canceled Making Account")
+							() => {
+								console.log("Canceled Making Account")
+								displayWorkArea()
+							}
 						} 
 						to="/"
 					>

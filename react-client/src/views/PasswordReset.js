@@ -19,8 +19,8 @@ function PasswordReset() {
   const params = useParams();
 
 
-  useEffect(() => {
 
+  useEffect(() => {
     console.log(document.getElementById("REACT_ROOT"))
     const react_root = document.getElementById("REACT_ROOT")
     const root_dom = document.getElementById("allArea")
@@ -31,10 +31,11 @@ function PasswordReset() {
   },[])
 
 
+
   const resetPassword = async () => {
 
     try {
-
+      
       toast.loading('Changing your password...');
 
 

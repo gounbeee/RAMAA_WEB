@@ -269,8 +269,8 @@ function LandingPage() {
 		
 			{userInfo == null && (
 				<div>
-					<Link className="ml-20 cursor-pointer hover:text-amber-600" to="/api/auth/login">LOGIN</Link>
-					<Link className="ml-16 cursor-pointer hover:text-amber-600" to="/api/auth/make-account">SIGNUP</Link>
+					<Link className="ml-20 cursor-pointer hover:text-amber-600" onClick={hideWorkArea} to="/api/auth/login">LOGIN</Link>
+					<Link className="ml-16 cursor-pointer hover:text-amber-600" onClick={hideWorkArea} to="/api/auth/make-account">SIGNUP</Link>
 				</div>
 	        )}
 

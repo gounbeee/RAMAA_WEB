@@ -30,7 +30,7 @@ import axios from "axios"
 function Login() {
 
 
-	const [showForgotPassword, setShowForgotPassword] = useState(false);
+	const [isPwForgot, setIsPwForgot] = useState(false);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -60,6 +60,9 @@ function Login() {
 		};
 
 		try {
+
+
+
 			toast.loading();
 
 			const response = await axios.post("/api/auth/login", userObj);
@@ -116,7 +119,7 @@ function Login() {
 
 					toast.success(response.data.message);
 
-					setShowForgotPassword(false);
+					setIsPwForgot(false);
 
 				} else {
 
@@ -166,9 +169,24 @@ function Login() {
 
 	};
 
+	const hideWorkArea = () => {
+		if(document.getElementById("workarea").style.display !== 'none')
+			document.getElementById("workarea").style.display = 'none';
+
+	}
+
+	const displayWorkArea = () => {
+		if(document.getElementById("workarea").style.display === 'none')
+			document.getElementById("workarea").style.display = '';
+	}
+
+
+
+
 	useEffect(() => {
 
 		getCSRFToken()
+
 	}, []);
 
 
@@ -185,7 +203,7 @@ function Login() {
 		<div className="flex w-full items-center h-screen text-amber-700 ">
 
 
-			{!showForgotPassword && (
+			{!isPwForgot && (
 
 
 				<div className="flex flex-col">
@@ -230,7 +248,8 @@ function Login() {
 								<h1 className="underline cursor-pointer hover:text-amber-600"
 									onClick={() => {
 										console.log("Forgot Password Button Clicked !!")
-										setShowForgotPassword(true)
+										setIsPwForgot(true)
+										hideWorkArea()
 								} } >
 	 							Forgot Password ?
 	 							</h1>
@@ -241,7 +260,10 @@ function Login() {
 						<Link
 							className="py-1 py-5 text-xl hover:text-amber-600"
 							onClick={
-								() => console.log("CANCELED TO LOGIN")
+								() => {
+									console.log("CANCELED TO LOGIN")
+									displayWorkArea()
+								}
 							} 
 							to="/"
 						>
@@ -253,7 +275,7 @@ function Login() {
 
 			)}
 
-			{showForgotPassword && (
+			{isPwForgot && (
 
 
 				<div className="flex flex-col">
@@ -274,13 +296,13 @@ function Login() {
 
 						<button
 							className="py-1 py-5 text-3xl hover:text-amber-600"
-							onClick={sendResetPasswordLink}
+							onClick={setIsPwForgot}
 						>
 						Send Email to Reset password
 						</button>
 
 						<h1
-			              onClick={() => setShowForgotPassword(false)}
+			              onClick={() => setIsPwForgot(false)}
 			              className="underline cursor-pointer underline text-md text-left"
 			            >
 			            Click Here To Login
@@ -290,7 +312,10 @@ function Login() {
 						<Link
 							className="py-1 py-5 text-xl hover:text-amber-600"
 							onClick={
-								() => console.log("CANCELED TO LOGIN")
+								() => {
+									console.log("CANCELED TO LOGIN")
+									displayWorkArea()
+								}
 							} 
 							to="/"
 						>
