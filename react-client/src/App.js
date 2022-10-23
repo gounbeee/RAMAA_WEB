@@ -34,67 +34,6 @@ function App() {
   //       
 
 
-
-
-
-    // <BrowserRouter>
-
-    //   <Toaster position="top-center" reverseOrder={false} />
-    //   <Routes>
-
-    //     <Route path='' 
-    //       element={ 
-    //         <PublicRoutes>
-    //           <LandingPage/> 
-    //         </PublicRoutes>
-
-    //       } 
-    //       />
-
-    //     <Route path='/member-area' 
-    //       element={ 
-    //         <ProtectedRoutes>
-    //           <LandingPage/> 
-    //         </ProtectedRoutes>
-
-    //       } />
-
-    //     <Route path='/api/auth/login' 
-    //       element={ 
-    //         <PublicRoutes>
-    //           <ReloadMain />
-    //           <Login/> 
-    //         </PublicRoutes>
-    //       } />
-
-    //     <Route path='/api/auth/make-account' 
-    //       element={
-    //         <PublicRoutes>
-    //           <MakeAccount/>
-    //         </PublicRoutes>
-    //       } />
-
-    //     <Route path='/emailverify/:token'
-    //       element={
-    //         <PublicRoutes>
-    //           <EmailVerify />
-    //         </PublicRoutes>
-    //       }
-    //     />
-
-    //     <Route path='/passwordreset/:token'
-    //       element={
-    //         <PublicRoutes>
-    //           <PasswordReset />
-    //         </PublicRoutes>
-    //       }
-    //     />
-    //   </Routes>
-    // </BrowserRouter>
-
-
-
-
   //                      BELOW ELEMENT SHOULD BE COMPONENT ! 
   //                      THAT'S WHY WE USE "< />"
   //                      
@@ -106,7 +45,7 @@ function App() {
 
     <BrowserRouter>
 
-      <Toaster position="top-center" reverseOrder={false} />
+      <Toaster position="top-right" reverseOrder={false} />
       <Routes>
 
         <Route path='/' 
@@ -114,7 +53,6 @@ function App() {
             <PublicRoutes>
               <LandingPage/> 
             </PublicRoutes>
-
           } 
           />
 

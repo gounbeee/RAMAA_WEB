@@ -134,21 +134,21 @@ function EmailVerify() {
       {emailVerified === "" && (
         <div className="my-20">
           <h1 className="text-primary text-4xl">Please wait we are verifying your email</h1>
-          <a className="text-center text-2xl cursor-pointer hover:text-amber-600" href='/' target='_self'>Go to Gounbeee.com >>></a>
+          <a className="text-center text-2xl cursor-pointer hover:text-ramaa_buttonHover" href='/' target='_self'>Go to Gounbeee.com >>></a>
         </div>
       )}
 
       {emailVerified === "true" && (
         <div className="my-20">
           <h1 className="text-primary text-4xl">Your email verified successfully</h1>
-          <a className="text-center text-2xl cursor-pointer hover:text-amber-600" href='/' target='_self'>Go to Gounbeee.com >>></a>        </div>
+          <a className="text-center text-2xl cursor-pointer hover:text-ramaa_buttonHover" href='/' target='_self'>Go to Gounbeee.com >>></a>        </div>
       )}
 
       {emailVerified === "false" && (
         <div className="my-20">
           <h1 className="text-primary text-4xl">Invalid or Expired Token</h1>
           <h1 className="text-primary text-4xl mb-5" >Maybe already verified ? </h1>
-          <a className="text-center text-2xl cursor-pointer hover:text-amber-600" href='/' target='_self'>Go to Gounbeee.com >>></a>
+          <a className="text-center text-2xl cursor-pointer hover:text-ramaa_buttonHover" href='/' target='_self'>Go to Gounbeee.com >>></a>
 
         </div>
       )}

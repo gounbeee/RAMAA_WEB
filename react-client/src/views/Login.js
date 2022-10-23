@@ -61,6 +61,7 @@ function Login() {
 
 		try {
 
+			displayWorkArea()
 
 
 			toast.loading();
@@ -219,7 +220,7 @@ function Login() {
 						
 						<input 
 							type="text"
-							className="py-1 px-3 border-2 focus:outline-0 w-full"
+							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
 							placeholder="email"
 							onChange={(e) => { setEmail(e.target.value)}}
 							value={email}
@@ -227,14 +228,14 @@ function Login() {
 						<h3>Password</h3>
 						<input 
 							type="password"
-							className="py-1 px-3 border-2 focus:outline-0 w-full"
+							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
 							placeholder="password"
 							onChange={(e) => { setPassword(e.target.value)}}
 							value={password}
 						/>
 
 						<button
-							className="h-[90px] py-1 py-5 text-4xl hover:text-amber-600"
+							className="h-[90px] py-1 py-5 text-4xl hover:text-ramaa_buttonHover"
 							onClick={loginUser}
 						>
 						Login
@@ -242,10 +243,10 @@ function Login() {
 
 						<div className="flex justify-between items-end">
 							<div className="flex space-x-10">
-								<Link className="underline hover:text-amber-600" to="/api/auth/make-account">
+								<Link className="underline hover:text-ramaa_buttonHover" to="/api/auth/make-account">
 									Click Here to Make Account
 								</Link>
-								<h1 className="underline cursor-pointer hover:text-amber-600"
+								<h1 className="underline cursor-pointer hover:text-ramaa_buttonHover"
 									onClick={() => {
 										console.log("Forgot Password Button Clicked !!")
 										setIsPwForgot(true)
@@ -258,7 +259,7 @@ function Login() {
 
 	 					</div>
 						<Link
-							className="py-1 py-5 text-xl hover:text-amber-600"
+							className="py-1 py-5 text-xl hover:text-ramaa_buttonHover"
 							onClick={
 								() => {
 									console.log("CANCELED TO LOGIN")
@@ -288,14 +289,14 @@ function Login() {
 						<h3>Enter email address</h3>
 						<input 
 							type="text"
-							className="py-1 px-3 border-2 focus:outline-0 w-full"
+							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
 							placeholder="email"
 							onChange={(e) => { setEmail(e.target.value)}}
 							value={email}
 						/>
 
 						<button
-							className="h-[90px] text-3xl hover:text-amber-600"
+							className="h-[90px] text-3xl hover:text-ramaa_buttonHover"
 							onClick={setIsPwForgot}
 						>
 						Send Email to Reset password
@@ -308,7 +309,7 @@ function Login() {
 			            Click Here To Login
 			            </h1>
 						<Link
-							className="py-1 py-5 text-xl hover:text-amber-600"
+							className="py-1 py-5 text-xl hover:text-ramaa_buttonHover"
 							onClick={
 								() => {
 									console.log("CANCELED TO LOGIN")

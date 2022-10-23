@@ -34,6 +34,10 @@ import toast from 'react-hot-toast'
 
 
 
+import Modal from './Modal'
+
+
+
 
 // < useEffect FUNCTION IN REACT >
 // https://jasonwatmore.com/post/2020/07/17/react-axios-http-get-request-examples
@@ -225,6 +229,16 @@ function LandingPage() {
 	}, [userInfo]);
 
 
+	// < TOGGLING COMPONENT WITH FLAG >
+	// https://bobbyhadz.com/blog/react-onclick-show-component
+	//
+	// + WITH BELOWS
+	// <Link className="ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={showModal}>modal TEST</Link>
+	// {modalView && ( <Modal id="testId" question="Change your name ?" /> )}
+	const [modalView, setModalView] = useState(false);
+	const showModal = (ev) => {
+		setModalView(current => !current)
+	}
 
 
 
@@ -249,14 +263,14 @@ function LandingPage() {
 					<div className="ml-10">
 						{userInfo?.name}
 					</div>
-					<Link className="ml-2 text-xs p-1 hover:text-amber-600"
+					<Link className="ml-2 text-xs p-1 hover:text-ramaa_buttonHover"
 						  to={userInfo.name}>
 						( {userInfo?.email} )
 					</Link>
-					<Link className="ml-10 cursor-pointer hover:text-amber-600" 
+					<Link className="ml-10 cursor-pointer hover:text-ramaa_buttonHover" 
 						  to="/member-area/contents">CONTENTS</Link>
 					<button
-						className="ml-24 hover:text-amber-600"
+						className="ml-24 hover:text-ramaa_buttonHover"
 						onClick={() => {
 						  sessionStorage.clear();
 						  navigate("/");
@@ -269,15 +283,17 @@ function LandingPage() {
 		
 			{userInfo == null && (
 				<div>
-					<Link className="ml-20 cursor-pointer hover:text-amber-600" onClick={hideWorkArea} to="/api/auth/login">LOGIN</Link>
-					<Link className="ml-16 cursor-pointer hover:text-amber-600" onClick={hideWorkArea} to="/api/auth/make-account">SIGNUP</Link>
+					<Link className="ml-20 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/api/auth/login">LOGIN</Link>
+					<Link className="ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/api/auth/make-account">SIGNUP</Link>
+					<Link className="ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={showModal}>modal TEST</Link>
+					{modalView && ( <Modal id="testId" question="Change your name ?" /> )}
 				</div>
 	        )}
 
         </div>
 	);
 }
-
+//
 
 
 export default LandingPage

@@ -98,7 +98,7 @@ function PasswordReset() {
 
         <input
           type="password"
-          className="py-1 px-3 border-2 border-secondary focus:outline-none w-full"
+          className="text-ramaa_inputText py-1 px-3 border-2 border-secondary focus:outline-none w-full"
           placeholder="password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
@@ -119,7 +119,7 @@ function PasswordReset() {
         <div className="flex justify-center items-center">
 
           <button
-            className="text-5xl py-1 px-10 hover:text-amber-600"
+            className="text-5xl py-1 px-10 hover:text-ramaa_buttonHover"
             onClick={resetPassword}
           >
             Reset Password

@@ -211,7 +211,7 @@ function UserAdmin() {
 	      Account settings
 	    </h2>
 
-		<Link className="hover:text-amber-600 p-10" 
+		<Link className="hover:text-ramaa_buttonHover p-10" 
 			  to="/member-area"
 			  onClick={bckBtn}
 			  >Back</Link>
@@ -226,23 +226,23 @@ function UserAdmin() {
 			<div className="grid grid-cols-3 gap-4 place-items-start">
 				<h3>User Name</h3>
 				<p>{userInfo?.name}</p>
-				<p className="hover:text-amber-600" onClick={edtNameBtn}>edit</p>
+				<p className="hover:text-ramaa_buttonHover" onClick={edtNameBtn}>edit</p>
 			</div>
 			<div className="grid grid-cols-3 gap-4 place-items-start">
 				<h3>Email</h3>
 				<p>{userInfo?.email}</p>
-				<p className="hover:text-amber-600" onClick={edtEmailBtn}>edit</p>
+				<p className="hover:text-ramaa_buttonHover" onClick={edtEmailBtn}>edit</p>
 			</div>
 			<div className="grid grid-cols-3 gap-4 place-items-start">
 				<h3>Billing Data</h3>
 				<p> SAMPLE BILLING DATA </p>
-				<p className="hover:text-amber-600" onClick={rvwBillingBtn}>review</p>
+				<p className="hover:text-ramaa_buttonHover" onClick={rvwBillingBtn}>review</p>
 			</div>
 			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<Link className="hover:text-amber-600" onClick={chngPwBtn} to="/api/auth/login">Change Password</Link>
+				<Link className="hover:text-ramaa_buttonHover" onClick={chngPwBtn} to="/api/auth/login">Change Password</Link>
 			</div>
 			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<Link className="text-amber-600 hover:text-amber-800" onClick={delAccountBtn} to="/api/auth/delete-account">Delete Account</Link>
+				<Link className="text-ramaa_buttonHover hover:text-amber-800" onClick={delAccountBtn} to="/api/auth/delete-account">Delete Account</Link>
 			</div>
 
       	</div>
