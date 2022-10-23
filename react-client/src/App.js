@@ -19,6 +19,7 @@ import { Toaster } from "react-hot-toast";
 import EmailVerify from "./views/EmailVerify";
 import PasswordReset from "./views/PasswordReset";
 import UserAdmin from "./views/UserAdmin";
+import Subjects from "./views/Subjects";
 
 
 // < FULLSCREEN >
@@ -78,6 +79,13 @@ function App() {
               <UserAdmin/> 
             </ProtectedRoutes>
 
+          } />
+
+        <Route path='/subjects' 
+          element={ 
+            <PublicRoutes>
+              <Subjects/> 
+            </PublicRoutes>
           } />
 
         <Route path='/api/auth/login' 

@@ -267,7 +267,7 @@ function LandingPage() {
 		
 			{userInfo == null && (
 				<div className="ml-40">
-					<Link className="ml-40 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/api/auth/login">MORE SUBJECTS</Link>
+					<Link className="ml-40 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/subjects">MORE SUBJECTS</Link>
 					<Link className="hidden ml-20 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/api/auth/login">LOGIN</Link>
 					<Link className="hidden ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={hideWorkArea} to="/api/auth/make-account">SIGNUP</Link>
 				</div>
