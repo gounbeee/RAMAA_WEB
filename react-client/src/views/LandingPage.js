@@ -79,6 +79,33 @@ function LandingPage() {
 
 
 
+	// const openUsrAdmin = async () => {
+
+	// 	console.log("OPEN USER ADMIN PAGE")
+
+	// 	const token = sessionStorage.getItem("user");
+
+	// 	const targetUrl = `/member-area/${userInfo.name}`
+
+	// 	const response = await axios.get(targetUrl, {
+
+	// 									// HEADER SETTING FOR JWT TOKEN HANDLING
+	// 									// IT SHOULD BE AN ARRAY WITH
+	// 									// Bearer ELEMENT FIRST !
+	// 									// https://www.permify.co/post/jwt-authentication-in-react
+	// 									headers: {
+	// 									  Authorization: `Bearer ${token}`,
+	// 									},
+
+	// 								})
+	// 								.then((result)=> {
+	// 									console.log(result)
+	// 									navigate(targetUrl)
+	// 								})
+	// }
+
+
+
 
 	// 
 	const getData = async () => {
@@ -169,11 +196,27 @@ function LandingPage() {
 	};
 
 
+	const hideWorkArea = () => {
+		if(document.getElementById("workarea").style.display !== 'none')
+			document.getElementById("workarea").style.display= 'none';
+	}
+
+	const displayWorkArea = () => {
+		if(document.getElementById("workarea").style.display === null)
+			document.getElementById("workarea").style.display = '';
+	}
+
+
+
+
 	useEffect(() => {
 		console.log("LandingPage :: useEffect EXECUTED")
 		console.log(userInfo)
 
 		//checkReferrer()
+		//displayWorkArea()
+		//console.log(document.getElementById("workarea").style.display);
+
 
 		if (userInfo == null) {
 		  getData();
@@ -190,22 +233,30 @@ function LandingPage() {
 
 	// IF-STRUCTURED WITH LOGICAL OPERATOR && IN JSX
 
+	// LINK -> WE USED   onClick TO COMMUNICATE WITH 'SERVER' (axios USED)
+	//		   AND, USED to=...  FOR ROUTING IN      'REACT '
+	//
 	// Link ELEMENT SETTINGS
 	//                      **** FULL PATH TO ROUTE FOR EXPRESS SERVER ****
 	//                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
+						  // onClick={openUsrAdmin} 
 	return (
 		<div className="text-1xl inline-flex p-1">
 			{userInfo !== null && (
 				<div className="inline-flex">
-					<div className="ml-20">
+					<div className="ml-10">
 						{userInfo?.name}
 					</div>
-					<div className="ml-2 text-xs p-1">
+					<Link className="ml-2 text-xs p-1 hover:text-amber-600"
+						  to={userInfo.name}>
 						( {userInfo?.email} )
-					</div>
+					</Link>
+					<Link className="ml-10 cursor-pointer hover:text-amber-600" 
+						  to="/member-area/contents">CONTENTS</Link>
 					<button
-						className="ml-14"
+						className="ml-24 hover:text-amber-600"
 						onClick={() => {
 						  sessionStorage.clear();
 						  navigate("/");
@@ -216,7 +267,7 @@ function LandingPage() {
 
 			)}
 		
-			{ userInfo == null && (
+			{userInfo == null && (
 				<div>
 					<Link className="ml-20 cursor-pointer hover:text-amber-600" to="/api/auth/login">LOGIN</Link>
 					<Link className="ml-16 cursor-pointer hover:text-amber-600" to="/api/auth/make-account">SIGNUP</Link>

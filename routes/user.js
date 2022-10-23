@@ -4,6 +4,8 @@ const authmiddleWare = require("../middlewares/authMiddleWare");
 
 
 
+
+
 // MIDDLEWARE SETTINGS
 // SO WHEN USER REQUESTED /getuserinfo 
 // FIRST WE EXECUTE authmiddleWare, (ATTACHING req.body.user) THEN EXECUTE
@@ -13,7 +15,7 @@ router.get("/getuserinfo", authmiddleWare, async (req, res) => {
   // UNTIL THIS MIDDLWARE, WE CHECK THERE IS VALID USER
   // FROM CLIENT'S LOCAL STORAGE, SEND IT TO CLIENT
   try {
-    console.log(req.body)
+    //console.log(req.body)
 
     if(req.body.user !== undefined) {
 

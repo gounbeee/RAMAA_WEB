@@ -491,9 +491,10 @@ app.use( session({
 // --------------------------------------------------------------------------
 // ROUTE SETTING
 //
-const authRoute = require("./routes/auth");
-const userRoute = require("./routes/user");
-
+const authRoute        = require("./routes/auth");
+const userRoute        = require("./routes/user");
+const memberAreaRoute  = require("./routes/memberArea");
+ 
 
 
 // SETTING ROUTES
@@ -507,6 +508,7 @@ const userRoute = require("./routes/user");
 //                              _________
 app.use("/api/auth",            authRoute);
 app.use("/api/user",            userRoute);
+app.use("/member-area",         memberAreaRoute);
 
 
 

@@ -12,7 +12,7 @@ import toast from "react-hot-toast"
 // react-router-dom 
 // IS GREAT HELPER OBJECT TO CREATE DOM ELEMENT EASILY !
 import { Link } from "react-router-dom"
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 // axios
 // AXIOS IS FOR MANAGING HTTP CLIENT FUNCTIONALITY (GET / POST)
@@ -60,7 +60,7 @@ function Login() {
 		};
 
 		try {
-			toast.loading("Loading...");
+			toast.loading();
 
 			const response = await axios.post("/api/auth/login", userObj);
 

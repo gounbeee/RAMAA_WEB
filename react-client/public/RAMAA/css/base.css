@@ -87,7 +87,7 @@ div {
   background-color: #222222;
   width: 69px;
   height: 32px;
-  z-index: 9999;
+  z-index: 100;
 }
 
 

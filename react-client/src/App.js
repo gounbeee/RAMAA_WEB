@@ -18,6 +18,7 @@ import MakeAccount from "./views/MakeAccount"
 import { Toaster } from "react-hot-toast";
 import EmailVerify from "./views/EmailVerify";
 import PasswordReset from "./views/PasswordReset";
+import UserAdmin from "./views/UserAdmin";
 
 
 // < FULLSCREEN >
@@ -124,6 +125,22 @@ function App() {
             </ProtectedRoutes>
 
           } />
+        
+        <Route path='member-area/:username' 
+          element={ 
+            <ProtectedRoutes>
+              <UserAdmin/> 
+            </ProtectedRoutes>
+
+          } />
+
+        <Route path='member-area/:username/contents' 
+          element={ 
+            <ProtectedRoutes>
+              <UserAdmin/> 
+            </ProtectedRoutes>
+
+          } />
 
         <Route path='/api/auth/login' 
           element={ 
@@ -168,12 +185,12 @@ function App() {
 export function ProtectedRoutes({ children }) {
 
   // SEARCHING LOCALSTORAGE AND GET user KEY
-  const user = sessionStorage.getItem("user");
+  const userKey = sessionStorage.getItem("user");
 
-  console.log(user)
+  console.log(userKey)
 
   // 
-  if (user !== "" && user) {
+  if (userKey !== "" && userKey) {
 
     // WE DO NOT NEED TO CHANGE ROUTE
     // BELOW MEANS 'GO AHEAD'

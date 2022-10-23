@@ -11,7 +11,7 @@ module.exports = (req, res, next) => {
   // FOR JWT, THE DATA TYPE IS ARRAY, AND FIRST ONE IS Bearer SO WE 
   // FIND 'SECOND ONE'
   console.log("BEFORE jwt.verify ")
-  console.log(req.headers)
+  console.log(req.headers.referrer)
 
 
   const token = req.headers.authorization.split(" ")[1];
@@ -23,8 +23,8 @@ module.exports = (req, res, next) => {
 
     const user = jwt.verify(token, "RAMAA");
 
-    console.log("AFTER jwt.verify ")
-    console.log(user)
+    //console.log("AFTER jwt.verify ")
+    //console.log(user)
 
     // ATTACHING THE USER TO REQUEST
     req.body.user = user;
