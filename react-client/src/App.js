@@ -22,6 +22,11 @@ import UserAdmin from "./views/UserAdmin";
 import Subjects from "./views/Subjects";
 
 
+import SubjectMath from "./views/subjects/math/SubjectMath";
+
+
+
+
 // < FULLSCREEN >
 // https://www.npmjs.com/package/react-full-screen
 
@@ -85,6 +90,27 @@ function App() {
           element={ 
             <PublicRoutes>
               <Subjects/> 
+            </PublicRoutes>
+          } />
+                
+        <Route path='/subjects/math' 
+          element={ 
+            <PublicRoutes>
+              <SubjectMath/> 
+            </PublicRoutes>
+          } />
+          
+        <Route path='/subjects/programming' 
+          element={ 
+            <PublicRoutes>
+              <SubjectMath/> 
+            </PublicRoutes>
+          } />
+
+        <Route path='/subjects/concreatepoetry' 
+          element={ 
+            <PublicRoutes>
+              <SubjectMath/> 
             </PublicRoutes>
           } />
 

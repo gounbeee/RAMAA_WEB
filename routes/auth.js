@@ -12,9 +12,6 @@ const sendEmail = require("../utils/sendEmail");
 const Token = require("../models/tokenModel");
 
 const csurf = require('csurf')
-
-
-
 const csrfProtection = csurf({cookie:true})
 
 
