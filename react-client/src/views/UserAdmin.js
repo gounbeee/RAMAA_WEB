@@ -6,6 +6,10 @@ import axios from "axios";
 import Modal from './Modal'
 
 
+import { Button } from '@mui/material'
+
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 
 function UserAdmin() {
@@ -231,7 +235,8 @@ function UserAdmin() {
 	}
 
 
-
+	// < UPLOADING FILE >
+	// https://stackoverflow.com/questions/40589302/how-to-enable-file-upload-on-reacts-material-ui-simple-input/49408555#49408555
 
 
   return (
@@ -240,43 +245,68 @@ function UserAdmin() {
 	      Account settings
 	    </h2>
 
-		<Link className="hover:text-ramaa_buttonHover p-10" 
-			  to="/member-area"
-			  onClick={bckBtn}
-			  >Back</Link>
+			<Link className="hover:text-ramaa_buttonHover p-10" 
+				  to="/member-area"
+				  onClick={bckBtn}
+				  >Back
+			</Link>
 
-		<div className="bg-slate-500 p-10 space-y-7">
-			<input name="_csrf" value={csrf_tkn} type="hidden" />
+			<div className="bg-slate-500 p-10 space-y-7">
+				<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-			{modalView && ( <Modal id="modal" question={modalQues} /> )}
+				{modalView && ( <Modal id="modal" question={modalQues} /> )}
 
-			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<h3>Unique ID</h3>
-				<p>{userInfo?._id}</p>
-			</div>
-			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<h3>User Name</h3>
-				<p>{userInfo?.name}</p>
-				<p className="hover:text-ramaa_buttonHover" onClick={edtNameBtn}>edit</p>
-			</div>
-			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<h3>Email</h3>
-				<p>{userInfo?.email}</p>
-				<p className="hover:text-ramaa_buttonHover" onClick={edtEmailBtn}>edit</p>
-			</div>
-			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<h3>Billing Data</h3>
-				<p> SAMPLE BILLING DATA </p>
-				<p className="hover:text-ramaa_buttonHover" onClick={rvwBillingBtn}>review</p>
-			</div>
-			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<Link className="hover:text-ramaa_buttonHover" onClick={chngPwBtn} to="/api/auth/login">Change Password</Link>
-			</div>
-			<div className="grid grid-cols-3 gap-4 place-items-start">
-				<Link className="text-ramaa_buttonHover hover:text-amber-800" onClick={delAccountBtn} to="/api/auth/delete-account">Delete Account</Link>
-			</div>
+				<div className="grid grid-cols-3 gap-4 place-items-start">
+					<h3>Unique ID</h3>
+					<p>{userInfo?._id}</p>
+				</div>
+				<div className="grid grid-cols-3 gap-4 place-items-start">
+					<h3>User Name</h3>
+					<p>{userInfo?.name}</p>
+					<p className="hover:text-ramaa_buttonHover" onClick={edtNameBtn}>edit</p>
+				</div>
+				<div className="grid grid-cols-3 gap-4 place-items-start">
+					<h3>Email</h3>
+					<p>{userInfo?.email}</p>
+					<p className="hover:text-ramaa_buttonHover" onClick={edtEmailBtn}>edit</p>
+				</div>
+				<div className="grid grid-cols-3 gap-4 place-items-start">
+					<h3>Billing Data</h3>
+					<p> SAMPLE BILLING DATA </p>
+					<p className="hover:text-ramaa_buttonHover" onClick={rvwBillingBtn}>review</p>
+				</div>
+				<div className="grid grid-cols-3 gap-4 place-items-start">
+					<Link className="hover:text-ramaa_buttonHover" onClick={chngPwBtn} to="/api/auth/login">Change Password</Link>
+				</div>
+				<div className="grid grid-cols-5 gap-2 place-items-start">
+				  <p>Upload Image</p>
 
-      	</div>
+
+					<input
+					  accept="image/*"
+					  className=""
+					  style={{ display: 'none' }}
+					  id="upload-img-btn"
+					  multiple
+					  type="file"
+					/>
+					<label htmlFor="upload-img-btn">
+					  <Button variant="raised" component="span" className="">
+					    Choose File
+					  </Button>
+					</label> 
+					<TextField id="upImg-alt" label="img-alt" variant="filled" />
+					<TextField id="upImg-name" label="img-name" variant="filled" />
+					<TextField id="upImg-desc" label="img-desc" variant="filled" />
+
+
+				</div>
+				<div className="grid grid-cols-3 gap-4 place-items-start">
+					<Link className="text-ramaa_buttonHover hover:text-amber-800" onClick={delAccountBtn} to="/api/auth/delete-account">Delete Account</Link>
+				</div>
+
+	    </div>
+
     </div>
 
   );          // END OF RETURN

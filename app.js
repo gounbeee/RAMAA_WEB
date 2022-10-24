@@ -266,6 +266,14 @@ const bodyParser = require('body-parser')
 const fs = require('fs');
 
 
+// WE ARE USING multer FOR FILE HANDLING
+const multer = require('multer')
+
+
+
+// =====================================================================================================================
+
+
 
 console.log('%% app.js ::  mongoDBURI IS --   ' + process.env.MONGO_URL )
 
@@ -408,13 +416,13 @@ app.use(express.json())
 
 
 
-
+// ========================================================================================
+// < SETTING UP PARSERS>
 // --------------------------------------------------------
 // BODY PARSER FOR JSON
 // https://github.com/github/fetch/issues/323
 // post('/save-to-json'
-
-
+//
 // --------------------------------------------------------
 // CHANGING LIMIT OF UPLOADING SIZE
 // https://stackoverflow.com/questions/19917401/error-request-entity-too-large
@@ -423,9 +431,74 @@ app.use(bodyParser.json({limit: '1mb'}))
 app.use(bodyParser.urlencoded({limit: '1mb', extended: true}))
 
 
-
 // WE ARE USING COOKIEPARSER
 app.use(cookieParser('cookie-parser-secret'));
+
+
+
+// ---------------
+// MULTER SETTINGS
+// 1.
+// single() --->  IS FOR MANAGING SINGLE IMAGE
+// 2.
+// 'image'  --->  SHOULD BE THE SAME NAME name ATTRIBUTE IN image TAG IN OUR FRONT-END !
+// 3.
+// 'dest:'  --->  WILL SAVE THE FILE TO THAT DESTINATION PATH AND IT WILL USE HASHED FILENAME AT FIRST
+//                **** BUT WE DO NOT USE IT AFTER ALL ****
+// 4.
+// storage  --->  IS DEFINED USING multer ITSELF
+//                
+//
+//
+// SO , THIS IS MIDDLEWARE 'DETECTS' THE REQUEST FROM THE USER
+// WE CAN RETRIEVE THAT DATA USING req.file IN CONTROLLER
+//
+
+// diskStorage IS FROM multer AND
+// IT CONFIGURES THE WAY TO HANDLE FILES
+// (req, file, ch) => IS FOR destination FOR multer,
+// IS PRE-DEFINED BY multer MODULE
+// 
+// 
+//
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    
+    // CALLBACK FUNCTION IN multer
+    // null        --->   FIRST PARAMETER IS FOR ERROR HANDLING 
+    //                    IF THERE IS SOMETHING, multer WILL DO SOMETHING WITH THIS PARAMETER
+    // 'images'    --->   DESTINATION PATH TO STORE THE FILE
+    cb(null, 'images')
+  },
+  fileName: (req, file, cb) => {
+    // HERE WE CAN DEFINE OUR FILENAME WITH REQUEST
+    // AND FILTERING EITHER !
+    cb(null, new Date().toISOString() + '-' + file.originalname)
+
+  }
+})
+
+
+const filterFormulter = (req, file, cb) => {
+
+  if( file.mimetype === 'image/png' || 
+      file.mimetype === 'image/jpg' ||
+      file.mimetype === 'image/jpeg'
+    ) {
+
+    cb(null, true);
+
+  } else {
+
+    cb(null, false);
+  }
+
+}
+
+app.use(multer({storage: fileStorage, fileFilter: filterFormulter}).single('image'))
+
+
+
 
 
 

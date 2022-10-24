@@ -171,7 +171,7 @@ function SubjectMath() {
 			title: '333333 POETRY',
 			desc: 'Concreate Poetry is Fun!',
 			url: '/subjects/concreatepoetry'
-		},		
+		}
 	]
 
 
