@@ -489,12 +489,15 @@ const fileStorage = multer.diskStorage({
     // 'images'    --->   DESTINATION PATH TO STORE THE FILE
     cb(null, 'images')
   },
-  fileName: (req, file, cb) => {
+  filename: (req, file, cb) => {
     // HERE WE CAN DEFINE OUR FILENAME WITH REQUEST
     // AND FILTERING EITHER !
-    console.log(file)
+    //console.log(file)
 
-    cb(null, Date.now() + '-' + file.originalname)
+    const date = new Date().toISOString()
+    const newFileName = date + '_' + file.originalname
+
+    cb(null, newFileName)
 
   }
 })

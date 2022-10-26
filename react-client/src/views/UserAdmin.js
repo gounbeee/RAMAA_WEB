@@ -153,9 +153,6 @@ function UserAdmin() {
 
 
 
-	let targetURL = ''
-
-
 	// -------------------------------------------------------
 	// < USING useRef TO MAKE PERSISTED OBJECT >
  	// https://reactjs.org/docs/hooks-reference.html#useref
@@ -233,12 +230,9 @@ function UserAdmin() {
 
 			try {
 
-				console.log(`${filenm}   FILE WILL BE UPLOADED !!!!`)
-				//const path = targetURL + "/uploadimg"
-
 				console.log(formImg)
 
-				
+
 				axios.post(imgUpPath, formImg)
 						.then( (res) => {
 
@@ -359,7 +353,7 @@ function UserAdmin() {
 						setUserInfo(res_usr.data.userData)
 
 
-						targetURL = `/member-area/${res_usr.data.userData.name}`
+						const targetURL = `/member-area/${res_usr.data.userData.name}`
 						console.log("UserAdmin ::  TARGET URL IS ")
 						console.log(targetURL)
 
