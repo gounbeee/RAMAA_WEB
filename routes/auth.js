@@ -119,7 +119,7 @@ router.get("/login", csrfProtection, async (req,res) => {
 		res.status(200).send({
 
 			success: true,
-			message: "Displaying Make Account Page",
+			message: "Displaying LOGIN Page",
 			csrfToken: req.csrfToken()
 		})
 

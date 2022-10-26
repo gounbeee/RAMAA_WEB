@@ -7,6 +7,9 @@ import toast from 'react-hot-toast'
 
 import { useNavigate } from 'react-router-dom'
 
+import Backdrop from '@mui/material/Backdrop';
+
+
 
 
 function MakeAccount() {
@@ -21,6 +24,25 @@ function MakeAccount() {
 
 	// FOR PROGRAMATICAL ROUTING
 	const navigate = useNavigate();
+
+
+	// HANDLE BACKDROP
+	const [open, setOpen] = React.useState(true);
+	const handleClose = () => {
+
+		console.log("CANCELED MAKING ACCOUNT")
+		navigate('/')
+		setOpen(false);
+
+
+
+
+	};
+	const handleToggle = () => {
+		setOpen(!open);
+
+	};
+
 
 
 	const registerUser = async () => {
@@ -138,79 +160,81 @@ function MakeAccount() {
 		<div className="absolute w-[500px] left-50">
 
 			<div className="absolute top-[70px]">
-				
-				<h1 className="text-5xl my-7">
-					Make Your Account
-				</h1>
 
-				<div className="space-y-3">
-					<input name="_csrf" value={csrf_tkn} type="hidden" />
-						
-					<h3>Your Email Address</h3>
-					<input 
-						type="text"
-						className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
-						placeholder="email"
-						value={email}
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-					<h3>Your Nickname</h3>
-					<input 
-						type="text"
-						className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
-						placeholder="nickname"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
-					<h3>Password</h3>
-					<input 
-						type="password"
-						className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
-						placeholder="password"
-						value={password}
-						onChange={(e) => setPassword(e.target.value)}
-					/>
-					<h3>Confirm Password</h3>
-					<input 
-						type="password"
-						className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
-						placeholder="repeat password"
-						value={confirmPassword}
-						onChange={(e) => setConfirmPassword(e.target.value)}
-					/>
-					<button
-						className="w-full py-5 py-5 text-4xl hover:text-ramaa_buttonHover"
-						onClick={registerUser}
-					>
-					Make Account
-					</button>
-					<Link
-						className="underline text-ml hover:text-ramaa_buttonHover"
-						onClick={
-							() => console.log("Moved to Login Page")
-						} 
-						to="/api/auth/login"
-					>
-					Already have account?
-					</Link>
-					<br />
-					<br />
-					<Link
-						className="text-xl hover:text-ramaa_buttonHover"
-						onClick={
-							() => {
-								console.log("Canceled Making Account")
-								displayWorkArea()
-							}
-						} 
-						to="/"
-					>
-					Cancel
-					</Link>
-				</div>
+				<Backdrop
+					className="flex flex-col"
+					sx={{ color: '#fff' }}
+					open={open}
+				>
+
+					<h1 className="text-5xl my-7">
+						Make Your Account
+					</h1>
+
+					<div className="space-y-3">
+						<input name="_csrf" value={csrf_tkn} type="hidden" />
+							
+						<h3>Your Email Address</h3>
+						<input 
+							type="text"
+							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
+							placeholder="email"
+							value={email}
+							onChange={(e) => setEmail(e.target.value)}
+						/>
+						<h3>Your Nickname</h3>
+						<input 
+							type="text"
+							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
+							placeholder="nickname"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+						/>
+						<h3>Password</h3>
+						<input 
+							type="password"
+							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
+							placeholder="password"
+							value={password}
+							onChange={(e) => setPassword(e.target.value)}
+						/>
+						<h3>Confirm Password</h3>
+						<input 
+							type="password"
+							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
+							placeholder="repeat password"
+							value={confirmPassword}
+							onChange={(e) => setConfirmPassword(e.target.value)}
+						/>
+						<button
+							className="w-full py-5 py-5 text-4xl hover:text-ramaa_buttonHover"
+							onClick={registerUser}
+						>
+						Make Account
+						</button>
+						<Link
+							className="underline text-ml hover:text-ramaa_buttonHover"
+							onClick={
+								() => console.log("Moved to Login Page")
+							} 
+							to="/api/auth/login"
+						>
+						Already have account?
+						</Link>
+						<br />
+						<br />
+						<Link
+							className="text-xl hover:text-ramaa_buttonHover"
+							onClick={handleClose} 
+							to="/"
+						>
+						Cancel
+						</Link>
+					</div>
+
+				</Backdrop>
 
 			</div>
-
 		</div>
 
 	)

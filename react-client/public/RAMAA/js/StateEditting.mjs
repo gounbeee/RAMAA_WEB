@@ -851,6 +851,8 @@ class StateEditting extends State {
 
     this.sourceSendJsonClick = () => {
 
+      // loadJsonFile IS THe 'INPUT' ELEMENT
+      // WE SETTED IT UP AS file
       var file = document.getElementById('loadJsonFile').files[0];
       var reader = new FileReader()
 

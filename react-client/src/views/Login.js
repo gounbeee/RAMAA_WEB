@@ -20,7 +20,7 @@ import axios from "axios"
 
 //import { Modal } from 'react-responsive-modal';
 
-
+import Backdrop from '@mui/material/Backdrop';
 
 // ----------------------------------------------------------------
 
@@ -39,7 +39,21 @@ function Login() {
 
 	const [csrf_tkn, setCsrf_tkn] = useState("");
 
+	// HANDLE BACKDROP
+	const [open, setOpen] = React.useState(true);
+	const handleClose = () => {
+		console.log("CANCELED TO LOGIN")
+		navigate('/')
+		setOpen(false);
 
+
+
+
+	};
+	const handleToggle = () => {
+		setOpen(!open);
+
+	};
 
 
 	// const location = useLocation();
@@ -194,10 +208,6 @@ function Login() {
 
 
 
-
-
-
-
 	// AS A REACT COMPONENT, WE RETURN JSX CODES TO CONSTRUCT THE HTML PAGE !
 	return (
 
@@ -209,68 +219,73 @@ function Login() {
 
 				<div className="flex flex-col">
 
-					<h1 className="text-7xl text-center">
-						Welcome back
-					</h1>
+					<Backdrop
+						className="flex flex-col"
+						sx={{ color: '#fff' }}
+						open={open}
+					>
 
-					<div className="flex flex-col space-y-3 p-20">
-						<input name="_csrf" value={csrf_tkn} type="hidden" />
-						
-						<h3>Your Email Address</h3>
-						
-						<input 
-							type="text"
-							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
-							placeholder="email"
-							onChange={(e) => { setEmail(e.target.value)}}
-							value={email}
-						/>
-						<h3>Password</h3>
-						<input 
-							type="password"
-							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
-							placeholder="password"
-							onChange={(e) => { setPassword(e.target.value)}}
-							value={password}
-						/>
+						<h1 className="text-7xl text-center">
+							Welcome back
+						</h1>
 
-						<button
-							className="h-[90px] py-1 py-5 text-4xl hover:text-ramaa_buttonHover"
-							onClick={loginUser}
-						>
-						Login
-						</button>
+						<div className="flex flex-col space-y-3 p-20">
+							<input name="_csrf" value={csrf_tkn} type="hidden" />
+							
+							<h3>Your Email Address</h3>
+							
+							<input 
+								type="text"
+								className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
+								placeholder="email"
+								onChange={(e) => { setEmail(e.target.value)}}
+								value={email}
+							/>
+							<h3>Password</h3>
+							<input 
+								type="password"
+								className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
+								placeholder="password"
+								onChange={(e) => { setPassword(e.target.value)}}
+								value={password}
+							/>
 
-						<div className="flex justify-between items-end">
-							<div className="flex space-x-10">
-								<Link className="underline hover:text-ramaa_buttonHover" to="/api/auth/make-account">
-									Click Here to Make Account
-								</Link>
-								<h1 className="underline cursor-pointer hover:text-ramaa_buttonHover"
-									onClick={() => {
-										console.log("Forgot Password Button Clicked !!")
-										setIsPwForgot(true)
-										hideWorkArea()
-								} } >
-	 							Forgot Password ?
-	 							</h1>
+							<button
+								className="h-[90px] py-1 py-5 text-4xl hover:text-ramaa_buttonHover"
+								onClick={loginUser}
+							>
+							Login
+							</button>
 
-	 						</div>
+							<div className="flex justify-between items-end">
+								<div className="flex space-x-10">
+									<Link className="underline hover:text-ramaa_buttonHover" to="/api/auth/make-account">
+										Click Here to Make Account
+									</Link>
+									<h1 className="underline cursor-pointer hover:text-ramaa_buttonHover"
+										onClick={() => {
+											console.log("Forgot Password Button Clicked !!")
+											// SETTING FLAG TO FALSE
+											setIsPwForgot(true)
 
-	 					</div>
-						<Link
-							className="py-1 py-5 text-xl hover:text-ramaa_buttonHover"
-							onClick={
-								() => {
-									console.log("CANCELED TO LOGIN")
-									displayWorkArea()
-								}
-							} 
-							to="/"
-						>
-						Cancel
-						</Link>
-					</div>
+
+									} } >
+		 							Forgot Password ?
+		 							</h1>
+
+		 						</div>
+
+		 					</div>
+							<Link
+								className="py-1 py-5 text-xl hover:text-ramaa_buttonHover"
+								onClick={handleClose} 
+								to="/"
+							>
+							Cancel
+							</Link>
+						</div>
+
+					</Backdrop>
 
 				</div>
 
@@ -281,46 +296,43 @@ function Login() {
 
 				<div className="flex flex-col">
 
-					<h1 className="text-5xl text-center">
+
+						<h1 className="text-5xl text-center">
 						Forgot your password ?
-					</h1>
+						</h1>
 
-					<div className="flex flex-col space-y-3 p-20">
-						<h3>Enter email address</h3>
-						<input 
-							type="text"
-							className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
-							placeholder="email"
-							onChange={(e) => { setEmail(e.target.value)}}
-							value={email}
-						/>
+						<div className="flex flex-col space-y-3 p-20">
+							<h3>Enter email address</h3>
+							<input 
+								type="text"
+								className="text-ramaa_inputText py-1 px-3 border-2 focus:outline-0 w-full"
+								placeholder="email"
+								onChange={(e) => { setEmail(e.target.value)}}
+								value={email}
+							/>
 
-						<button
-							className="h-[90px] text-3xl hover:text-ramaa_buttonHover"
-							onClick={setIsPwForgot}
-						>
-						Send Email to Reset password
-						</button>
+							<button
+								className="h-[90px] text-3xl hover:text-ramaa_buttonHover"
+								onClick={setIsPwForgot}
+							>
+							Send Email to Reset password
+							</button>
 
-						<h1
-			              onClick={() => setIsPwForgot(false)}
-			              className="underline cursor-pointer underline text-md text-left"
-			            >
-			            Click Here To Login
-			            </h1>
-						<Link
-							className="py-1 py-5 text-xl hover:text-ramaa_buttonHover"
-							onClick={
-								() => {
-									console.log("CANCELED TO LOGIN")
-									displayWorkArea()
-								}
-							} 
-							to="/"
-						>
-						Cancel
-						</Link>
-					</div>
+							<h1
+				              onClick={() => setIsPwForgot(false)}
+				              className="underline cursor-pointer underline text-md text-left"
+				            >
+				            Click Here To Login
+				            </h1>
+							<Link
+								className="py-1 py-5 text-xl hover:text-ramaa_buttonHover"
+								onClick={handleClose} 
+								to="/"
+							>
+							Cancel
+							</Link>
+						</div>
+
 
 				</div>
 
