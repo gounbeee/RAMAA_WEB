@@ -482,12 +482,40 @@ app.use(cors({
 //
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    
-    // CALLBACK FUNCTION IN multer
-    // null        --->   FIRST PARAMETER IS FOR ERROR HANDLING 
-    //                    IF THERE IS SOMETHING, multer WILL DO SOMETHING WITH THIS PARAMETER
-    // 'images'    --->   DESTINATION PATH TO STORE THE FILE
-    cb(null, 'images')
+    // console.log("multer.diskStorage :: destination --> req IS... ")
+    // console.log(req)
+
+    // console.log("multer.diskStorage :: destination --> file IS... ")
+    // console.log(file)
+
+    // console.log("multer.diskStorage :: destination --> cb IS... ")
+    // console.log(cb)
+
+
+    // **** WE WILL USE req.url FOR THE FOLDER NAME TO STORE THE FILE ****
+    const folderNm = `images${req.url}`
+    //console.log(folderNm)
+
+    // < CREATING FOLDER !!!! >  AND < RECURSIVELY !!!! >
+    // https://stackoverflow.com/questions/66075852/how-to-create-a-directory-that-take-the-name-of-username-in-nodejs
+    // https://stackoverflow.com/questions/31645738/how-to-create-full-path-with-nodes-fs-mkdirsync
+    //
+    //
+    if (!fs.existsSync(folderNm)){
+      //console.log("THERE IS NO FOLDER MATCHED SO WE WILL MAKE IT")
+      fs.mkdirSync(folderNm, {recursive: true}); //create new directory and write to it.
+      cb(null, folderNm)
+
+    } else {
+      //console.log("THERE IS FOLDER MATCHED SO WE WILL GO THROUGH")    
+      
+      // CALLBACK FUNCTION IN multer
+      // null        --->   FIRST PARAMETER IS FOR ERROR HANDLING 
+      //                    IF THERE IS SOMETHING, multer WILL DO SOMETHING WITH THIS PARAMETER
+      // 'images'    --->   DESTINATION PATH TO STORE THE FILE
+      cb(null, folderNm)
+
+    }
   },
   filename: (req, file, cb) => {
     // HERE WE CAN DEFINE OUR FILENAME WITH REQUEST
