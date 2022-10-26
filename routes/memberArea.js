@@ -12,6 +12,38 @@ const csrfProtection = csurf({cookie:true})
 
 
 
+router.get("/:username/get_imagelist", csrfProtection, async (req, res) => {
+
+	console.log( "OK, RETRIEVING IMAGES FROM THIS USER'S DATABASE..." )
+
+	console.log(req.body)
+	
+
+
+	console.log(req.url)
+
+
+
+
+
+
+
+
+
+	res.status(200).send({
+
+		success: true,
+		message: "RETRIEVING IMAGES FROM THIS USER'S DATABASE OK"
+		
+	})
+
+
+
+})
+
+
+
+
 
 
 

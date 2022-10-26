@@ -120,7 +120,6 @@ function UploadImage() {
 	}
 
 
-
 	// < UPLOADING IMAGE FILE TO SEF¥RVER IN REACT, MULTER AND CORS >
 	// https://omarshishani.medium.com/how-to-upload-images-to-a-server-with-react-and-express-%EF%B8%8F-cbccf0ca3ac9
 	const onClickUploadImg = (e) => {
