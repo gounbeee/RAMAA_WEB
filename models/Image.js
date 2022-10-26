@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 
 const imageSchema = new mongoose.Schema({
 
-	img: {
+	imgPath: {
 		type: Buffer,
 		contentType: String,
 		required: true
@@ -13,11 +13,11 @@ const imageSchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
-	name: {
+	imgTitle: {
 		type: String,
 		required: true
 	},
-	desc: {
+	imgDesc: {
 		type: String,
 		required: true
 	},

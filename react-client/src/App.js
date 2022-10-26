@@ -78,6 +78,14 @@ function App() {
 
           } />
 
+        <Route path='/member-area/:username/uploadimg' 
+          element={ 
+            <ProtectedRoutes>
+              <UserAdmin/> 
+            </ProtectedRoutes>
+
+          } />
+
         <Route path='member-area/:username/contents' 
           element={ 
             <ProtectedRoutes>
@@ -85,6 +93,7 @@ function App() {
             </ProtectedRoutes>
 
           } />
+
 
         <Route path='/subjects' 
           element={ 

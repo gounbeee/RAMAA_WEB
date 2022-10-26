@@ -28,8 +28,6 @@ import toast from 'react-hot-toast'
 
 
 
-
-
 import Modal from './Modal'
 
 
@@ -74,7 +72,8 @@ function LandingPage() {
 		} else { 
 		 console.log("User did not came directly"); 
 
-		} 
+		}
+
 	}
 
 
@@ -239,7 +238,6 @@ function LandingPage() {
 	//                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
-						  // onClick={openUsrAdmin} 
 	return (
 		<div className="text-1xl inline-flex p-1">
 			{userInfo !== null && (

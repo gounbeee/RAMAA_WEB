@@ -60,7 +60,15 @@ function UserAdmin() {
 	}
 
 
-
+	// --------------------------------------------
+	// THIS IS THE FORMAT FOR SINGLE IMAGE
+	// SPECIFICATION FOR DATABASE
+	const imgFileObj = {
+		imgPath: "",
+		imgAlt: "",
+		imgTitle: "",
+		imgDesc: "" 
+	}
 
 
 
@@ -124,6 +132,7 @@ function UserAdmin() {
 
 	// USING STATE FOR GETTING USER
 	const [userInfo, setUserInfo] = useState(null);
+	const [imgUpPath, setImgUpPath] = useState('');
 	const [csrf_tkn, setCsrf_tkn] = useState("");
 
 	const navigate = useNavigate();
@@ -136,13 +145,22 @@ function UserAdmin() {
 	const [filenm, setFilenm] = useState('');
 
 
-	
+
+	// STATE OF IMAGE FOr PREVIEWING WHEN UPLOADING
+	const [previewImg, setPreviewImg] = useState(null)
+	const [formImg, setFormImg] = useState(null)
 
 
 
+
+	let targetURL = ''
+
+
+	// -------------------------------------------------------
 	// < USING useRef TO MAKE PERSISTED OBJECT >
  	// https://reactjs.org/docs/hooks-reference.html#useref
 	// const inputImgRef = useRef(null);
+
 
 
 	// < BUTTON CLICK AND GETTING VALUE FROM IT >
@@ -159,27 +177,89 @@ function UserAdmin() {
 		console.log(e.target.files)
 
 		if( e.target.files.length > 0 ) {
+
+			// SETTING NAME FOR DISPLAY
 			setFilenm(e.target.files[0].name)
+
+			// SETTING IMAGE DATA OBJECT
+			//imgFileObj
+			console.log(e.target.files)
+
+			// < FileList OBJECT >
+			// 0: File
+			// lastModified: 1637998402000
+			// lastModifiedDate: Sat Nov 27 2021 16:33:22 GMT+0900 (日本標準時) {}
+			// name: "PROFILE_GOUNBEEE.png"
+			// size: 126105
+			// type: "image/png"
+			// webkitRelativePath: ""
+			// [[Prototype]]: File
+			// length: 1
+
+
+			//console.log( URL.createObjectURL(e.target.files[0] ) )
+			setPreviewImg(URL.createObjectURL(e.target.files[0] ))
+
+			// ------------------------------------------------------------------------
+			// CONSTRUCTING FORM DATA HERE !
+			// ****** I DID NOT USE <form action=.... method.... > ELEMENT !!!! *******
+
+			const imgFormData = new FormData();
+
+	    imgFormData.append('fileName', e.target.files[0].name)
+	    imgFormData.append('fileSize', e.target.files[0].size)
+	    imgFormData.append('uploadingImage', e.target.files[0]);
+	    
+
+	    console.log(imgFormData)
+	    setFormImg(imgFormData);
+	    
+	    
+
+
 		}
 	}
 
+
+
+	// < UPLOADING IMAGE FILE TO SEF¥RVER IN REACT, MULTER AND CORS >
+	// https://omarshishani.medium.com/how-to-upload-images-to-a-server-with-react-and-express-%EF%B8%8F-cbccf0ca3ac9
 	const onClickUploadImg = (e) => {
-		console.log(e)
+		console.log("onClickUploadImg EXECUTED !!!!")
+		//console.log(e)
 
 		if(filenm !== '') {
 
-			console.log(`${filenm}   FILE WILL BE UPLOADED !!!!`)
+
+			try {
+
+				console.log(`${filenm}   FILE WILL BE UPLOADED !!!!`)
+				//const path = targetURL + "/uploadimg"
+
+				console.log(formImg)
+
+				
+				axios.post(imgUpPath, formImg)
+						.then( (res) => {
+
+							console.log(res)
 
 
 
+
+
+	 				  })
+
+			} catch (error) {
+
+ 				console.log(error)
+
+			}
 
 		}
 		
-
-
-
-
 	}
+
 
 
 
@@ -191,14 +271,15 @@ function UserAdmin() {
 		navigate('/')
 		setOpen(false);
 
-
-
-
 	};
+
+
 	const handleToggle = () => {
 		setOpen(!open);
 
 	};
+
+
 
 
 
@@ -209,7 +290,8 @@ function UserAdmin() {
 	const params = useParams();
 
 	console.log('UserAdmin Page OPENED  URL PARAMETER IS ...')
-	console.log(params)
+	//console.log(params)
+
 
 
 	// ITEM DEFINITION
@@ -267,9 +349,9 @@ function UserAdmin() {
 					// 
 					// GET REQUEST TO '/member-area/<username>'
 
-
-
 					console.log(res_usr.data.success)
+
+
 					if(res_usr.data.success === true) {
 						console.log("UserAdmin ::  USER CONFIRMED --> GO TO ADMIN PANEL ")
 						console.log(res_usr.data.userData)
@@ -277,7 +359,7 @@ function UserAdmin() {
 						setUserInfo(res_usr.data.userData)
 
 
-						const targetURL = `/member-area/${res_usr.data.userData.name}`
+						targetURL = `/member-area/${res_usr.data.userData.name}`
 						console.log("UserAdmin ::  TARGET URL IS ")
 						console.log(targetURL)
 
@@ -294,7 +376,17 @@ function UserAdmin() {
 								axios.defaults.headers.common['CSRF-TOKEN'] = res.data.csrfToken
 
 
-	 						 })
+	 						})
+
+
+
+	 					// SETTING PATH URL FOR FORM ELEMENT BELOW
+						// TO UPLOAD IMAGE FILE
+						//console.log(userInfo)
+						const imgUpPth = `/member-area/${res_usr.data.userData.name}/uploadimg`
+						setImgUpPath(imgUpPth)
+
+
 
 
 					} else {
@@ -307,8 +399,8 @@ function UserAdmin() {
 			)
 
 
-
 			toast.dismiss();
+
 
 
 		} catch (error) {
@@ -405,6 +497,10 @@ function UserAdmin() {
 		getUserData()
 		hideFooter()
 
+
+
+
+
 	},[])
 
 
@@ -438,7 +534,22 @@ function UserAdmin() {
 
 
 	// < UPLOADING FILE >
+	// https://maximorlov.com/fix-unexpected-field-error-multer/
 	// https://stackoverflow.com/questions/40589302/how-to-enable-file-upload-on-reacts-material-ui-simple-input/49408555#49408555
+
+	// 1. USING FORM ELEMENT
+	//  <form 
+	//  			action={imgUpPath}
+	//  			method="POST"	
+	//  			enctype="multipart/form-data"
+	//  			className="col-start-2 col-end-4 grid grid-cols-3 gap-2" 
+	// >
+
+  // 2. USING PROGRAMATICAL WAY TO CONSTRUCT form ELEMENT
+  //    < FormData OBJECT >
+  // 
+
+
 
 
   return (
@@ -503,86 +614,84 @@ function UserAdmin() {
 								>
 								Upload Image</p>
 
+								<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-							  <form className="col-start-2 col-end-4 grid grid-cols-3 gap-2" onSubmit={onClickUploadImg} >
-
-									<TextField
-					          id="outlined-textarea"
-					          label="Image_Name"
-					          placeholder=""
-					          variant="filled"
-					          multiline
-								    style={{
-								    	width : '100%', height: '100%',
-								    	backgroundColor: "#CCCCCC"
-								    }}
+								<TextField
+				          id="outlined-textarea"
+				          label="Image_Name"
+				          placeholder=""
+				          variant="filled"
+				          multiline
+							    style={{
+							    	width : '100%', height: '100%',
+							    	backgroundColor: "#CCCCCC"
+							    }}
+								/>
+								<TextField
+				          id="outlined-textarea"
+				          label="Image_Desc"
+				          placeholder=""
+				          variant="filled"
+				          multiline
+				          style={{
+				          	width : '100%', height: '100%',
+							    	backgroundColor: "#CCCCCC"
+							    }}
+				        />
+				        <TextField
+				          id="outlined-textarea"
+				          label="Image_Alt"
+				          placeholder=""
+				          variant="filled"
+				          multiline
+				          style={{
+				          	width : '100%', height: '100%',
+							    	backgroundColor: "#CCCCCC"
+							    }}
+				        />
+					  		<Button
+								  	variant="contained" 
+								  	component="label" 
+								  	size="large"
+								  	style={{ width : '100%', height: '100%'}}
+								  	onClick={onImgLoadBtn}
+								  >
+								  Choose File
+								  <input
+									  accept="image/*"
+									  style={{ display: 'none' }}
+									  id="input-upload-img-btn"
+									  multiple
+									  type="file"
+									  onChange={onChangeFn}
+									  name="uploadingImage"
 									/>
-									<TextField
-					          id="outlined-textarea"
-					          label="Image_Desc"
-					          placeholder=""
-					          variant="filled"
-					          multiline
-					          style={{
-					          	width : '100%', height: '100%',
-								    	backgroundColor: "#CCCCCC"
-								    }}
-					        />
-					        <TextField
-					          id="outlined-textarea"
-					          label="Image_Alt"
-					          placeholder=""
-					          variant="filled"
-					          multiline
-					          style={{
-					          	width : '100%', height: '100%',
-								    	backgroundColor: "#CCCCCC"
-								    }}
-					        />
-						  		<Button
-									  	variant="contained" 
-									  	component="label" 
-									  	size="large"
-									  	style={{ width : '100%', height: '100%'}}
-									  	onClick={onImgLoadBtn}
-									  >
-									  Choose File
-									  <input
-										  accept="image/*"
-										  style={{ display: 'none' }}
-										  id="input-upload-img-btn"
-										  multiple
-										  type="file"
-										  onChange={onChangeFn}
-										/>
-									</Button>
-									<TextField
-										className="col-start-2 col-end-4" 
-										value={filenm}
-					          variant="filled"
-					          disabled
-					          style={{
-				          		width: '100%',
-							    		backgroundColor: "#CCCCCC"
-								    }}
-					        />
-						  		<Button 
-						  			className="col-start-1 col-end-4 h-[5em]" 
-									  variant="contained" 
-									  size="large"
-									  type="submit"
-									  name="uploadImage"
-									  >
-									  UPLOAD
-									</Button>
+								</Button>
+								<TextField
+									className="col-start-2 col-end-4" 
+									value={filenm}
+				          variant="filled"
+				          disabled
+				          style={{
+			          		width: '100%',
+						    		backgroundColor: "#CCCCCC"
+							    }}
+				        />
 
-								</form>
-							
+					  		<Button 
+					  			className="col-start-1 col-end-4 h-[5em]" 
+								  variant="contained" 
+								  size="large"
+								  type="submit"
+								  onClick={onClickUploadImg}
+								  >
+								  UPLOAD
+								</Button>
+								<img className="col-start-1 col-end-4 h-[10em]" 
+								     src={previewImg} />
 
 
 							</div>
-
-
 
 
 

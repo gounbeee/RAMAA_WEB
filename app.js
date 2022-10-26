@@ -263,11 +263,15 @@ const bodyParser = require('body-parser')
 // const http = require('http');
 // const https = require('https');
 
+// -----------------------------------------
+// FOR FILE HANDLING
 const fs = require('fs');
 
 
 // WE ARE USING multer FOR FILE HANDLING
 const multer = require('multer')
+
+const cors = require("cors")
 
 
 
@@ -428,11 +432,26 @@ app.use(express.json())
 // https://stackoverflow.com/questions/19917401/error-request-entity-too-large
 // 
 app.use(bodyParser.json({limit: '1mb'}))
-app.use(bodyParser.urlencoded({limit: '1mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '1mb', extended: false}))
 
 
 // WE ARE USING COOKIEPARSER
 app.use(cookieParser('cookie-parser-secret'));
+
+
+
+
+// ---------------
+// CORS SETTINGS
+//ADD CORS CODE: 
+const corsOrigin = 'http://localhost:3000';
+
+app.use(cors({
+  origin:[corsOrigin],
+  methods:['GET','POST'],
+  credentials: true 
+}));
+
 
 
 
@@ -473,13 +492,17 @@ const fileStorage = multer.diskStorage({
   fileName: (req, file, cb) => {
     // HERE WE CAN DEFINE OUR FILENAME WITH REQUEST
     // AND FILTERING EITHER !
-    cb(null, new Date().toISOString() + '-' + file.originalname)
+    console.log(file)
+
+    cb(null, Date.now() + '-' + file.originalname)
 
   }
 })
 
 
+// FILE FORMAT CHECK !!!!
 const filterFormulter = (req, file, cb) => {
+
 
   if( file.mimetype === 'image/png' || 
       file.mimetype === 'image/jpg' ||
@@ -495,7 +518,19 @@ const filterFormulter = (req, file, cb) => {
 
 }
 
-app.use(multer({storage: fileStorage, fileFilter: filterFormulter}).single('image'))
+
+// ----------------------------------------------------------------
+// The <NAME> you use in multer's upload.single(<NAME>) function 
+// must be the same as the one you use in <input type="file" 
+//                     name="uploadingImage" ...>.
+//                           ~~~~~~~~~~~~~~
+// var type = upload.single('uploadingImage')
+//
+app.use(multer({
+  storage: fileStorage, 
+  fileFilter: filterFormulter
+})
+.single('uploadingImage'))
 
 
 
