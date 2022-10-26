@@ -7,6 +7,8 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button, Box, TextField, Backdrop, Stack, Paper, styled } from '@mui/material'
 
 
+import GetUserData from './GetUserData'
+
 
 
 function UploadImage() {
@@ -34,7 +36,6 @@ function UploadImage() {
 
 
 
-	const [userInfo, setUserInfo] = useState(null);
 	const [imgUpPath, setImgUpPath] = useState('');
 
 	const [csrf_tkn, setCsrf_tkn] = useState("");
@@ -127,148 +128,20 @@ function UploadImage() {
 		//console.log(e)
 
 		if(filenm !== '') {
-
-
 			try {
 
-				console.log(formImg)
-
+				//console.log(formImg)
 
 				axios.post(imgUpPath, formImg)
 						.then( (res) => {
 
 							console.log(res)
-
-
-
-
-
 	 				  })
-
 			} catch (error) {
-
  				console.log(error)
-
 			}
-
 		}
-		
 	}
-
-
-
-
-
-
-	// WHEN STARTING THIS PAGE
-	const getUserData = async () => {
-
-		// ENTERING LOADING START
-		toast.loading();
-
-
-		try {
-
-			console.log('UserAdmin page getUserData() FUNCTION')
-
-			// IF THERE ALREADY IS AN USER TOKEN,
-			// GET IT
-			// **** THIS TOKEN SHOULD BE PUBLISHED WHRN 
-			//      USER LOGGED IN
-			const token = sessionStorage.getItem("user");
-
-			// GET REQUEST FOR GETTING USER TO SERVER
-			const response = await axios.get("/api/user/getuserinfo", {
-
-					// HEADER SETTING FOR JWT TOKEN HANDLING
-					// IT SHOULD BE AN ARRAY WITH
-					// Bearer ELEMENT FIRST !
-					// https://www.permify.co/post/jwt-authentication-in-react
-					headers: {
-					  Authorization: `Bearer ${token}`,
-					},
-
-				})
-				.then( res_usr => {
-
-					// < CHAINING REQUEST USING AXIOS >
-					// https://github.com/axios/axios/issues/708
-
-					// AT FIRST WE GET THE USER DATA,
-					// AND IF THE ABOVE PROCESS IS VALID,
-					// THEN GET REQUEST AGAIN TO REQUEST PROPER ADMIN PAGE !
-					// 
-					// GET REQUEST TO '/member-area/<username>'
-
-					console.log(res_usr.data.success)
-
-
-					if(res_usr.data.success === true) {
-						console.log("UserAdmin ::  USER CONFIRMED --> GO TO ADMIN PANEL ")
-						console.log(res_usr.data.userData)
-						
-						setUserInfo(res_usr.data.userData)
-
-
-						const targetURL = `/member-area/${res_usr.data.userData.name}`
-						console.log("UserAdmin ::  TARGET URL IS ")
-						console.log(targetURL)
-
-						axios.get(targetURL)
-	 					     .then( res => {
-
- 					     	// SO FAR WE GOT USER INFORMATION FROM DATABASE,
- 					     	// AND CSRF TOKEN !!!
-	 						 	//console.log( res )
-
-	 						 	// SETTING UP CSRF TOKEN FROM SERVER TO THIS ELEMENT
-	 						 	
-	 						 	setCsrf_tkn(res.data.csrfToken)
-								axios.defaults.headers.common['CSRF-TOKEN'] = res.data.csrfToken
-
-
-	 						})
-
-
-
-	 					// SETTING PATH URL FOR FORM ELEMENT BELOW
-						// TO UPLOAD IMAGE FILE
-						//console.log(userInfo)
-						const imgUpPth = `/member-area/${res_usr.data.userData.name}/uploadimg`
-						setImgUpPath(imgUpPth)
-
-
-
-
-					} else {
-						console.log( res_usr )
-						toast.error("Error occured when getting user data")
-
-					}
-
-				}
-			)
-
-
-			toast.dismiss();
-
-
-
-		} catch (error) {
-
-			// IF THERE IS AN ERROR, DELETE DATA FROM LOCALSTORAGE
-			sessionStorage.removeItem("user");
-
-			// PROGRAMATICALLY ROUTE TO LOGIN PAGE
-			navigate("/");	
-
-			// TOAST END
-			toast.error("Something went wrong");
-
-		}
-
-	};
-
 
 
 
@@ -294,10 +167,10 @@ function UploadImage() {
 
 	return(
 
-
-
-
 		<div className="grid grid-cols-4 gap-2">
+
+	    	<GetUserData cb_csrf={setCsrf_tkn} cb_imgPath={setImgUpPath} />
+
 
 			<p className="col-start-1 col-end-2">
 			Upload Image
@@ -386,13 +259,12 @@ function UploadImage() {
 
 		</div>
 
-
-
 	)
 
 
-
 }
+
+
 
 
 export default UploadImage

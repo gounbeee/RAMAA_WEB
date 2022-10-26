@@ -5,6 +5,9 @@ import axios from "axios";
 
 
 
+// < COMPONENT RECIEVING CALLBACK FUNCTIONS >
+// I AM PASSING CALLBACK FUNCTIONS WHICH DEFINED FOR SET STATES OUTSIDE,
+// TO BELOW'S props PARAMETER
 
 function GetUserData(props) {
 
@@ -60,7 +63,8 @@ function GetUserData(props) {
 						console.log("UserAdmin ::  USER CONFIRMED --> GO TO ADMIN PANEL ")
 						console.log(res_usr.data.userData)
 						
-						props.cb_usr(res_usr.data.userData)
+
+						if(props.cb_usr) props.cb_usr(res_usr.data.userData)
 
 
 						const targetURL = `/member-area/${res_usr.data.userData.name}`
@@ -76,14 +80,22 @@ function GetUserData(props) {
 
 	 						 	// SETTING UP CSRF TOKEN FROM SERVER TO THIS ELEMENT
 	 						 	
-	 						 	props.cb_csrf(res.data.csrfToken)
+
+	 						 	if(props.cb_csrf) props.cb_csrf(res.data.csrfToken)
+
 
 								axios.defaults.headers.common['CSRF-TOKEN'] = res.data.csrfToken
 
 
 	 						})
 
-
+	 						// SETTING PATH URL FOR FORM ELEMENT BELOW
+							// TO UPLOAD IMAGE FILE
+							//console.log(userInfo)
+							if(props.cb_imgPath) {
+								const imgUpPth = `/member-area/${res_usr.data.userData.name}/uploadimg`
+								props.cb_imgPath(imgUpPth)
+							}
 
 
 					} else {
