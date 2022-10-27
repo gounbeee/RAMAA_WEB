@@ -80,6 +80,8 @@ function GetUserData(props) {
 
 	 						 	// SETTING UP CSRF TOKEN FROM SERVER TO THIS ELEMENT
 	 						 	
+	 						 	//console.log(props.cb_csrf)
+
 
 	 						 	if(props.cb_csrf) props.cb_csrf(res.data.csrfToken)
 

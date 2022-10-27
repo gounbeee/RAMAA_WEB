@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import toast from "react-hot-toast";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { Button, Box, TextField, Backdrop, Stack, Paper, styled } from '@mui/material'
+import { createTheme } from '@mui/material/styles';
+import { Button, TextField } from '@mui/material'
 
 
 import GetUserData from './GetUserData'
@@ -35,10 +34,10 @@ function UploadImage() {
 
 
 
-
+	const [userInfo, setUserInfo] = useState(null);
 	const [imgUpPath, setImgUpPath] = useState('');
-
 	const [csrf_tkn, setCsrf_tkn] = useState("");
+
 
 	// STATES FOR FILE NAME TEXTFIELD
 	// 
@@ -52,13 +51,37 @@ function UploadImage() {
 	const [formImg, setFormImg] = useState(null)
 
 
-	const navigate = useNavigate();
+
+	const [st_imgTitle, setSt_imgTitle] = useState('')
+	const [st_imgDesc, setSt_imgDesc] = useState('')
+	const [st_imgAlt, setSt_imgAlt] = useState('')
+
+
 
 
 	// -------------------------------------------------------
 	// < USING useRef TO MAKE PERSISTED OBJECT >
  	// https://reactjs.org/docs/hooks-reference.html#useref
 	// const inputImgRef = useRef(null);
+
+
+
+
+	// < RESETTING STATES >
+	const resetAllStates = () => {
+
+		setImgUpPath('')
+		setFilenm('')
+		setPreviewImg(null)
+		setFormImg(null)
+		setSt_imgTitle('')
+		setSt_imgDesc('')
+		setSt_imgAlt('')
+
+	}
+
+
+
 
 
 
@@ -80,9 +103,11 @@ function UploadImage() {
 			// SETTING NAME FOR DISPLAY
 			setFilenm(e.target.files[0].name)
 
-			// SETTING IMAGE DATA OBJECT
-			//imgFileObj
-			console.log(e.target.files)
+
+
+			// --------------------------------
+			// GETTING VALUE FOR OUR IMAGE 
+
 
 			// < FileList OBJECT >
 			// 0: File
@@ -105,16 +130,18 @@ function UploadImage() {
 
 			const imgFormData = new FormData();
 
-	    imgFormData.append('fileName', e.target.files[0].name)
-	    imgFormData.append('fileSize', e.target.files[0].size)
-	    imgFormData.append('uploadingImage', e.target.files[0]);
-	    
+		    imgFormData.append('email', userInfo.email )
+		    imgFormData.append('fileName', e.target.files[0].name)
+		    imgFormData.append('fileSize', e.target.files[0].size)
+		    imgFormData.append('imgAlt', st_imgAlt)
+		    imgFormData.append('imgTitle', st_imgTitle)
+		    imgFormData.append('imgDesc', st_imgDesc)
+		    imgFormData.append('uploadingImage', e.target.files[0]);
+		    
 
-	    console.log(imgFormData)
-	    setFormImg(imgFormData);
-	    
-	    
-
+		    //console.log(imgFormData)
+		    setFormImg(imgFormData);
+		     
 
 		}
 	}
@@ -124,22 +151,38 @@ function UploadImage() {
 	// https://omarshishani.medium.com/how-to-upload-images-to-a-server-with-react-and-express-%EF%B8%8F-cbccf0ca3ac9
 	const onClickUploadImg = (e) => {
 		console.log("onClickUploadImg EXECUTED !!!!")
-		//console.log(e)
+		console.log(e)
+
 
 		if(filenm !== '') {
+			
 			try {
 
 				//console.log(formImg)
 
 				axios.post(imgUpPath, formImg)
 						.then( (res) => {
-
 							console.log(res)
-	 				  })
+							//resetAllStates()
+
+							// IF FILE UPLOADING SUCCEEDED,
+							//
+							if( res.status === 200 ) {
+
+								console.log('FILE UPLOADING IS OK !!!!')
+
+							}
+
+						})
+
+
 			} catch (error) {
- 				console.log(error)
+					console.log(error)
 			}
+
 		}
+
+
 	}
 
 
@@ -157,31 +200,28 @@ function UploadImage() {
 	//  			className="col-start-2 col-end-4 grid grid-cols-3 gap-2" 
 	// >
 
-	// 2. USING PROGRAMATICAL WAY TO CONSTRUCT form ELEMENT
+	// 2. USING PROGRAMATICAL WAY TO CONSTRUCT form ELEMENT **** ABOVE ****
 	//    < FormData OBJECT >
 	// 
-
-
-
-
 	return(
 
 		<div className="grid grid-cols-4 gap-2">
 
-	    	<GetUserData cb_csrf={setCsrf_tkn} cb_imgPath={setImgUpPath} />
+	    	<GetUserData cb_usr={setUserInfo} cb_csrf={setCsrf_tkn} cb_imgPath={setImgUpPath} />
+			<input name="_csrf" value={csrf_tkn} type="hidden" />
 
 
 			<p className="col-start-1 col-end-2">
 			Upload Image
 			</p>
 
-			<input name="_csrf" value={csrf_tkn} type="hidden" />
-
 			<TextField
 				id="outlined-textarea"
-				label="Image_Name"
+				label="Image_Title"
 				placeholder=""
 				variant="filled"
+				value={st_imgTitle}
+				onChange={ (e) => { setSt_imgTitle(e.target.value) }}
 				multiline
 				    style={{
 				    	width : '100%', height: '100%',
@@ -194,17 +234,21 @@ function UploadImage() {
 				label="Image_Desc"
 				placeholder=""
 				variant="filled"
+				value={st_imgDesc}
+				onChange={ (e) => { setSt_imgDesc(e.target.value) }}
 				multiline
 				style={{
 					width : '100%', height: '100%',
 				    	backgroundColor: "#CCCCCC"
 				}}
-			/>
+			/>   							
 			<TextField
 				id="outlined-textarea"
 				label="Image_Alt"
 				placeholder=""
 				variant="filled"
+				value={st_imgAlt}
+				onChange={ (e) => { setSt_imgAlt(e.target.value) }}
 				multiline
 				style={{
 					width : '100%', height: '100%',
@@ -220,7 +264,6 @@ function UploadImage() {
 				onClick={onImgLoadBtn}
 			>
 			Choose File
-
 				<input
 					accept="image/*"
 					style={{ display: 'none' }}
@@ -244,7 +287,7 @@ function UploadImage() {
 			/>
 
 			<Button 
-				className="col-start-2 col-end-4 h-[5em]" 
+				className="col-start-2 col-end-5 h-[5em]" 
 				variant="contained" 
 				size="large"
 				type="submit"
@@ -254,15 +297,13 @@ function UploadImage() {
 			</Button>
 
 			<img className="col-start-2 col-end-3 h-[10em]" 
-				 src={previewImg} />
+				src={previewImg} />
 
 		</div>
 
 	)
 
-
 }
-
 
 
 

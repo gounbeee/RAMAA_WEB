@@ -492,8 +492,13 @@ const fileStorage = multer.diskStorage({
     // console.log(cb)
 
 
-    // **** WE WILL USE req.url FOR THE FOLDER NAME TO STORE THE FILE ****
-    const folderNm = `images${req.url}`
+    // **** WE WILL USE req.body.email FOR THE FOLDER NAME TO STORE THE FILE ****
+    // 
+    // BECAUSE, USERNAME CAN BE SAME ONE !!!!
+
+    //const emailSplitted = req.body.email.split('')
+
+    const folderNm = `images/${req.body.email}`
     //console.log(folderNm)
 
     // < CREATING FOLDER !!!! >  AND < RECURSIVELY !!!! >
@@ -655,8 +660,15 @@ app.use("/",                    subjectsRoute);
 
 //app.use(express.static('public'))
 
+// < STATIC FOLDER DEFINITION >
+// WE CAN DEFINE FOLDER public AS STATIC FOLDER !!
+// 
+// **** WITHOUT FIRST PARAMETER /images,
+//      WE WILL SEARCH CONTENTS OF images FOLDER IN SERVER
+//      ON ROOT FOLDER !!!! localhost:3000/xxxxxxx LIKE THIS ****
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
+app.use('/images', express.static(path.join(__dirname, 'images')))
 
 
 

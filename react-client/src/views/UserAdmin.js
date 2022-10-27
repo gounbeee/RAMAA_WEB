@@ -42,7 +42,6 @@ function UserAdmin() {
 	// FOR STYLED HORIZONTAL LINE
 	const ColoredHLine = ({color}) => (
 		<hr style={{
-
 			color: color,
 			backgroundColor: color,
 			height: 2,
@@ -63,9 +62,6 @@ function UserAdmin() {
 		const footerDom = document.getElementById("footer_wrapper")
 		footerDom.style.display = ''
 	}
-
-
-
 
 
 
@@ -95,11 +91,25 @@ function UserAdmin() {
 
 
 
+	const onLoadFunc = (e) => {
+
+
+		console.log('onLoadFunc IS EXECUTED !!!!')
+		console.log(e)
+
+
+
+
+
+	}
+
+
+
 
 
 	// useParams() IS FOR GETTING PARAMETERS FROM URL
 	// ie ) URL.....com:token
-	//                 ~~~~~~
+	//                  ~~~~~
 	const params = useParams();
 
 	console.log('UserAdmin Page OPENED  URL PARAMETER IS ...')
@@ -126,7 +136,6 @@ function UserAdmin() {
 	// WHEN BACK BUTTON PRESSED
 	const bckBtn = async () => {
 
-
 		console.log("BACK BUTTON IS PRESSED")
 		showFooter()
 		//displayWorkArea()
@@ -138,12 +147,12 @@ function UserAdmin() {
 	// WHEN RESET PASSWORD BUTTON CLICKED
 	const chngPwBtn = async () => {
 
-
 		console.log("CHANGE PASSWORD BUTTON CLICKED")
 
 		//navigate("/api")
 
 	}
+
 
 	// WHEN EDIT USERNAME BUTTON CLICKED
 	const edtNameBtn = async () => {
@@ -197,14 +206,12 @@ function UserAdmin() {
 
 
 	useEffect(() => {
+
 		//hideWorkArea()
 		//getUserData()
 		//UsrInfo(usr)
 
 		hideFooter()
-
-
-
 
 
 	},[])
@@ -245,10 +252,14 @@ function UserAdmin() {
 	// TO GetUserData COMPONENT !!!!
 
 
+
+
   return (
     <div className="">
 
 	    <GetUserData cb_usr={setUserInfo} cb_csrf={setCsrf_tkn} />
+
+			<input name="_csrf" value={csrf_tkn} type="hidden" />
 
 
     	<Backdrop
@@ -306,7 +317,7 @@ function UserAdmin() {
 
 							<UploadImage />
 
-							<GetImageList user={userInfo} />
+							<GetImageList />
 
 
 
