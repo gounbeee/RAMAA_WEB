@@ -651,7 +651,7 @@ const subjectsRoute    = require("./routes/subjects");
 app.use("/api/auth",            authRoute);
 app.use("/api/user",            userRoute);
 app.use("/member-area",         memberAreaRoute);
-app.use("/",                    subjectsRoute);
+app.use("/subjects",            subjectsRoute);
 
 
 

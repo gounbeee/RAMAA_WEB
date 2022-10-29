@@ -19,6 +19,8 @@ function CRUDCategory() {
 
 	// STATES FOR CATEGORY
 	const [categoryCreate, setCategoryCreate] = useState("");
+	const [categoryDescriptions, setCategoryDescriptions] = useState("");
+	const [categoryTargetUrl, setCategoryTargetUrl] = useState("");
 
 	const [categoryList, setCategoryList] = useState()
 
@@ -75,7 +77,7 @@ function CRUDCategory() {
 	// -------------------------------------------
   	// < EDITTING MAP-ARRAY ELEMENT USINF INDEX > 
    	// https://stackoverflow.com/questions/70832443/how-to-update-the-array-of-objects-using-onchange-handler-in-react-js
-	const onEditCategory = async (ev, index, id) => {
+	const onEditCategory = async (ev, index, id, propName) => {
 
 		//console.log('EDITING CATEGORY START')
 
@@ -84,7 +86,28 @@ function CRUDCategory() {
 	    let obj = clone[index];
 	    //console.log(obj)
 
-	    obj.name = ev.target.value;
+
+	    switch(propName) {
+
+	    	case 'name':
+
+	    		obj.name = ev.target.value;
+
+	    	break
+
+	    	case 'descriptions':
+
+	    		obj.descriptions = ev.target.value;
+
+	    	break	    	
+
+	    	case 'targetUrl':
+
+	    		obj.targetUrl = ev.target.value;
+
+	    	break
+
+	    }
 
 	    clone[index] = obj;
 	    setCategoryList([...clone])
@@ -115,7 +138,9 @@ function CRUDCategory() {
 
 			type: 'CATEGORY',
 			idToUpdate: categoryList[index]._id,
-			value: categoryList[index].name
+			name: categoryList[index].name,
+			descriptions: categoryList[index].descriptions,
+			targetUrl: categoryList[index].targetUrl
 		}
 
 		console.log(dataToUpdate)
@@ -204,6 +229,8 @@ function CRUDCategory() {
 				const objForCategory = {
 					name: categoryCreate,
 					userEmail: userInfo.email,
+					descriptions: categoryDescriptions,
+					targetUrl: categoryTargetUrl,
 				}
 
 
@@ -223,6 +250,8 @@ function CRUDCategory() {
 
 								// RESET INPUT ELEMENT
 								setCategoryCreate('')
+								setCategoryDescriptions('')
+								setCategoryTargetUrl('')
 							}
 
 						})
@@ -285,11 +314,34 @@ function CRUDCategory() {
 				    	backgroundColor: "#CCCCCC"
 				}}
 			/>
-		
+			<TextField
+				id="outlined-textarea"
+				label="New Descriptions"
+				placeholder=""
+				variant="filled"
+				value={categoryDescriptions}
+				onChange={ (e) => { setCategoryDescriptions(e.target.value) }}
+				    style={{
+				    	width : '100%', height: '100%',
+				    	backgroundColor: "#CCCCCC"
+				}}
+			/>
+			<TextField
+				id="outlined-textarea"
+				label="New Target Url"
+				placeholder=""
+				variant="filled"
+				value={categoryTargetUrl}
+				onChange={ (e) => { setCategoryTargetUrl(e.target.value) }}
+				    style={{
+				    	width : '100%', height: '100%',
+				    	backgroundColor: "#CCCCCC"
+				}}
+			/>
 			<Button 
 				sx={{ fontSize: 16 }}
 				color="primary_bg"
-				className="col-start-3 col-end-5" 
+				className="col-start-2 col-end-5" 
 				variant="contained" 
 				size="large"
 				type="submit"
@@ -340,7 +392,19 @@ function CRUDCategory() {
 									type="text"
 									className="p-5 bg-gray-600 w-[100%] text-center text-1xl col-start-3 col-end-5" 
 						 	   		value={categoryList[index]?.name} 
-						 	   		onChange={(e) => onEditCategory(e, index, category._id)}
+						 	   		onChange={(e) => onEditCategory(e, index, category._id, 'name')}
+								/>
+								<input 
+									type="text"
+									className="p-5 bg-gray-600 w-[100%] text-center text-1xl col-start-3 col-end-5" 
+						 	   		value={categoryList[index]?.descriptions} 
+						 	   		onChange={(e) => onEditCategory(e, index, category._id, 'descriptions')}
+								/>
+								<input 
+									type="text"
+									className="p-5 bg-gray-600 w-[100%] text-center text-1xl col-start-3 col-end-5" 
+						 	   		value={categoryList[index]?.targetUrl} 
+						 	   		onChange={(e) => onEditCategory(e, index, category._id, 'targetUrl')}
 								/>
 				        		<Button 
 				        			sx={{ ml: 4, fontSize: 16 }}

@@ -37,19 +37,21 @@ const Subject = require('../models/Subject')
 
 
 
-router.get("/subjects", csrfProtection, async (req,res) => {
+router.get("/", csrfProtection, async (req,res) => {
 
 	try {
 
-		console.log("DISPLAYING MAKE ACCOUNT PAGE")
+		console.log("DISPLAYING SUBJECTS PAGE")
 		console.log(req.csrfToken())
 
 		// WHEN WE OPEND SUBJECT PAGE,
 		// 1. WE RETRIEVE CATEGORIES DATA FROM DATABASE,
+		const foundCategories = await Category.find({userEmail: process.env.EMAIL_ADDRESS})
+
 
 		
 
-
+		console.log(foundCategories)
 
 
 		// 2. THEN SEND THE RESULT
@@ -61,7 +63,8 @@ router.get("/subjects", csrfProtection, async (req,res) => {
 
 			success: true,
 			message: "Displaying Subjects Page",
-			csrfToken: req.csrfToken()
+			csrfToken: req.csrfToken(),
+			foundCategories: foundCategories
 
 		});
 

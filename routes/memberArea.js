@@ -435,7 +435,10 @@ router.post("/:username/update-category", csrfProtection, async (req, res) => {
 		        			message: "THERE IS NO MATCHED ID IN OUR DATABSE !!!!"
 		        		})
 		        	} else {
-		        		categoryFound.name = req.body.value
+		        		categoryFound.name = req.body.name
+		        		categoryFound.descriptions = req.body.descriptions
+		        		categoryFound.targetUrl = req.body.targetUrl
+
 		        		categoryFound.save()
 
 		        		res.status(200).send({
@@ -462,41 +465,11 @@ router.post("/:username/create-category", csrfProtection, async (req, res) => {
 	// SAVE FILE IS DONE MY MIDDLEWARE 'MULTER'
 	// IN app.js !!!!
 
-
-	// ------------------------------------------------
-	// SAVE INFORMATION TO DATABASE EITHER
-	//
-	// 1. CONSTRUCT PROPER OBJECT FOR OUR SCHEMA IN MONGOOSE (MONGO DB)
-	//    **** BECAUSE WE DEFINED SCHEMA AT models/image.js ****
-	// 
-	// WE HAVE 2 THINGS req.body AND req.file
-	//
-	//
-	// AND WE NEED THE OBJECT LIKE BELOW
-	// imgOwner: {
-	// 		type: 					String,
-	// 		required: true
-	// },
-	// imgPath: {
-	// 		type: 					String,
-	// 		required: true
-	// },
-	// imgAlt: {
-	// 		type: 					String,
-	// 		required: true
-	// },
-	// imgTitle: {
-	// 		type: 					String,
-	// 		required: true
-	// },
-	// imgDesc: {
-	// 		type: 					String,
-	// 		required: true
-	// },
-
 	const objToCategoryDB = {
 		name: req.body.name,
 		userEmail: req.body.userEmail,
+		descriptions: req.body.descriptions,
+		targetUrl: req.body.targetUrl,
 	}
 
 	const newCategory = new Category(objToCategoryDB)

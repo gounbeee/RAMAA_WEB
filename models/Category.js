@@ -8,6 +8,14 @@ const categorySchema = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	descriptions: {
+		type: String,
+		required: true
+	},
+	targetUrl: {
+		type: String,
+		required: true
+	},
 	userEmail: {
 		type: String,
 		required: true

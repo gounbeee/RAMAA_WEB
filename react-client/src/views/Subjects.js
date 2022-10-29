@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-
+import { Backdrop } from '@mui/material'
 
 // MATERIAL UI
 import { Card, 
@@ -17,40 +17,22 @@ import { Card,
 
 // OUR ORIGINAL UI PARTS
 import ModalConfirmZ from './ModalConfirmZ'
-import SubjectCard from './SubjectCard'
+import SubjectCard   from './SubjectCard'
+
+
 
 
 function Subjects() {
 
+
+	const [categoryList, setCategoryList] = useState()
+	const [open, setOpen] = React.useState(true)
+
 	const navigate = useNavigate();
 
 
-	const categoryList = [
-		{
-			id: 1,
-			img: '/images/test_pic.png',
-			imgAlt: 'This is Gounbeee',
-			title: 'MATH',
-			desc: 'Math is Fun!',
-			url: '/subjects/math'
-		},
-		{
-			id: 2,
-			img: '/images/test_pic.png',
-			imgAlt: 'This is Gounbeee',
-			title: 'PROGRAMMING',
-			desc: 'Programming is Fun!',
-			url: '/subjects/programming'
-		},
-		{
-			id: 3,
-			img: '/images/test_pic.png',
-			imgAlt: 'This is Gounbeee',
-			title: 'CONCREATE POETRY',
-			desc: 'Concreate Poetry is Fun!',
-			url: '/subjects/concreatepoetry'
-		},		
-	]
+
+	// const categoryList = []
 
 
 
@@ -60,21 +42,20 @@ function Subjects() {
 
 
 
-
-
 	const getSubjects = () => {
 
 
 
 		try {
 			console.log("SUBJECT PANEL CALLED")
-
-
 			console.log("1. GETTING DATA LIST FROM DATABASE")
+
 			
 			const targetURL = `/subjects`
 			console.log("UserAdmin ::  TARGET URL IS ")
 			console.log(targetURL)
+
+
 
 			axios.get(targetURL)
 			    .then( res => {
@@ -87,8 +68,23 @@ function Subjects() {
 						// SETTING UP CSRF USING STATE
 						setCsrf_tkn(res.data.csrfToken)
 						axios.defaults.headers.common['CSRF-TOKEN'] = res.data.csrfToken
-	
 
+
+
+						console.log(res)
+
+						if(res.status === 200) {
+
+							const foundCategories = res.data.foundCategories
+							console.log(foundCategories)
+
+
+							setCategoryList(foundCategories)
+
+
+
+
+						}
 
 
 
@@ -131,7 +127,7 @@ function Subjects() {
 
 
 	useEffect(() => {
-		hideWorkArea()
+		//hideWorkArea()
 		getSubjects()
 
 
@@ -168,60 +164,62 @@ function Subjects() {
 	// https://www.pluralsight.com/guides/load-and-render-json-data-into-react-components
 
   return (
-    <div className="animate-fade-in absolute top-0 left-0 w-full h-[550px] z-20 bg-slate-500">
-	    <h2 className="p-10 font-semibold text-2xl">
-	      EXPLORE MORE SUBJECTS!
-	    </h2>
+    <div className="animate-fade-in absolute z-20 bg-slate-500">
+	    
+    	<Backdrop
+				className=""
+				open={open}
+			>
 
-			<Link className="hover:text-ramaa_buttonHover p-10" 
-				  to="/"
-				  onClick={bckBtn}
-				  >EXIT
-			</Link>
+				<div className="w-[80%] h-full">
+
+			    <h2 className="p-10 font-semibold text-3xl">
+			      EXPLORE MORE SUBJECTS!
+			    </h2>
+
+					<Link className="text-2xl hover:text-ramaa_buttonHover p-10" 
+						  to="/"
+						  onClick={bckBtn}
+						  >EXIT
+					</Link>
 
 
-			<div className="grid grid-cols-3 gap-4 place-items-start bg-slate-500 p-10 space-y-7">
+					<div className="grid grid-cols-3 gap-4 place-items-start bg-slate-500 p-10 space-y-7">
 
-				{modalView && ( <ModalConfirmZ id="modal" question={modalQues} /> )}
-				<input name="_csrf" value={csrf_tkn} type="hidden" />
+						<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-				{
-					// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
-					categoryList.map( (mapData, index) => {  
+						{ categoryList &&
+							// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
+							categoryList.map( (mapData, index) => {  
 
-					// -----------------------------------------------------
-					// < ABOUT UNIQUE 'key' WARNING WHEN WE USE map FUNCTION >
-					// https://abillyz.com/moco/studies/380
-					return (
-						
+							// -----------------------------------------------------
+							// < ABOUT UNIQUE 'key' WARNING WHEN WE USE map FUNCTION >
+							// https://abillyz.com/moco/studies/380
+							return (
+								
 
-						<Card key={index} sx={{ maxWidth: 200 }}>
-				      <CardMedia
-				      	component="img"
-				        height="50"
-				        image={mapData.img}
-				        alt={mapData.imgAlt}
-				      />
-				      <CardContent>
-				        <Typography gutterBottom variant="h7" component="div">
-				          {mapData.title}
-				        </Typography>
-				        <Typography variant="body2" color="text.secondary">
-				          {mapData.desc}
-				        </Typography>
-				      </CardContent>
-				      <CardActions>
-				        <Button size="small">Share</Button>
-				        <Link size="small" to={mapData.url} >GO INSIDE</Link>
-				      </CardActions>
-				    </Card>
+								<Card key={index} sx={{ maxWidth: 200 }}>
 
-						)
-					})
-				}
+						      <CardContent>
+						        <Typography gutterBottom variant="h7" component="div">
+						          {mapData.name}
+						        </Typography>
+						        <Typography variant="body2" color="text.secondary">
+						          {mapData?.desc}
+						        </Typography>
+						      </CardContent>
+						      <CardActions>
+						        <Link size="small" to={mapData?.url} >GO INSIDE</Link>
+						      </CardActions>
+						    </Card>
 
-		  </div>
+								)
+							})
+						}
 
+				  </div>
+				</div>  
+			</Backdrop>
     </div>
 
   );          // END OF RETURN
