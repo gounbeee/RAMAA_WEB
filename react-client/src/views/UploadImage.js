@@ -2,36 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { createTheme } from '@mui/material/styles';
 import { Button, TextField } from '@mui/material'
-
 
 import GetUserData from './GetUserData'
 
 
 
 function UploadImage() {
-
-
-
-	// < THEME PROVIDER AND APPLYING THEME !!!! >
-	// https://mui.com/material-ui/customization/palette/#adding-new-colors
-	const theme = createTheme({
-	  status: {
-	    danger: '#e53e3e',
-	  },
-	  palette: {
-	    primary: {
-	      main: '#ff3892',
-	      darker: '#600182',
-	    },
-	    neutral: {
-	      main: '#64748B',
-	      contrastText: '#fff',
-	    },
-	  },
-	});
-
 
 
 	const [userInfo, setUserInfo] = useState(null);
@@ -256,6 +233,7 @@ function UploadImage() {
 				    }}
 			/>
 			<Button
+				color='primary_bg'
 				className="col-start-2 col-end-3"
 				variant="contained" 
 				component="label" 
@@ -287,6 +265,7 @@ function UploadImage() {
 			/>
 
 			<Button 
+				color='primary_bg'
 				className="col-start-2 col-end-5 h-[5em]" 
 				variant="contained" 
 				size="large"

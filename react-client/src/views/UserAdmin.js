@@ -15,7 +15,6 @@ import GetImageList from './GetImageList'
 
 import UploadImage from './UploadImage'
 import CRUDCategory from './CRUDCategory'
-import CRUDCategoryList from './CRUDCategoryList'
 
 
 
@@ -29,12 +28,36 @@ function UserAdmin() {
 	    danger: '#e53e3e',
 	  },
 	  palette: {
-	    primary: {
+	    primary_bg: {
 	      main: '#ff3892',
 	      darker: '#600182',
 	    },
-	    neutral: {
+	    primary_inner: {
+	      main: '#eeeeee',
+	      darker: '#eeeeee',
+	    },
+	    secondary_bg: {
+	      main: '#3f3862',
+	      darker: '#600182',
+	    },
+	    secondary_inner: {
+	      main: '#eeeeee',
+	      darker: '#eeeeee',
+	    },
+	    critical_bg: {
+	    	main: '#Fa1a1a',
+	    	darker: '#ff0000'
+	    },
+	    critical_inner: {
+	    	main: '#eeeeee',
+	    	darker: '#eeeeee'
+	    },
+	    neutral_bg: {
 	      main: '#64748B',
+	      contrastText: '#fff',
+	    },
+	   	neutral_inner: {
+	      main: '#eeeeee',
 	      contrastText: '#fff',
 	    },
 	  },
@@ -323,7 +346,6 @@ function UserAdmin() {
 							<ColoredHLine color="pink" />
 
 							<CRUDCategory />
-							{/*<GetCategoryList />*/}
 
 
 

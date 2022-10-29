@@ -97,7 +97,9 @@ function GetImageList() {
 
 	    	<GetUserData cb_usr={setUserInfo} />
 			
-	    	<Button variant="contained" 
+	    	<Button
+	    		color='secondary_bg' 
+	    		variant="contained" 
 	    		className="col-start-1 col-end-3" 
 				component="label" 
 				size="large"

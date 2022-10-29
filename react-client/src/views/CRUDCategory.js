@@ -2,36 +2,14 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { createTheme } from '@mui/material/styles';
 import { Button, TextField, Stack } from '@mui/material'
 
-
 import GetUserData from './GetUserData'
-//import CRUDCategoryList from './CRUDCategoryList'
 
 
 
 function CRUDCategory() {
 
-
-
-	// < THEME PROVIDER AND APPLYING THEME !!!! >
-	// https://mui.com/material-ui/customization/palette/#adding-new-colors
-	const theme = createTheme({
-	  status: {
-	    danger: '#e53e3e',
-	  },
-	  palette: {
-	    primary: {
-	      main: '#ff3892',
-	      darker: '#600182',
-	    },
-	    neutral: {
-	      main: '#64748B',
-	      contrastText: '#fff',
-	    },
-	  },
-	});
 
 
 
@@ -309,6 +287,8 @@ function CRUDCategory() {
 			/>
 		
 			<Button 
+				sx={{ fontSize: 16 }}
+				color="primary_bg"
 				className="col-start-3 col-end-5" 
 				variant="contained" 
 				size="large"
@@ -319,61 +299,65 @@ function CRUDCategory() {
 			</Button>
 
 
-			<div id="categoryListDom" className="grid grid-cols-2 gap-2 place-items-start">
 
-		    	<GetUserData cb_usr={setUserInfo} />
-				
+	    	<Button 
+	    		color="secondary_bg"
+	    		sx={{ fontSize: 16 }}
+	    		variant="contained" 
+	    		className="col-start-1 col-end-5" 
+				component="label" 
+				size="large"
+				style={{ width : '100%', height: '100%'}}
+				onClick={getListFromDB} >
+				LOAD CATEGORY
+			</Button>
+	    	{categoryList && 
 
+				<Stack 
+				    className="col-start-1 col-end-5"
+					direction="row"
+					sx={{
+						width: '100%'
+					}}
+					spacing={2}
+				>
+			        {	
+			        	// ----------------------------------------------------------------------
+			        	// < HOW TO GET INDEX NUMBEr WHEN USING mpa FUNCTION >
+			        	// https://stackoverflow.com/questions/38364400/index-inside-map-function
 
-		    	<Button variant="contained" 
-		    		className="col-start-1 col-end-3" 
-					component="label" 
-					size="large"
-					style={{ width : '100%', height: '100%'}}
-					onClick={getListFromDB} >
-					LOAD CATEGORY
-				</Button>
-		    	{categoryList && 
+			        	// < WE DO NOT USE key WITH NON-UNIQUE VALUE !!!! >
+			        	// https://zenn.dev/luvmini511/articles/f7b22d93e9c182
 
-					<Stack 
-					    className="grid grid-cols-3 gap-2"
-						direction="row"
-						sx={{
-							width: 500
-						}}
-						spacing={2}
-					>
-				        {	
-				        	// ----------------------------------------------------------------------
-				        	// < HOW TO GET INDEX NUMBEr WHEN USING mpa FUNCTION >
-				        	// https://stackoverflow.com/questions/38364400/index-inside-map-function
+			        	categoryList && categoryList.map((category, index) => (
+				        	<div className="w-[100%] bg-gray-900" key={category._id}>
+				        		<input
+									className="w-[100%] p-2 text-center text-sm col-start-3 col-end-5" 
+									value={`${index} - ${category._id}`}
+									disabled
+								/>
+								<input 
+									type="text"
+									className="p-5 bg-gray-600 w-[100%] text-center text-1xl col-start-3 col-end-5" 
+						 	   		value={categoryList[index]?.name} 
+						 	   		onChange={(e) => onEditCategory(e, index, category._id)}
+								/>
+				        		<Button 
+				        			sx={{ ml: 4, fontSize: 16 }}
+				        			color="primary_bg"
+				        			variant="contained"
+				        			onClick={(e) => onEditCategoryConfirm(e, index, category._id)} >EDIT NOW</Button>
+				        	   	<Button 
+				        	   		sx={{ ml: 4, fontSize: 16, fontWeight: 'bold' }}
+				        	   		color="critical_bg"
+				        	   		onClick={(e) => onDeleteCategory(e, index, category._id)} >DELETE</Button>
+				        	</div>
+			      	))}
+				</Stack>
 
-				        	// < WE DO NOT USE key WITH NON-UNIQUE VALUE !!!! >
-				        	// https://zenn.dev/luvmini511/articles/f7b22d93e9c182
+			}
 
-
-				        	categoryList && categoryList.map((category, index) => (
-					        	<div className="w-[100%] bg-gray-900" key={category._id}>
-					        		<input
-										className="w-[100%] p-2 text-center text-sm col-start-3 col-end-5" 
-										value={`${index} - ${category._id}`}
-										disabled
-									/>
-									<input 
-										type="text"
-										className="p-5 bg-gray-600 w-[100%] text-center text-1xl col-start-3 col-end-5" 
-							 	   		value={categoryList[index]?.name} 
-							 	   		onChange={(e) => onEditCategory(e, index, category._id)}
-									/>
-					        		<Button onClick={(e) => onEditCategoryConfirm(e, index, category._id)} >EDIT</Button>
-					        	   	<Button onClick={(e) => onDeleteCategory(e, index, category._id)} >DELETE</Button>
-					        	</div>
-				      	))}
-					</Stack>
-
-				}
-
-			</div>
+			
 
 		</div>
 
