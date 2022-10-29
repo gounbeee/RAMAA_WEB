@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-import Modal from './Modal'
+import ModalConfirmZ from './ModalConfirmZ'
 
 
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -12,8 +12,10 @@ import { Button, Box, TextField, Backdrop, Stack, Paper, styled } from '@mui/mat
 
 import GetUserData from './GetUserData'
 import GetImageList from './GetImageList'
-import UploadImage from './UploadImage'
 
+import UploadImage from './UploadImage'
+import CRUDCategory from './CRUDCategory'
+import CRUDCategoryList from './CRUDCategoryList'
 
 
 
@@ -285,7 +287,7 @@ function UserAdmin() {
 
 							<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-							{modalView && ( <Modal id="modal" question={modalQues} /> )}
+							{modalView && ( <ModalConfirmZ id="modal" question={modalQues} /> )}
 
 							<div className="grid grid-cols-3 gap-4 place-items-start">
 								<h3>Unique ID</h3>
@@ -314,43 +316,19 @@ function UserAdmin() {
 
 							<ColoredHLine color="pink" />
 
-
 							<UploadImage />
-
 							<GetImageList />
 
 
+							<ColoredHLine color="pink" />
+
+							<CRUDCategory />
+							{/*<GetCategoryList />*/}
 
 
 
 							<ColoredHLine color="pink" />
 
-
-
-
-
-
-							<div className="grid grid-cols-2 gap-2 place-items-start">
-
-								<p>Categories in Database</p>
-								<div className="w-full grid grid-cols-2 gap-2">
-
-									<Stack 
-										direction="column"
-										sx={{
-											width: 400
-										}}
-										spacing={2}>
-
-									  <ImgItem>Item 1</ImgItem>
-									  <ImgItem>Item 2</ImgItem>
-									  <ImgItem>Item 3</ImgItem>
-
-									</Stack>
-								
-								</div>
-
-							</div>
 
 
 

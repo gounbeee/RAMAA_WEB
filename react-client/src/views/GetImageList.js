@@ -103,7 +103,7 @@ function GetImageList() {
 				size="large"
 				style={{ width : '100%', height: '100%'}}
 				onClick={getListFromDB} >
-				LOAD
+				LOAD IMAGES
 			</Button>
 	    	{imgList && 
 				<ImageList 

@@ -18,7 +18,7 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
 // OUR ORIGINAL UI PARTS
-import Modal from '../../Modal'
+import ModalConfirmZ from '../../ModalConfirmZ'
 // import SubjectCard from './SubjectCard'
 
 
@@ -315,7 +315,7 @@ function SubjectMath() {
 
 			<div className="grid grid-cols-10 gap-4 place-items-start bg-slate-500 p-10 space-y-7">
 
-				{modalView && ( <Modal id="modal" question={modalQues} /> )}
+				{modalView && ( <ModalConfirmZ id="modal" question={modalQues} /> )}
 				<input name="_csrf" value={csrf_tkn} type="hidden" />
 
 				{

@@ -28,10 +28,6 @@ import toast from 'react-hot-toast'
 
 
 
-import Modal from './Modal'
-
-
-
 
 // < useEffect FUNCTION IN REACT >
 // https://jasonwatmore.com/post/2020/07/17/react-axios-http-get-request-examples

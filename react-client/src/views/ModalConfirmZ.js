@@ -23,7 +23,8 @@ import axios from "axios"
 // DEFINE LOGIN FUNCTION COMPONENT IN REACT
 function Modal(props) {
 
-	const [inputValue, setInputValue] = useState("")
+	const [inputValue, setInputValue] = useState(props.value)
+	const [question, setQuestion] = useState(props.question)
 
 
 	const navigate = useNavigate();
