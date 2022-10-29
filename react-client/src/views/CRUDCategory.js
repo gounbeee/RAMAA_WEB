@@ -275,7 +275,7 @@ function CRUDCategory() {
 
 			<TextField
 				id="outlined-textarea"
-				label="Category Name"
+				label="New Category Name"
 				placeholder=""
 				variant="filled"
 				value={categoryCreate}
@@ -309,7 +309,7 @@ function CRUDCategory() {
 				size="large"
 				style={{ width : '100%', height: '100%'}}
 				onClick={getListFromDB} >
-				LOAD CATEGORY
+				LOAD MY CATEGORIES
 			</Button>
 	    	{categoryList && 
 

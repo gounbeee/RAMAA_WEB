@@ -29,11 +29,15 @@ const subjectScheme = new mongoose.Schema({
 		type: String,
 		required: true
 	},
+	userEmail: {
+		type: String,
+		required: true
+	},
 	descriptions: {
 		type: String,
 		required: true
 	},
-	json_data: {
+	json_path: {
 		type: String,
 		required: true
 	},

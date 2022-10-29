@@ -480,16 +480,16 @@ app.use(cors({
 // 
 // 
 //
-const fileStorage = multer.diskStorage({
+const fileStorageImg = multer.diskStorage({
   destination: (req, file, cb) => {
-    // console.log("multer.diskStorage :: destination --> req IS... ")
-    // console.log(req)
+    console.log("multer.diskStorage :: destination --> req IS... ")
+    console.log(req)
 
-    // console.log("multer.diskStorage :: destination --> file IS... ")
-    // console.log(file)
+    console.log("multer.diskStorage :: destination --> file IS... ")
+    console.log(file)
 
-    // console.log("multer.diskStorage :: destination --> cb IS... ")
-    // console.log(cb)
+    console.log("multer.diskStorage :: destination --> cb IS... ")
+    console.log(cb)
 
 
     // **** WE WILL USE req.body.email FOR THE FOLDER NAME TO STORE THE FILE ****
@@ -537,7 +537,7 @@ const fileStorage = multer.diskStorage({
 
 
 // FILE FORMAT CHECK !!!!
-const filterFormulter = (req, file, cb) => {
+const filterFormulterImg = (req, file, cb) => {
 
 
   if( file.mimetype === 'image/png' || 
@@ -563,13 +563,10 @@ const filterFormulter = (req, file, cb) => {
 // var type = upload.single('uploadingImage')
 //
 app.use(multer({
-  storage: fileStorage, 
-  fileFilter: filterFormulter
+  storage: fileStorageImg, 
+  fileFilter: filterFormulterImg
 })
 .single('uploadingImage'))
-
-
-
 
 
 

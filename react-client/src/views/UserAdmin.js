@@ -15,6 +15,7 @@ import GetImageList from './GetImageList'
 
 import UploadImage from './UploadImage'
 import CRUDCategory from './CRUDCategory'
+import CRUDSubject from './CRUDSubject'
 
 
 
@@ -353,40 +354,10 @@ function UserAdmin() {
 
 
 
-
-							<div className="grid grid-cols-2 gap-2 place-items-start">
-
-								<p>Subjects in Database</p>
-								<div className="w-full grid grid-cols-2 gap-2">
-
-									<Stack 
-										direction="column"
-										sx={{
-											width: 400
-										}}
-										spacing={2}>
-
-									  <ImgItem>Item 1</ImgItem>
-									  <ImgItem>Item 2</ImgItem>
-									  <ImgItem>Item 3</ImgItem>
-									  <ImgItem>Item 3</ImgItem>
-									  <ImgItem>Item 3</ImgItem>
-									  <ImgItem>Item 3</ImgItem>
-									  <ImgItem>Item 3</ImgItem>
-									  <ImgItem>Item 3</ImgItem>
-
-									</Stack>
-								
-								</div>
-
-							</div>
+							<CRUDSubject />
 
 
-
-
-
-
-
+							<ColoredHLine color="pink" />
 
 
 

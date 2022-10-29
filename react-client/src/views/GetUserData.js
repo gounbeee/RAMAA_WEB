@@ -100,6 +100,17 @@ function GetUserData(props) {
 							}
 
 
+							// SETTING PATH URL FOR UPLOADING JSON FILE
+							//console.log(userInfo)
+							if(props.cb_jsonPath) {
+								const jsonUpPth = `/member-area/${res_usr.data.userData.name}/uploadjson`
+								props.cb_jsonPath(jsonUpPth)
+							}
+
+							
+
+
+
 					} else {
 						console.log( res_usr )
 						toast.error("Error occured when getting user data")

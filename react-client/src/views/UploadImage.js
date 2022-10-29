@@ -116,9 +116,9 @@ function UploadImage() {
 		    imgFormData.append('uploadingImage', e.target.files[0]);
 		    
 
-		    //console.log(imgFormData)
+		    //
 		    setFormImg(imgFormData);
-		     
+		    console.log(imgFormData)
 
 		}
 	}
@@ -260,7 +260,7 @@ function UploadImage() {
 				disabled
 				style={{
 					width: '100%',
-						backgroundColor: "#CCCCCC"
+					backgroundColor: "#CCCCCC"
 				}}
 			/>
 
