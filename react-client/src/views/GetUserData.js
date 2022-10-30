@@ -1,6 +1,6 @@
 import React, { useState, useEffect, } from "react";
 import toast from "react-hot-toast";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 

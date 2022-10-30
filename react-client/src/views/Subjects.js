@@ -205,7 +205,7 @@ function Subjects() {
 												//console.log(category.targetUrl)
 												setNextRoute(category.targetUrl)
 												setShowDetails(true)
-												//navigate(category.targetUrl)
+												navigate(category.targetUrl)
 
 											}} 
 										  key={category._id} sx={{ minWidth: 300, minHeight: 200 }}>

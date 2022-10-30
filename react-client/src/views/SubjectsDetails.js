@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Backdrop, Breadcrumbs } from '@mui/material'
 
@@ -24,11 +24,13 @@ import ModalConfirmZ from './ModalConfirmZ'
 
 function SubjectsDetails(props) {
 
+	let {categoryName} = useParams()
 
 	const [subjectList, setSubjectList] = useState()
 	const [open, setOpen] = React.useState(true)
 
-	const navigate = useNavigate();
+	const navigate = useNavigate()
+	const location = useLocation()
 
 	// const categoryList = []
 
@@ -42,6 +44,9 @@ function SubjectsDetails(props) {
 
 
 		try {
+
+			console.log('PARAMS VALUE IS BELOW...')
+			console.log(categoryName)
 
 			console.log("BELOW VALUE PASSED FROM PREVIOUS ROUTE")
 			console.log(props.pathName)
@@ -70,8 +75,6 @@ function SubjectsDetails(props) {
 						// setCsrf_tkn(res.data.csrfToken)
 						// axios.defaults.headers.common['CSRF-TOKEN'] = res.data.csrfToken
 
-
-
 						console.log(res)
 
 						if(res.status === 200) {
@@ -81,8 +84,6 @@ function SubjectsDetails(props) {
 
 
 							setSubjectList(foundSubjects)
-
-
 
 
 						}
@@ -107,25 +108,44 @@ function SubjectsDetails(props) {
 
 		console.log("LOAD THE JSON FILE !!!")
 
-		console.log(e)
-		console.log(subject)
+		// console.log(e)
+		// console.log(subject)
+
+		// OUR CURRENT PATH IS /subjects/math
+		// 										 ~~~~~~~~
+		//
+		// SO NEEDED TO ADJUST
+
+		// < GETTING CURRENT FULL PATH >
+		//https://stackoverflow.com/questions/39823681/read-the-current-full-url-with-react
+		// http://localhost:3000/subjects/math
+
+		//console.log(window.location.href)
+		
+		let currentFullPath = window.location.href
+		const pathForJson = currentFullPath.split('/')
+		//console.log(pathForJson)
+
+		const fullPath = pathForJson[0] + '//' + pathForJson[2] + '/' + subject.json_path
+		//console.log(fullPath)
+
+
 
 
 		// https://stackoverflow.com/questions/40385133/retrieve-data-from-a-readablestream-object
 		// 
-		await fetch(subject.json_path)
+		await fetch(fullPath)
 			.then((res) => {
 
-				console.log(res)
-
-				console.log(res.body)
+				//console.log(res)
+				//console.log(res.body)
 
 				return res.json()
 
 		})
 			.then((data) => {
 
-				console.log(data)
+				//console.log(data)
 
 				// **** CONNECTION WITH PUBLIC JAVASCRIPT APP ****
 				//
@@ -191,28 +211,6 @@ function SubjectsDetails(props) {
 	},[])
 
 
-
-
-	// < TOGGLING COMPONENT WITH FLAG >
-	// https://bobbyhadz.com/blog/react-onclick-show-component
-	//
-	// + WITH BELOWS
-	// <Link className="ml-16 cursor-pointer hover:text-ramaa_buttonHover" onClick={showModal}>modal TEST</Link>
-	// {modalView && ( <Modal id="testId" question="Change your name ?" /> )}
-	const [modalView, setModalView] = useState(false);
-	const [modalQues, setModalQues] = useState("Initial Question");
-
-
-	const showModal = (ev) => {
-
-		console.log(ev)
-
-		//setModalQues("SECOND QUESTION")
-
-		setModalView(current => !current)
-
-
-	}
 
 
 

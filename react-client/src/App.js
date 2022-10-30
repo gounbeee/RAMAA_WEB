@@ -103,13 +103,11 @@ function App() {
             </PublicRoutes>
           } >
 
+          <Route path=':categoryName' element={ <PublicRoutes><SubjectsDetails/></PublicRoutes> } />
 
         </Route>
         
-        <Route path='/subjects/math' element={ <PublicRoutes><SubjectsDetails/></PublicRoutes> } />
-        <Route path='/subjects/programming' element={ <PublicRoutes><SubjectsDetails/></PublicRoutes> } />
-        <Route path='/subjects/concreatepoetry' element={ <PublicRoutes><SubjectsDetails/></PublicRoutes> } />  
-        
+
         <Route path='/api/auth/login' 
           element={ 
             <PublicRoutes>
