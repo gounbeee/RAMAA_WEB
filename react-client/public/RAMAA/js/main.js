@@ -2,15 +2,19 @@
 
 import {RMMain} from "./RMMain.mjs"
 
-
+let ramaa_app
 
 // ENTRY POINT OF THIS APP
 (function() {
-  let main
+  
   document.addEventListener("DOMContentLoaded", ()=>{
-    main = new RMMain()
-    main.initialize()
+    ramaa_app = new RMMain()
+    ramaa_app.initialize()
 
   })
 
 })()
+
+
+
+window.ramaa_app = RMMain

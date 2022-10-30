@@ -66,6 +66,57 @@ class SourceManager {
   }
 
 
+  loadFromJsonReact(data, stateObj) {
+    //-// console.log("%% SourceManager.mjs :: MENU - saveToJson BUTTON CLICKED")
+
+    // 1. OPEN DIALOG BOX TO SELECT FILE
+    // DONE AT StateEditting.mjs : 239
+
+    // 2. PARSE THE INPUT (JSON FILE)
+    const parsedJson = data
+
+    // WE DO NOT NEED FILE NAME ANYMORE
+    delete parsedJson['fileName']
+    //-// console.log(parsedJson)
+
+    // 3. OVERWRITE CURRENT ANIMTION TIMELINE
+
+    // DELETE ALL SHAPES, ANIMATIONS AND LOCAL STORAGES
+    //let stateEditting = new StateEditting()
+    stateObj.remove()
+
+    // LOAD NEW DATA TO STORAGE
+    let newStore = localStorage
+
+    for ( let keyName in parsedJson) {
+      newStore.setItem(keyName, JSON.stringify(parsedJson[keyName]))
+    }
+
+
+    // USING STATEMACHINE, POP CURRENT STATE AND RE-START
+    let stateMachineSM = new StateMachine()
+    //stateMachineSM.changeState('EDITTING')
+
+    stateMachineSM.popState()
+
+    // ROUTE TO NEXT STATE ACCORDING TO stateObj
+    let stateName
+    switch(stateObj.name) {
+      case 'moving':
+        stateName = 'MOVING'
+      break
+      case 'editting':
+        stateName = 'EDITTING'
+      break
+      case 'boardgame':
+        stateName = 'BOARDGAME'
+      break
+
+    }
+    stateMachineSM.changeState(stateName)
+
+  }
+
 
 
   saveToJson(settings, objData) {

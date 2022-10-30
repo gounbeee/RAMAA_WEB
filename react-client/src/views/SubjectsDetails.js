@@ -127,9 +127,27 @@ function SubjectsDetails(props) {
 
 				console.log(data)
 
+				// **** CONNECTION WITH PUBLIC JAVASCRIPT APP ****
+				//
+				//
+				
+				// WE HAVE EXPORTED ramaa_app TO window OBJECT
+				//console.log(window.ramaa_app)
+				
+				// STATE OBJECT FROM STATEMACHINE 
+				let RM_currentState = window.ramaa_app.instance.stateMachine.stateStack[0]
+				//console.log(RM_currentState)
+
+				// SOURCEMANAGER
+				let RM_sourceManager = RM_currentState.sourceManager
+				//console.log(RM_sourceManager)
 
 
+				// USE THAT METHOD
+				RM_sourceManager.loadFromJsonReact(data, RM_currentState)
 
+
+				navigate('/')
 
 
 		})
