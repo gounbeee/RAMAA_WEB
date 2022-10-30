@@ -37,6 +37,70 @@ const Subject = require('../models/Subject')
 
 
 
+router.post("/:subjectcategory",  async (req, res) => {
+
+	console.log( "OK, RETRIEVING SUBJECTS FROM THIS USER'S DATABASE..." )
+	console.log(req.body)
+	console.log(req.url)
+
+
+	// ------------------------------------------------------------------------------------------
+
+	// THIS IF FOR PUBLIC SO WE USED STATIC EMAIL VALUE
+	const foundSubjects = await Subject.find({userEmail: process.env.EMAIL_ADDRESS, keywords: req.body.categoryName})
+
+
+	// < find() IN MONGOOSE >
+	// find() MONGOOSE FUNCTION WILL RETURN LIKE BELOW...
+
+	// [
+	//   {
+	//     _id: new ObjectId("635a1d9ef5c71dc15015919d"),
+	//     imgOwner: 'gounbeee@gmail.com',
+	//     imgPath: 'images/gounbeee@gmail.com/2022-10-27T05:56:46.450Z_BANNER_GOUNBEEE.png',
+	//     imgAlt: '444',
+	//     imgTitle: '123',
+	//     imgDesc: '333',
+	//     __v: 0
+	//   },
+	//   {
+	//     _id: new ObjectId("635a1e81049f27f284f5691c"),
+	//     imgOwner: 'gounbeee@gmail.com',
+	//     imgPath: 'images/gounbeee@gmail.com/2022-10-27T06:00:33.193Z_PROFILE_GOUNBEEE.png',
+	//     imgAlt: 'ccc3333',
+	//     imgTitle: 'aa111',
+	//     imgDesc: 'bb222',
+	//     __v: 0
+	//   }
+	// ]
+
+	console.log(foundSubjects)
+
+
+	// ******************************
+	// BECAUSE THIS IS HTTP PROTOCOL,
+	// WE CAN NOT SEND MULTIPLE FILES AT ONCE !!!!
+	//https://stackoverflow.com/questions/70656776/is-it-possible-to-use-the-sendfile-response-method-in-node-express-to-send-to
+
+
+	// -------------------------------------------------------
+	// < READING FILES WITH NODE JS >
+	// https://nodejs.dev/en/learn/reading-files-with-nodejs/
+	//
+
+	res.status(200).send({
+
+		success: true,
+		message: "RETRIEVING SUBJECTS FROM THIS USER'S DATABASE OK",
+		foundSubjects: foundSubjects
+
+	})
+
+})
+
+
+
+
 router.get("/", csrfProtection, async (req,res) => {
 
 	try {

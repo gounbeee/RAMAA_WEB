@@ -636,7 +636,8 @@ const authRoute        = require("./routes/auth");
 const userRoute        = require("./routes/user");
 const memberAreaRoute  = require("./routes/memberArea");
 const subjectsRoute    = require("./routes/subjects");
- 
+const sourceController = require('./routes/source.js')
+
 
  
 // SETTING ROUTES
@@ -666,8 +667,10 @@ app.use("/subjects",            subjectsRoute);
 
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use('/images', express.static(path.join(__dirname, 'images')))
+app.use('/jsons', express.static(path.join(__dirname, 'jsons')))
 
 
+app.post('/save-to-json', sourceController.postSaveToJson)
 
 
 // // SETTING UP BODY PARSER

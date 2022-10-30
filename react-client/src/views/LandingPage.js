@@ -26,7 +26,7 @@ import axios from "axios";
 // 
 import toast from 'react-hot-toast'
 
-
+import GetUserData from './GetUserData'
 
 
 // < useEffect FUNCTION IN REACT >
@@ -53,6 +53,7 @@ function LandingPage() {
 
 	// USING STATE FOR GETTING USER
 	const [userInfo, setUserInfo] = useState(null);
+	const [csrf_tkn, setCsrf_tkn] = useState("");
 
 	// PROGRAMATICAL ROUTING
 	const navigate = useNavigate();
@@ -71,35 +72,6 @@ function LandingPage() {
 		}
 
 	}
-
-
-
-	// const openUsrAdmin = async () => {
-
-	// 	console.log("OPEN USER ADMIN PAGE")
-
-	// 	const token = sessionStorage.getItem("user");
-
-	// 	const targetUrl = `/member-area/${userInfo.name}`
-
-	// 	const response = await axios.get(targetUrl, {
-
-	// 									// HEADER SETTING FOR JWT TOKEN HANDLING
-	// 									// IT SHOULD BE AN ARRAY WITH
-	// 									// Bearer ELEMENT FIRST !
-	// 									// https://www.permify.co/post/jwt-authentication-in-react
-	// 									headers: {
-	// 									  Authorization: `Bearer ${token}`,
-	// 									},
-
-	// 								})
-	// 								.then((result)=> {
-	// 									console.log(result)
-	// 									navigate(targetUrl)
-	// 								})
-	// }
-
-
 
 
 	// 
@@ -236,6 +208,10 @@ function LandingPage() {
 
 	return (
 		<div className="text-1xl inline-flex p-1">
+		    <GetUserData cb_csrf={setCsrf_tkn} />
+			<input id="_csrfLandingPage" name="_csrf" value={csrf_tkn} type="hidden" />
+
+
 			{userInfo !== null && (
 				<div className="inline-flex">
 					<div className="ml-10">
@@ -259,7 +235,7 @@ function LandingPage() {
 
 			)}
 		
-			{userInfo == null && (
+			{userInfo === null && (
 				<div className="ml-40">
 					<Link className="ml-40 cursor-pointer hover:text-ramaa_buttonHover" to="/subjects">SUBJECTS</Link>
 					<Link className="hidden ml-20 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/login">LOGIN</Link>

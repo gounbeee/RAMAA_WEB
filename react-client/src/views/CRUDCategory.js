@@ -151,18 +151,14 @@ function CRUDCategory() {
 
 			console.log("UPDATING CATEGORY IN SERVER IS OK !!!!")
 
-
 			// REFRESH DISPLAY 
-
 			getListFromDB()
 
-
-
-
 		}
-
-
 	}
+
+
+
 
 	const onDeleteCategory = async(e, index, id) => {
 

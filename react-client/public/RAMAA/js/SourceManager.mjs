@@ -74,7 +74,9 @@ class SourceManager {
     let fn = settings.fileName
     objData.fileName = fn
 
-    const csrfToken = document.getElementById('csrfToken_index').value
+
+    console.log(document.getElementById('_csrfLandingPage').value)
+    const csrfToken = document.getElementById('_csrfLandingPage').value
 
 
     //-// console.log('1. BEFORE FETCH')

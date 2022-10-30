@@ -58,7 +58,7 @@ function Modal(props) {
 	return (
 
 		<div id={props.id} className="fixed h-full w-full flex items-center justify-center bg-opacity-50 bg-gray-900 z-50">
-			<div className="animate-fade-in bg-opacity-50 bg-ramaa_darkblue ">
+			<div className="bg-ramaa_darkblue ">
 				<div className="px-20 py-14 text-center ">
 					<h3 className="text-4xl">{props.question}</h3>
 					<input className="text-ramaa_inputText border-none focus:outline-none p-3 my-10 text-2xl" 

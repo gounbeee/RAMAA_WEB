@@ -549,11 +549,12 @@ class StateEditting extends State {
       //-// console.log("%% StateEditting.mjs :: MENU - sourceBtnExportJsonClick BUTTON CLICKED")
 
       const fileNm = this.svgId = new Security().getUUIDv4() + ".json"
+      const newFileName = 'GiveNameForThis_' + fileNm
       //console.log(fileNm)
 
       // THIS WILL BE THE FILENAME OF EXPORTED JSON FILE
       let settings = {
-        fileName: fileNm,
+        fileName: newFileName,
       }
 
       // GETTING OBJECT FROM LOCAL STORAGE
@@ -1041,8 +1042,8 @@ class StateEditting extends State {
     }
 
 
-    this.aboutBtn.removeEventListener("click", this.aboutBtnClick )
-    this.aboutBtnAbout.removeEventListener("click", this.aboutBtnAboutClick )
+    if(this.aboutBtn) this.aboutBtn.removeEventListener("click", this.aboutBtnClick )
+    if(this.aboutBtnAbout) this.aboutBtnAbout.removeEventListener("click", this.aboutBtnAboutClick )
 
     if(this.aboutBtnConfig) this.aboutBtnConfig.removeEventListener("click", this.aboutBtnConfigClick )
     if(this.aboutBtnCollab) this.aboutBtnCollab.removeEventListener("click", this.aboutBtnCollabClick )

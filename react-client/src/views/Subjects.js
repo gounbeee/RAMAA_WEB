@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -10,14 +10,15 @@ import { Card,
 	       CardContent,
 	       CardMedia,
 	       Button,
-	       Typography
+	       Typography,
+	       CardActionArea
   } from '@mui/material'
 
 
 
 // OUR ORIGINAL UI PARTS
 import ModalConfirmZ from './ModalConfirmZ'
-import SubjectCard   from './SubjectCard'
+import SubjectsDetails from './SubjectsDetails'
 
 
 
@@ -30,6 +31,8 @@ function Subjects() {
 
 	const navigate = useNavigate();
 
+	const [nextRoute, setNextRoute] = useState('')
+	const [showDetails , setShowDetails] = useState(false)
 
 
 	// const categoryList = []
@@ -69,15 +72,12 @@ function Subjects() {
 						setCsrf_tkn(res.data.csrfToken)
 						axios.defaults.headers.common['CSRF-TOKEN'] = res.data.csrfToken
 
-
-
-						console.log(res)
+						//console.log(res)
 
 						if(res.status === 200) {
 
 							const foundCategories = res.data.foundCategories
 							console.log(foundCategories)
-
 
 							setCategoryList(foundCategories)
 
@@ -86,8 +86,6 @@ function Subjects() {
 
 						}
 
-
-
 					})
 
 		} catch (err) {
@@ -95,8 +93,6 @@ function Subjects() {
 			console.log(err)
 
 		}
-
-
 
 	}
 
@@ -130,8 +126,9 @@ function Subjects() {
 		//hideWorkArea()
 		getSubjects()
 
-
 	},[])
+
+
 
 
 
@@ -164,62 +161,80 @@ function Subjects() {
 	// https://www.pluralsight.com/guides/load-and-render-json-data-into-react-components
 
   return (
-    <div className="animate-fade-in absolute z-20 bg-slate-500">
+    <div className="absolute z-20 bg-slate-500">
 	    
-    	<Backdrop
-				className=""
-				open={open}
-			>
-
-				<div className="w-[80%] h-full">
-
-			    <h2 className="p-10 font-semibold text-3xl">
-			      EXPLORE MORE SUBJECTS!
-			    </h2>
-
-					<Link className="text-2xl hover:text-ramaa_buttonHover p-10" 
-						  to="/"
-						  onClick={bckBtn}
-						  >EXIT
-					</Link>
+				{ showDetails &&
+					<SubjectsDetails pathName={nextRoute} />
+				}
 
 
-					<div className="grid grid-cols-3 gap-4 place-items-start bg-slate-500 p-10 space-y-7">
+				{ !showDetails &&
 
-						<input name="_csrf" value={csrf_tkn} type="hidden" />
+		    	<Backdrop
+						className=""
+						open={open}
+					>
 
-						{ categoryList &&
-							// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
-							categoryList.map( (mapData, index) => {  
+						<div className="w-[90%] h-full">
 
-							// -----------------------------------------------------
-							// < ABOUT UNIQUE 'key' WARNING WHEN WE USE map FUNCTION >
-							// https://abillyz.com/moco/studies/380
-							return (
-								
+					    <h2 className="p-10 font-semibold text-3xl">
+					      EXPLORE MORE SUBJECTS!
+					    </h2>
 
-								<Card key={index} sx={{ maxWidth: 200 }}>
+							<Link className="text-2xl hover:text-ramaa_buttonHover p-10" 
+								  to="/"
+								  onClick={bckBtn}
+								  >EXIT
+							</Link>
 
-						      <CardContent>
-						        <Typography gutterBottom variant="h7" component="div">
-						          {mapData.name}
-						        </Typography>
-						        <Typography variant="body2" color="text.secondary">
-						          {mapData?.desc}
-						        </Typography>
-						      </CardContent>
-						      <CardActions>
-						        <Link size="small" to={mapData?.url} >GO INSIDE</Link>
-						      </CardActions>
-						    </Card>
+							<div className="mt-20 grid grid-cols-3 gap-4 place-items-start">
 
-								)
-							})
-						}
+								<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-				  </div>
-				</div>  
-			</Backdrop>
+								{ categoryList &&
+									// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
+									categoryList.map( (category, index) => {  
+
+									// -----------------------------------------------------
+									// < ABOUT UNIQUE 'key' WARNING WHEN WE USE map FUNCTION >
+									// https://abillyz.com/moco/studies/380
+									return (
+										
+										<Card 
+											onClick={ e => {
+												//console.log(category.targetUrl)
+												setNextRoute(category.targetUrl)
+												setShowDetails(true)
+												//navigate(category.targetUrl)
+
+											}} 
+										  key={category._id} sx={{ minWidth: 300, minHeight: 200 }}>
+											
+											<Link>
+									      <CardContent sx={{ minWidth: 300, minHeight: 200 }}>
+									        <Typography gutterBottom variant="h5" component="div">
+									          {category.name}
+									        </Typography>
+									        <Typography variant="body1" color="text.secondary">
+									          {category?.descriptions}
+									        </Typography>
+									      </CardContent>
+								      </Link>
+
+								    </Card>
+
+										)
+									})
+								}
+
+						  </div>
+						</div>
+
+					</Backdrop>
+
+				}
+
+			
     </div>
 
   );          // END OF RETURN

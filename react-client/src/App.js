@@ -20,9 +20,10 @@ import EmailVerify from "./views/EmailVerify";
 import PasswordReset from "./views/PasswordReset";
 import UserAdmin from "./views/UserAdmin";
 import Subjects from "./views/Subjects";
+import SubjectsDetails from "./views/SubjectsDetails";
 
 
-import SubjectMath from "./views/subjects/math/SubjectMath";
+//import SubjectMath from "./views/subjects/math/SubjectMath";
 
 
 
@@ -100,29 +101,15 @@ function App() {
             <PublicRoutes>
               <Subjects/> 
             </PublicRoutes>
-          } />
-                
-        <Route path='/subjects/math' 
-          element={ 
-            <PublicRoutes>
-              <SubjectMath/> 
-            </PublicRoutes>
-          } />
-          
-        <Route path='/subjects/programming' 
-          element={ 
-            <PublicRoutes>
-              <SubjectMath/> 
-            </PublicRoutes>
-          } />
+          } >
 
-        <Route path='/subjects/concreatepoetry' 
-          element={ 
-            <PublicRoutes>
-              <SubjectMath/> 
-            </PublicRoutes>
-          } />
 
+        </Route>
+        
+        <Route path='/subjects/math' element={ <PublicRoutes><SubjectsDetails/></PublicRoutes> } />
+        <Route path='/subjects/programming' element={ <PublicRoutes><SubjectsDetails/></PublicRoutes> } />
+        <Route path='/subjects/concreatepoetry' element={ <PublicRoutes><SubjectsDetails/></PublicRoutes> } />  
+        
         <Route path='/api/auth/login' 
           element={ 
             <PublicRoutes>
@@ -152,6 +139,9 @@ function App() {
             </PublicRoutes>
           }
         />
+
+        <Route path='*' element={<LandingPage/>} /> 
+
       </Routes>
     </BrowserRouter>
   )
