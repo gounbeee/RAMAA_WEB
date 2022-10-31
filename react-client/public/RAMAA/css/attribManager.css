@@ -16,6 +16,8 @@
 
 .bl_btn_deleteall:hover {
 
+  color: #FF2222;
+
 /*  background-color: #daa5ff;*/
 }
 
@@ -292,7 +294,7 @@
   height: 40px;
   position: absolute;
   margin-left: 2%;
-
+  font-weight: 700;
 }
 
 
@@ -390,6 +392,7 @@
 
 
 .ly_zoomSelect {
+  padding-top: 0.2em;
   margin-left: 12em;
   display: block;
   width:  8em;

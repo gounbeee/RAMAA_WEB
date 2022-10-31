@@ -96,7 +96,7 @@ function Subjects(props) {
 	const bckBtn = async () => {
 		console.log("BACK BUTTON IS PRESSED")
 		showFooter()
-		
+
 	}
 
 	useEffect(() => {
@@ -116,7 +116,7 @@ function Subjects(props) {
   	return (
 	  	<UserContext.Provider value={showDetails} >
 
-	    	<div className="">
+	    	<div className="animate-fade-in">
 		    
 		    	<Backdrop 
 		    		className=""
@@ -126,10 +126,6 @@ function Subjects(props) {
 
 					<div className="p-20 w-[30%] h-full">
 						<input name="_csrf" value={csrf_tkn} type="hidden" />
-
-					    <h2 className="font-semibold text-3xl mb-10">
-					      EXPLORE MORE SUBJECTS!
-					    </h2>
 
 						<Link className="text-2xl hover:text-ramaa_buttonHover" to="/" onClick={bckBtn}>
 						EXIT

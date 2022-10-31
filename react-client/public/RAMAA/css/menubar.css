@@ -26,8 +26,8 @@
 
 .bl_menu_list {
   background-color: #b5303e;
-  border-width: medium;
-  border-color: #5a2122;
+/*  border-width: medium;
+  border-color: #5a2122;*/
   font-size: 1.0em;
   font-weight: bold;
 
@@ -78,8 +78,8 @@
   cursor: pointer;
   text-align: center;
   text-decoration: none;
-  outline: none;
-  color: #fff;
+  /*outline: none;*/
+  /*color: #fff;*/
   background-color: #AA9999;
   border: none;
   font-family: 'nsjp';
@@ -104,7 +104,7 @@
   color: #FFAFFA;
   font-size: 1em;
   font-weight: 700;
-  height: 27px;
+  height: 30px;
   
 }
 
@@ -273,7 +273,7 @@
 
 .ly_menu_list {
 
-  padding: 8px 16px 16px 16px;
+  padding: 16px 16px 20px 16px;
   position: absolute;
   z-index: 10;
 

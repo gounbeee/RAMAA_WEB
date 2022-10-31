@@ -436,7 +436,6 @@ class Canvas {
       // STORE CURRENT VALUE
       this.canvas_dom.dataset.xSaved = -1.0 * viewPosX ;
       this.canvas_dom.dataset.ySaved = -1.0 * viewPosY ;
-
     });
 
 
