@@ -11,13 +11,14 @@ import { Card,
 	       CardMedia,
 	       Button,
 	       Typography,
-	       CardActionArea,
-	       Box
+	       CardActionArea
   } from '@mui/material'
 
 
 
-import {hideFooter, showFooter} from './GlobalFunctions'
+// OUR ORIGINAL UI PARTS
+import ModalConfirmZ from './ModalConfirmZ'
+
 
 
 
@@ -206,27 +207,7 @@ function SubjectsDetails(props) {
 	},[])
 
 
-	const getColor = (genreNm) => {
 
-		switch(genreNm) {
-
-			case "math":
-				return "red"
-			break
-
-			case "programming":
-				return "blue"
-			break
-
-			case "concreatepoetry":
-				return "green"
-			break
-
-
-
-		}
-
-	}
 
 
 	// < REACT'S MATERIAL UI :: CARD >
@@ -235,43 +216,51 @@ function SubjectsDetails(props) {
 
   return (
 
-    <div className="">
+    <div className="overflow-y-scroll">
 
-				  <h2 className="py-10 font-semibold text-5xl">
+				  <h2 className="p-10 font-semibold text-3xl">
 				      {props.pathName}
 				  </h2>
 
+					<Link className="text-2xl hover:text-ramaa_buttonHover p-10" 
+						  onClick={bckBtn}
+						  >BACK
+					</Link>
 
-					<input name="_csrf" value={csrf_tkn} type="hidden" />
+					<div className="mt-10 grid grid-cols-3 gap-4 place-items-start">
 
-							{ subjectList &&
-								// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
-								subjectList.map( (subject, index) => 
+						<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-									<div
-										className="w-[80%] p-12 border border-amber-200 hover:text-ramaa_buttonHover my-10" 
-										onClick={ e => { 
-											showFooter() 
-											loadJsonSubject(e, subject)
-										}} 
-										key={subject._id} 
-									>
-										
-										<h1 className="text-3xl" >
-										{subject.title}
-										</h1> 
+						{ subjectList &&
+							// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
+							subjectList.map( (subject, index) => {  
 
-										<h3>
-										{subject.descriptions} 
-										</h3>
-										<h3>
-										{subject.liked} 
-										</h3>
-
-									</div>
-
+							// -----------------------------------------------------
+							// < ABOUT UNIQUE 'key' WARNING WHEN WE USE map FUNCTION >
+							// https://abillyz.com/moco/studies/380
+							return (
+								
+								<Card key={subject._id} sx={{ minWidth: 200, minHeight: 200 }}>
+									<Link onClick={ (e) => { loadJsonSubject(e, subject) }} >
+							      <CardContent sx={{ minWidth: 200, minHeight: 200 }}>
+							        <Typography gutterBottom variant="h5" component="div">
+							          {subject.title}
+							        </Typography>
+							        <Typography variant="body1" color="text.secondary">
+							          {subject?.descriptions}
+							        </Typography>
+							        <Typography variant="body1" color="text.secondary">
+							          {subject?.liked}
+							        </Typography>
+							        
+							      </CardContent>
+						      </Link>
+						    </Card>
 								)
-							}
+							})
+						}
+
+				</div>
 
     </div>
 

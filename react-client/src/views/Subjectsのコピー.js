@@ -11,12 +11,10 @@ import { Card,
 	       CardMedia,
 	       Button,
 	       Typography,
-	       CardActionArea,
-	       Box
+	       CardActionArea
   } from '@mui/material'
 
 import SubjectsDetails from './SubjectsDetails'
-import {hideFooter, showFooter} from './GlobalFunctions'
 
 
 
@@ -44,8 +42,6 @@ function Subjects(props) {
 
 
 		try {
-
-			hideFooter()
 
 			console.log(UserContext)
 			
@@ -95,8 +91,7 @@ function Subjects(props) {
 	// WHEN BACK BUTTON PRESSED
 	const bckBtn = async () => {
 		console.log("BACK BUTTON IS PRESSED")
-		showFooter()
-		
+
 	}
 
 	useEffect(() => {
@@ -123,60 +118,68 @@ function Subjects(props) {
 					open={open}
 					transitionDuration={0}
 				>
+					{ !showDetails &&
+						
+					<div className="w-[90%] h-full">
 
-					<div className="p-20 w-[30%] h-full">
-						<input name="_csrf" value={csrf_tkn} type="hidden" />
+				    <h2 className="p-10 font-semibold text-3xl">
+				      EXPLORE MORE SUBJECTS!
+				    </h2>
 
-					    <h2 className="font-semibold text-3xl mb-10">
-					      EXPLORE MORE SUBJECTS!
-					    </h2>
-
-						<Link className="text-2xl hover:text-ramaa_buttonHover" to="/" onClick={bckBtn}>
-						EXIT
+						<Link className="text-2xl hover:text-ramaa_buttonHover p-10" 
+							  to="/"
+							  onClick={bckBtn}
+							  >EXIT
 						</Link>
 
-{/*						{ categoryList &&
-							// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
-							categoryList.map( (category, index) => 
+						<div className="mt-20 grid grid-cols-3 gap-4 place-items-start">
 
-								<Box
-									className="hover:text-ramaa_buttonHover my-10" 
-									onClick={ e => {
-										//console.log(category.targetUrl)
-										setNextRoute(category.targetUrl)
-										setShowDetails(true)
-										navigate(category.targetUrl)
+							<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-									}} 
-									key={category._id} 
-									component="div" 
-									sx={{ width: 400, height: 100, p: 2, border: '1px dashed red' }}>
+							{ categoryList &&
+								// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
+								categoryList.map( (category, index) => {  
+
+								// -----------------------------------------------------
+								// < ABOUT UNIQUE 'key' WARNING WHEN WE USE map FUNCTION >
+								// https://abillyz.com/moco/studies/380
+								return (
 									
-									<h1 className="text-3xl" >
-									{category.name}
-									</h1> 
+									<Card 
+										onClick={ e => {
+											//console.log(category.targetUrl)
+											setNextRoute(category.targetUrl)
+											setShowDetails(true)
+											navigate(category.targetUrl)
 
-									<h3>
-									{category.descriptions} 
-									</h3>
-								
-								</Box>
+										}}
+									    key={category._id} sx={{ minWidth: 300, minHeight: 200 }}>
+										
+										<Link>
+								      		<CardContent sx={{ minWidth: 300, minHeight: 200 }}>
+										        <Typography gutterBottom variant="h5" component="div">
+										          {category.name}
+										        </Typography>
+										        <Typography variant="body1" color="text.secondary">
+										          {category?.descriptions}
+										        </Typography>
+									      	</CardContent>
+							      		</Link>
 
-							)
-						}*/}
+							    	</Card>
+
+									)
+								})
+							}
+
+					    </div>
 
 					</div>
+					}
 
-					<div className='w-[80%] h-full p-10 overflow-y-scroll'>							
-						{	categoryList &&
-							// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
-							categoryList.map( (category, index) => 
-						
-							<SubjectsDetails pathName={category.targetUrl} history={props.history} context={UserContext} />
-						
-							)
-						}
-					</div>
+					{ showDetails &&
+						<SubjectsDetails pathName={nextRoute} history={props.history} context={UserContext} />
+					}
 
 				</Backdrop>
 		
@@ -189,17 +192,6 @@ function Subjects(props) {
 
 
 }
-
-
-
-						// <div className="mt-20 grid grid-cols-3 gap-4 place-items-start">
-
-						// 	
-
-
-
-					 //    </div>
-
 
 
 

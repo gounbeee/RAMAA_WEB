@@ -138,7 +138,7 @@ function App() {
           }
         />
 
-        <Route path='*' element={<LandingPage/>} /> 
+        {/*<Route path='*' element={<LandingPage/>} /> */}
 
       </Routes>
     </BrowserRouter>

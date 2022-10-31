@@ -1,18 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import axios from "axios";
-
-import ModalConfirmZ from './ModalConfirmZ'
-
-
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Button, Box, TextField, Backdrop, Stack, Paper, styled } from '@mui/material'
 
+import axios from "axios";
 
+
+import {hideFooter, showFooter} from './GlobalFunctions'
 import GetUserData from './GetUserData'
 import GetImageList from './GetImageList'
-
 import UploadImage from './UploadImage'
 import CRUDCategory from './CRUDCategory'
 import CRUDSubject from './CRUDSubject'
@@ -77,21 +74,6 @@ function UserAdmin() {
 	)
 
 
-	// HIDING FOOTER AREA
-	const hideFooter = () => {
-		const footerDom = document.getElementById("footer_wrapper")
-		footerDom.style.display = 'none'
-	}
-
-	// SHOWING FOOTER AREA
-	const showFooter = () => {
-		const footerDom = document.getElementById("footer_wrapper")
-		footerDom.style.display = ''
-	}
-
-
-
-
 	// USING STATE FOR GETTING USER
 	const [userInfo, setUserInfo] = useState(null);
 	const [csrf_tkn, setCsrf_tkn] = useState("");
@@ -105,8 +87,8 @@ function UserAdmin() {
 		console.log("CANCELED TO LOGIN")
 		navigate('/')
 		setOpen(false);
-
 	};
+
 
 
 	const handleToggle = () => {
@@ -116,20 +98,12 @@ function UserAdmin() {
 
 
 
-
 	const onLoadFunc = (e) => {
-
 
 		console.log('onLoadFunc IS EXECUTED !!!!')
 		console.log(e)
 
-
-
-
-
 	}
-
-
 
 
 
@@ -164,10 +138,9 @@ function UserAdmin() {
 
 		console.log("BACK BUTTON IS PRESSED")
 		showFooter()
-		//displayWorkArea()
-
 
 	}
+
 
 
 	// WHEN RESET PASSWORD BUTTON CLICKED
@@ -183,14 +156,13 @@ function UserAdmin() {
 	// WHEN EDIT USERNAME BUTTON CLICKED
 	const edtNameBtn = async () => {
 
-
 		console.log("CHANGE USERNAME BUTTON CLICKED")
 		showModal()
-
 
 		//navigate("/api")
 
 	}
+
 
 	// WHEN EDIT EMAIL BUTTON CLICKED
 	const edtEmailBtn = async () => {
@@ -311,7 +283,6 @@ function UserAdmin() {
 
 							<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-							{modalView && ( <ModalConfirmZ id="modal" question={modalQues} /> )}
 
 							<div className="grid grid-cols-3 gap-4 place-items-start">
 								<h3>Unique ID</h3>

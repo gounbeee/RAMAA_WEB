@@ -195,7 +195,7 @@ function LandingPage() {
 
 
 
-
+	// ---------------------------------------------------------------------
 	// IF-STRUCTURED WITH LOGICAL OPERATOR && IN JSX
 
 	// LINK -> WE USED   onClick TO COMMUNICATE WITH 'SERVER' (axios USED)
@@ -205,13 +205,21 @@ function LandingPage() {
 	//                      **** FULL PATH TO ROUTE FOR EXPRESS SERVER ****
 	//                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 	return (
 		<div className="text-1xl inline-flex p-1">
 		    <GetUserData cb_csrf={setCsrf_tkn} />
 			<input id="_csrfLandingPage" name="_csrf" value={csrf_tkn} type="hidden" />
+			
+			{/*FOR PUBLIC*/}
+			{userInfo === null && (
+				<div className="ml-40">
+					<Link className="ml-40 cursor-pointer hover:text-ramaa_buttonHover" to="/subjects">SUBJECTS</Link>
+					<Link className="hidden ml-20 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/login">LOGIN</Link>
+					<Link className="hidden ml-16 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/make-account">SIGNUP</Link>
+				</div>
+	        )}
 
-
+			{/*FOR USER LOGGED IN*/}
 			{userInfo !== null && (
 				<div className="inline-flex">
 					<div className="ml-10">
@@ -234,19 +242,9 @@ function LandingPage() {
 				</div>
 
 			)}
-		
-			{userInfo === null && (
-				<div className="ml-40">
-					<Link className="ml-40 cursor-pointer hover:text-ramaa_buttonHover" to="/subjects">SUBJECTS</Link>
-					<Link className="hidden ml-20 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/login">LOGIN</Link>
-					<Link className="hidden ml-16 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/make-account">SIGNUP</Link>
-				</div>
-	        )}
-
         </div>
 	);
 }
-//
 
 
 export default LandingPage
