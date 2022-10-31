@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import toast from "react-hot-toast";
 import { useParams, useLocation, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
@@ -27,12 +27,11 @@ function SubjectsDetails(props) {
 	let {categoryName} = useParams()
 
 	const [subjectList, setSubjectList] = useState()
-	const [open, setOpen] = React.useState(true)
 
 	const navigate = useNavigate()
 	const location = useLocation()
 
-	// const categoryList = []
+	const setOpenContext = useContext(props.context)
 
 
 	const [csrf_tkn, setCsrf_tkn] = useState("");
@@ -44,6 +43,10 @@ function SubjectsDetails(props) {
 
 
 		try {
+
+			console.log("setOpenContext  IS ...")
+			console.log(setOpenContext)
+
 
 			console.log('PARAMS VALUE IS BELOW...')
 			console.log(categoryName)
@@ -129,7 +132,7 @@ function SubjectsDetails(props) {
 		const fullPath = pathForJson[0] + '//' + pathForJson[2] + '/' + subject.json_path
 		//console.log(fullPath)
 
-
+		console.log(props.history)
 
 
 		// https://stackoverflow.com/questions/40385133/retrieve-data-from-a-readablestream-object
@@ -180,27 +183,17 @@ function SubjectsDetails(props) {
 
 
 	// WHEN BACK BUTTON PRESSED
-	const bckBtn = async () => {
+	const bckBtn = () => {
 
 
 		console.log("BACK BUTTON IS PRESSED")
 
-		//displayWorkArea()
-		navigate('/')
+
+		navigate('/subjects', {replace:true})
+		setOpenContext(false)
 
 	}
 
-
-	const hideWorkArea = () => {
-		if(document.getElementById("workarea").style.display !== 'none')
-			document.getElementById("workarea").style.display = 'none';
-
-	}
-
-	const displayWorkArea = () => {
-		if(document.getElementById("workarea").style.display === 'none')
-			document.getElementById("workarea").style.display = '';
-	}
 
 
 	useEffect(() => {
@@ -219,13 +212,8 @@ function SubjectsDetails(props) {
 	// https://www.pluralsight.com/guides/load-and-render-json-data-into-react-components
 
   return (
-    <div className="absolute z-20 bg-slate-500 overflow-y-scroll">
+    <div className="absolute z-20 overflow-y-scroll">
 	    
-    		<Backdrop
-				className=""
-				open={open}
-				>      
-
 				<div className="w-[90%] h-full">
 
 
@@ -278,7 +266,7 @@ function SubjectsDetails(props) {
 
 				  </div>
 				</div>  
-			</Backdrop>
+
     </div>
 
   );          // END OF RETURN

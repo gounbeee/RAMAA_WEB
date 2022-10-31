@@ -1,8 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, createContext } from "react";
 import toast from "react-hot-toast";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { Backdrop } from '@mui/material'
+
+
 
 // MATERIAL UI
 import { Card, 
@@ -23,11 +25,14 @@ import SubjectsDetails from './SubjectsDetails'
 
 
 
-function Subjects() {
+function Subjects(props) {
+
+	const UserContext = createContext()
 
 
 	const [categoryList, setCategoryList] = useState()
-	const [open, setOpen] = React.useState(true)
+	const [open, setOpen] = useState(true)
+
 
 	const navigate = useNavigate();
 
@@ -50,9 +55,8 @@ function Subjects() {
 
 
 		try {
-			console.log("SUBJECT PANEL CALLED")
-			console.log("1. GETTING DATA LIST FROM DATABASE")
 
+			console.log(UserContext)
 			
 			const targetURL = `/subjects`
 			console.log("UserAdmin ::  TARGET URL IS ")
@@ -161,81 +165,81 @@ function Subjects() {
 	// https://www.pluralsight.com/guides/load-and-render-json-data-into-react-components
 
   return (
-    <div className="absolute z-20 bg-slate-500">
+  	<UserContext.Provider value={showDetails} >
+
+    	<div className="absolute z-20 bg-slate-500">
 	    
-				{ showDetails &&
-					<SubjectsDetails pathName={nextRoute} />
-				}
 
+	    	<Backdrop
+					className=""
+					open={open}
+				>
 
-				{ !showDetails &&
+					<div className="w-[90%] h-full">
 
-		    	<Backdrop
-						className=""
-						open={open}
-					>
+				    <h2 className="p-10 font-semibold text-3xl">
+				      EXPLORE MORE SUBJECTS!
+				    </h2>
 
-						<div className="w-[90%] h-full">
+						<Link className="text-2xl hover:text-ramaa_buttonHover p-10" 
+							  to="/"
+							  onClick={bckBtn}
+							  >EXIT
+						</Link>
 
-					    <h2 className="p-10 font-semibold text-3xl">
-					      EXPLORE MORE SUBJECTS!
-					    </h2>
+						<div className="mt-20 grid grid-cols-3 gap-4 place-items-start">
 
-							<Link className="text-2xl hover:text-ramaa_buttonHover p-10" 
-								  to="/"
-								  onClick={bckBtn}
-								  >EXIT
-							</Link>
+							<input name="_csrf" value={csrf_tkn} type="hidden" />
 
-							<div className="mt-20 grid grid-cols-3 gap-4 place-items-start">
+							{ categoryList &&
+								// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
+								categoryList.map( (category, index) => {  
 
-								<input name="_csrf" value={csrf_tkn} type="hidden" />
+								// -----------------------------------------------------
+								// < ABOUT UNIQUE 'key' WARNING WHEN WE USE map FUNCTION >
+								// https://abillyz.com/moco/studies/380
+								return (
+									
+									<Card 
+										onClick={ e => {
+											//console.log(category.targetUrl)
+											setNextRoute(category.targetUrl)
+											setShowDetails(true)
+											navigate(category.targetUrl)
 
-								{ categoryList &&
-									// map FUNCTION TO ITERATE CREATION OF MULTIPLE CARDS
-									categoryList.map( (category, index) => {  
-
-									// -----------------------------------------------------
-									// < ABOUT UNIQUE 'key' WARNING WHEN WE USE map FUNCTION >
-									// https://abillyz.com/moco/studies/380
-									return (
+										}} 
+									  key={category._id} sx={{ minWidth: 300, minHeight: 200 }}>
 										
-										<Card 
-											onClick={ e => {
-												//console.log(category.targetUrl)
-												setNextRoute(category.targetUrl)
-												setShowDetails(true)
-												navigate(category.targetUrl)
+										<Link>
+								      <CardContent sx={{ minWidth: 300, minHeight: 200 }}>
+								        <Typography gutterBottom variant="h5" component="div">
+								          {category.name}
+								        </Typography>
+								        <Typography variant="body1" color="text.secondary">
+								          {category?.descriptions}
+								        </Typography>
+								      </CardContent>
+							      </Link>
 
-											}} 
-										  key={category._id} sx={{ minWidth: 300, minHeight: 200 }}>
-											
-											<Link>
-									      <CardContent sx={{ minWidth: 300, minHeight: 200 }}>
-									        <Typography gutterBottom variant="h5" component="div">
-									          {category.name}
-									        </Typography>
-									        <Typography variant="body1" color="text.secondary">
-									          {category?.descriptions}
-									        </Typography>
-									      </CardContent>
-								      </Link>
+							    </Card>
 
-								    </Card>
+									)
+								})
+							}
 
-										)
-									})
-								}
+					  </div>
+					</div>
+					{ showDetails &&
+						<SubjectsDetails pathName={nextRoute} history={props.history} context={UserContext} />
+					}
 
-						  </div>
-						</div>
 
-					</Backdrop>
+				</Backdrop>
 
-				}
+	
+    	</div>
 
-			
-    </div>
+    </UserContext.Provider>
 
   );          // END OF RETURN
 
