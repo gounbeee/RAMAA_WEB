@@ -62,13 +62,15 @@ class DrawTextArea extends Draw {
     // PRELOADING (IF NECESSARY)
     // 1. DATA LOADING FROM LOCAL STORAGE
     if(settings.isStored) {
+
       this.preload(settings)
 
     } else {
+
       // 2. CREATION ROUTE
       this.textAreaSettings = {
         id: this.groupId + '_textarea',
-        text: "WRITE HERE LONG LONG &#13;&#10;LONG SAMPLE &#13;&#10;SENTENCE",
+        text: "INPUT TEXT &#13;&#10;USING &#13;&#10;Attributes &#13;&#10;PANEL",
         width: settings.width,
         height: settings.height,
         x: settings.x,
@@ -78,7 +80,9 @@ class DrawTextArea extends Draw {
         opacity: parseFloat(settings.opacity),
         fontName: settings.fontName
       }
+
     }
+
 
 
     // ------------------------------------
@@ -239,7 +243,7 @@ class DrawTextArea extends Draw {
           //console.log(`mutation.target.dataset.yPos   --   ${mutation.target.dataset.yPos}`)
 
           // ***** OUR CANVAS CAN BE PANNED, BUT,
-          //       ev.clientX AND Y POSITION DOES NOT CARTE THAT,
+          //       ev.clientX AND Y POSITION DOES NOT CARE THAT,
           //       SO WE NEED TO CALCULATE DIFFERENCE BETWEEN THE CANVAS'S POSITION
           //       +
           //       AND THE VALUES ARE INVERTED TO MINUS VALUE WHEN WE DRAG TO PLUS DIRECTION -> "INVERTING IS REQUIRED"
@@ -252,6 +256,7 @@ class DrawTextArea extends Draw {
           
           // ===============================================================
           // getBoundingClientRect() IS FIXED VALUE WHEN WE ZOOMED IN OR OUT
+          // **************************************
           // ------------- 
           // RETURN ::
           //
@@ -301,6 +306,17 @@ class DrawTextArea extends Draw {
 
           // console.log(`this.textAreaObject.posX ::  ${this.textAreaObject.posX}`)
           // console.log(`this.textAreaObject.posY ::  ${this.textAreaObject.posY}`)
+
+
+          // ----------------------------------------
+          // UPDATE BOUNDING BOX EITHER !!!!
+          superClass.updateBoundingBox({
+            x: this.textAreaObject.posX,
+            y: this.textAreaObject.posY + this.svgDom.getBBox().y,
+            width: this.svgDom.getBBox().width,
+            height: this.svgDom.getBBox().height
+          })
+
 
 
 
@@ -422,6 +438,8 @@ class DrawTextArea extends Draw {
 
     this.mouseUpHnd = (dragObj) => {
 
+      // DELETE BOUNDING BOX !!!!
+      superClass.removeBoundingBox()
 
     }
 
@@ -449,6 +467,23 @@ class DrawTextArea extends Draw {
 
       //console.log(`panScaler  ::  ${parseFloat(document.getElementById('zoom_select').dataset.panScaler)}`)
       // console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
+
+
+
+
+      // ------------------------
+      // DRAW BOUNDING BOX !
+
+      //console.log(this.svgDom)
+      superClass.boundBoxCoords.x = this.textAreaObject.posX
+      superClass.boundBoxCoords.y = this.textAreaObject.posY + this.svgDom.getBBox().y
+      superClass.boundBoxCoords.width = this.svgDom.getBBox().width
+      superClass.boundBoxCoords.height = this.svgDom.getBBox().height
+
+      superClass.drawBoundingBox(this.svgDom)
+
+
+
 
 
       this.screenDrag.setScreen({
@@ -511,6 +546,19 @@ class DrawTextArea extends Draw {
             child.appendChild(updatedTextArea.tspans[i])
 
           }
+
+
+          // UPDATE LENGTH OF ARRAY WHICH INCLUDES tspans
+          console.log(child)
+          console.log(this.textAreaObject.tspans.length)
+          //console.log(this.updatedTextArea.tspans.length)
+
+
+
+
+
+
+
 
           updatedTextArea.setLineFeedIndex()
 
@@ -1335,8 +1383,13 @@ class DrawTextArea extends Draw {
 
   duplicateSetting(prevObj) {
 
-    for(let i = 0; i < this.textAreaObject.tspans.length; i++) {
+    //                 ~~~~~~~   <-- THIS SHOULE NOT BE 'this' !!!! 
+    for(let i = 0; i < prevObj.textAreaObject.tspans.length; i++) {
+      console.log(prevObj.textAreaObject.tspans[i])
+
       let fill = prevObj.textAreaObject.tspans[i].getAttribute('fill')
+
+
       this.textAreaObject.tspans[i].setAttribute('fill', fill)  
     }
     this.textAreaObject.fill = prevObj.textAreaObject.tspans[0].getAttribute('fill')

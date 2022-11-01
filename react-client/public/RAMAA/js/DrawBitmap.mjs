@@ -214,6 +214,20 @@ class DrawBitmap extends Draw {
 
           //this.group.setAttribute('transform', `translate( ${Math.floor(mappedPosition.x - this.anchorPosX)}, ${Math.floor(mappedPosition.y - this.anchorPosY)})`)
         
+
+
+          // ----------------------------------------
+          // UPDATE BOUNDING BOX EITHER !!!!
+          superClass.updateBoundingBox({
+            x: parseInt(this.foreignDom.getAttribute('x')),
+            y: parseInt(this.foreignDom.getAttribute('y')),
+            width: this.foreignDom.getBBox().width,
+            height: this.foreignDom.getBBox().height
+          })
+
+
+
+
           this.foreignDom.dispatchEvent(eventToAttribBox)
 
         }
@@ -270,7 +284,8 @@ class DrawBitmap extends Draw {
       // STORING ANCHOR POSITION
       this.screenDrag.setScreen({
         dragObj: this.foreignDom,
-        mutationHandler: this.mutationHandler
+        mutationHandler: this.mutationHandler,
+        mouseupHandler: this.mouseUpHnd
       })
 
       // ****  PANSCALER IS NEEDED ! (ZOOMED POSITION !!)
@@ -279,9 +294,38 @@ class DrawBitmap extends Draw {
 
       //-// console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
 
+
+
+      // // ------------------------
+      // // DRAW BOUNDING BOX !
+      //console.log(this.foreignDom)
+
+      superClass.boundBoxCoords.x = parseInt(this.foreignDom.getAttribute('x'))
+      superClass.boundBoxCoords.y = parseInt(this.foreignDom.getAttribute('y'))
+      superClass.boundBoxCoords.width = this.foreignDom.getBBox().width
+      superClass.boundBoxCoords.height = this.foreignDom.getBBox().height
+
+      superClass.drawBoundingBox(this.foreignDom)
+
+
+
+
+
       ev.target.dispatchEvent(evAttrManOn)
     }
     this.foreignDom.addEventListener("mousedown", this.mouseDownHnd, false)
+
+
+
+
+    this.mouseUpHnd = (ev) => {
+      console.log('MOUSE IS UP !!')
+      // DELETE BOUNDING BOX !!!!
+      superClass.removeBoundingBox()
+
+    }
+
+
 
 
     // =========================================

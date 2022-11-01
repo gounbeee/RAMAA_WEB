@@ -211,6 +211,23 @@ class DrawArrow extends Draw {
       ev.preventDefault()
 
       this.arrow.seeHandles()
+
+
+      // // ------------------------
+      // // DRAW BOUNDING BOX !
+
+      // console.log(this.arrow.svgDom.getBBox())
+
+      // //console.log()
+
+      // superClass.boundBoxCoords.x = parseInt(this.arrow.svgDom.getBBox().x)
+      // superClass.boundBoxCoords.y = parseInt(this.arrow.svgDom.getBBox().y) 
+      // superClass.boundBoxCoords.width = parseInt(this.arrow.svgDom.getBBox().width) 
+      // superClass.boundBoxCoords.height = parseInt(this.arrow.svgDom.getBBox().height) 
+
+      // superClass.drawBoundingBox(this.svgDom)
+
+
       ev.target.dispatchEvent(eventToArribMan)
     }
     this.arrow.svgDom.addEventListener("mousedown", this.arrowMouseDown, false)
@@ -264,6 +281,10 @@ class DrawArrow extends Draw {
           this.arrow.fill = this.arrow.svgDom.getAttribute('fill')
           this.dataStore.fill = this.arrow.svgDom.getAttribute('fill')
           this.dataStore.opacity = this.arrow.svgDom.style.opacity
+
+
+
+
 
           this.localStorage.saveToLocalStr(this.dataStore)
           //-// console.log(this.dataStore)

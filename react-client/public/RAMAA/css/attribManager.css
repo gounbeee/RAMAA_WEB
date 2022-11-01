@@ -312,7 +312,7 @@
 .ly_keyframe_btn {
 
   width: 100%;
-  padding: 1em;
+  /*padding: 1em;*/
 
 
 }
@@ -329,8 +329,8 @@
 
 .ly_btn_delete {
 
-  padding: 1em;
-/*  margin-top: 2em;
+ /* padding: 1em;
+  margin-top: 2em;
   margin-bottom: 1.5em;*/
 
 }
@@ -338,8 +338,8 @@
 
 .ly_btn_duplicate {
 
-  padding: 1em;
-/*  margin-top: 2em;
+/*  padding: 1em;
+  margin-top: 2em;
   margin-bottom: 1.5em;*/
 
 }

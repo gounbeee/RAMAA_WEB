@@ -14,6 +14,14 @@ class Draw {
     this.nsSvg = 'http://www.w3.org/2000/svg'
     this.keyframeManager
 
+    this.boundBoxDom
+    this.boundBoxCoords = {
+      x: 0,
+      y: 0,
+      width:0,
+      height:0
+    }
+
   }
 
 
@@ -148,14 +156,150 @@ class Draw {
     this.currentObj.group.addEventListener('duplicateObject', this.duplicateObjectHandler,false)
 
 
+  }
 
 
+  // THIS FUNCTION CALCULATES LEFT UPPER COORDINATE AND WIDTH + HEIGHT
+  getBBoxCoords(svgDom) {
+
+    console.log(svgDom)
+    console.log(svgDom.tagName)
+
+
+
+    switch(svgDom.tagName) {
+
+      case 'ellipse':
+
+        console.log('ellipse  IS SELECTED')
+
+        this.boundBoxCoords.x = svgDom.getAttribute('cx') - svgDom.getAttribute('rx')
+        this.boundBoxCoords.y = svgDom.getAttribute('cy') - svgDom.getAttribute('ry')
+        this.boundBoxCoords.width = svgDom.getAttribute('rx') * 2
+        this.boundBoxCoords.height = svgDom.getAttribute('ry') * 2
+
+      break
+
+      case 'rect':
+        console.log('rect  IS SELECTED')
+
+        this.boundBoxCoords.x = svgDom.getAttribute('x')
+        this.boundBoxCoords.y = svgDom.getAttribute('y')
+        this.boundBoxCoords.width = svgDom.getAttribute('width')
+        this.boundBoxCoords.height = svgDom.getAttribute('height')
+      break
+
+
+      case 'text':
+
+        console.log('text IS SELECTED')
+
+        console.log(svgDom.getBBox({markers:true}))
+
+        let idParent = svgDom.id.split('_')[0]
+        const textGrpDom = document.getElementById(idParent)
+        console.log(textGrpDom.transform.translate)
+        
+
+
+      break
+
+      case 'CANVAS':
+
+        console.log('canvas  IS SELECTED')
+
+
+
+
+        
+
+
+      break
+
+
+      case 'path':
+
+        console.log('path  IS SELECTED')
+
+
+
+
+        
+
+
+      break
+
+    }
 
 
   }
 
 
 
+  drawBoundingBox(svgDom) {
+
+    console.log("Draw OBJECT :: drawBoundingBox() EXECUTED !!!!")
+
+
+    // < CREATING SIMPLE DIV BOX >
+    // https://stackoverflow.com/questions/43770522/how-to-make-a-fixed-div-box-using-javascript-only-no-css-jquery-html
+    this.boundBoxDom = document.createElement('div')
+    //console.log(svgDom)
+
+
+    // BEFORE SETTING UP BOUNDING BOX, WE WILL GET CANVAS'S POSITION
+    const canvasPosX = parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved'))
+    const canvasPosY = parseInt(document.getElementById('canvas_dom').getAttribute('data-y-saved'))
+
+
+    this.boundBoxDom.style.position = 'fixed';
+    this.boundBoxDom.style.top = `${this.boundBoxCoords.y + canvasPosY }px`;
+    this.boundBoxDom.style.left = `${this.boundBoxCoords.x + canvasPosX }px`;
+    this.boundBoxDom.style.width = `${this.boundBoxCoords.width}px`;
+    this.boundBoxDom.style.height = `${this.boundBoxCoords.height}px`;
+
+    // this.boundBoxDom.style.top = `${this.boundBoxCoords.y - (this.boundBoxCoords.height*0.25/2) + canvasPosY }px`;
+    // this.boundBoxDom.style.left = `${this.boundBoxCoords.x - (this.boundBoxCoords.width*0.25/2) + canvasPosX }px`;
+    // this.boundBoxDom.style.width = `${this.boundBoxCoords.width * 1.25}px`;
+    // this.boundBoxDom.style.height = `${this.boundBoxCoords.height * 1.25}px`;
+
+    this.boundBoxDom.style.color = 'black';
+    this.boundBoxDom.style.border = "medium solid #FF3322";
+    this.boundBoxDom.style.padding = '20px';
+    this.boundBoxDom.style.zIndex = '50';
+
+    //console.log(this.boundBoxDom.style)
+    //console.log(parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved')))
+
+    document.getElementById('ramaaApp_overlay').appendChild(this.boundBoxDom)
+
+  }
+
+
+  updateBoundingBox(transform) {
+    // BEFORE SETTING UP BOUNDING BOX, WE WILL GET CANVAS'S POSITION
+    const canvasPosX = parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved'))
+    const canvasPosY = parseInt(document.getElementById('canvas_dom').getAttribute('data-y-saved'))
+
+    this.boundBoxDom.style.top = `${transform.y + canvasPosY }px`;
+    this.boundBoxDom.style.left = `${transform.x + canvasPosX }px`;
+    this.boundBoxDom.style.width = `${transform.width}px`;
+    this.boundBoxDom.style.height = `${transform.height}px`;
+
+    // this.boundBoxDom.style.top = `${transform.y - (this.boundBoxCoords.height*0.25/2) + canvasPosY }px`;
+    // this.boundBoxDom.style.left = `${transform.x - (this.boundBoxCoords.width*0.25/2) + canvasPosX }px`;
+    // this.boundBoxDom.style.width = `${transform.width * 1.25}px`;
+    // this.boundBoxDom.style.height = `${transform.height * 1.25}px`;
+
+
+  }
+
+
+  removeBoundingBox() {
+
+    this.boundBoxDom.remove()
+
+  }
 
 
 

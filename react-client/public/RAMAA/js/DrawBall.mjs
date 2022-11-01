@@ -48,6 +48,7 @@ class DrawBall extends Draw {
     this.svgDom = document.createElementNS(this.nsSvg, 'ellipse')
 
 
+
     // ------------------------------------
     // CREATING LocalStorage OBJECT
     const localStrSettings = {
@@ -244,8 +245,8 @@ class DrawBall extends Draw {
     this.mutationHandler = (mutationList, observer) => {
       for(const mutation of mutationList) {
         if( mutation.type === 'attributes' ) {
-          //-// console.log(`${mutation.target.id} :::   ${mutation.attributeName}   WAS MODIFIED`)
-          //-// console.log(mutation.target.getAttribute(mutation.attributeName))
+          // console.log(`${mutation.target.id} :::   ${mutation.attributeName}   WAS MODIFIED`)
+          // console.log(mutation.target.getAttribute(mutation.attributeName))
 
           let targetX
           let targetY
@@ -268,6 +269,20 @@ class DrawBall extends Draw {
           //if(mappedPosition.x) this.svgDom.setAttribute("cx", Math.floor(mappedPosition.x))
           //if(mappedPosition.y) this.svgDom.setAttribute("cy", Math.floor(mappedPosition.y))
 
+
+
+
+          // ----------------------------------------
+          // UPDATE BOUNDING BOX EITHER !!!!
+          superClass.updateBoundingBox({
+            x: parseInt(this.svgDom.getAttribute('cx')) - parseInt(this.svgDom.getBBox().width/2),
+            y: parseInt(this.svgDom.getAttribute('cy')) - parseInt(this.svgDom.getBBox().height/2),
+            width: this.svgDom.getBBox().width,
+            height: this.svgDom.getBBox().height
+          })
+
+
+
           this.svgDom.dispatchEvent(eventToAttribBox)
 
         }
@@ -278,9 +293,10 @@ class DrawBall extends Draw {
 
       for(const mutation of mutationsList) {
         if( mutation.type === 'attributes' ) {
-          //-// console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
-          // //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
-          //-// console.log(`TO ${mutation.target.getAttribute(mutation.attributeName)}`)
+          // console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
+          // console.log(`${mutation.attributeName}   WAS MODIFIED`)
+          // console.log(`TO ${mutation.target.getAttribute(mutation.attributeName)}`)
+
 
           // ----------------------
           // UPDATING LOCAL STORAGE
@@ -301,7 +317,7 @@ class DrawBall extends Draw {
 
 
     this.mouseDownHnd = (ev) => {
-      //-// console.log(`---- SVG-RECT CLICKED ::  ${this.groupId}`)
+      //console.log(`---- SVG-RECT CLICKED ::  ${this.groupId}`)
 
       ev.stopImmediatePropagation()
       ev.preventDefault()
@@ -311,18 +327,46 @@ class DrawBall extends Draw {
       // STORING ANCHOR POSITION
       this.screenDrag.setScreen({
         dragObj: this.svgDom,
-        mutationHandler: this.mutationHandler
+        mutationHandler: this.mutationHandler,
+        mouseupHandler: this.mouseUpHnd
       })
 
       // ****  PANSCALER IS NEEDED ! (ZOOMED POSITION !!)
-      this.anchorPosX = Math.floor(mappedPosition.x) * parseFloat(document.getElementById('zoom_select').dataset.panScaler) - settings.width
-      this.anchorPosY = Math.floor(mappedPosition.y) * parseFloat(document.getElementById('zoom_select').dataset.panScaler) - settings.height
+      this.anchorPosX = Math.floor(mappedPosition.x) * parseFloat(document.getElementById('zoom_select').dataset.panScaler) - parseInt(this.svgDom.getBBox().width/2)
+      this.anchorPosY = Math.floor(mappedPosition.y) * parseFloat(document.getElementById('zoom_select').dataset.panScaler) - parseInt(this.svgDom.getBBox().height/2)
 
       //-// console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
+
+
+      // ------------------------
+      // DRAW BOUNDING BOX !
+
+      //console.log(this.svgDom)
+      superClass.boundBoxCoords.x = parseInt(this.svgDom.getAttribute('cx')) - parseInt(this.svgDom.getBBox().width/2)
+      superClass.boundBoxCoords.y = parseInt(this.svgDom.getAttribute('cy')) - parseInt(this.svgDom.getBBox().height/2)
+      superClass.boundBoxCoords.width = this.svgDom.getBBox().width
+      superClass.boundBoxCoords.height = this.svgDom.getBBox().height
+
+      superClass.drawBoundingBox(this.svgDom)
+
+
+
 
       ev.target.dispatchEvent(evAttrManOn)
     }
     this.svgDom.addEventListener("mousedown", this.mouseDownHnd, false)
+
+
+
+
+    this.mouseUpHnd = (ev) => {
+      console.log('MOUSE IS UP !!')
+      // DELETE BOUNDING BOX !!!!
+      superClass.removeBoundingBox()
+
+    }
+
+
 
 
     // =========================================

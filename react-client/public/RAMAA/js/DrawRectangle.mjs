@@ -172,6 +172,23 @@ class DrawRectangle extends Draw {
           if(mappedPosition.x) this.svgDom.setAttribute("x", Math.floor(mappedPosition.x - this.anchorPosX))
           if(mappedPosition.y) this.svgDom.setAttribute("y", Math.floor(mappedPosition.y - this.anchorPosY))
 
+
+
+
+
+          // ----------------------------------------
+          // UPDATE BOUNDING BOX EITHER !!!!
+          superClass.updateBoundingBox({
+            x: parseInt(this.svgDom.getAttribute('x')),
+            y: parseInt(this.svgDom.getAttribute('y')),
+            width: this.svgDom.getBBox().width,
+            height: this.svgDom.getBBox().height
+          })
+
+
+
+
+
           this.svgDom.dispatchEvent(eventToAttribBox)
 
         }
@@ -215,7 +232,8 @@ class DrawRectangle extends Draw {
       // STORING ANCHOR POSITION
       this.screenDrag.setScreen({
         dragObj: this.svgDom,
-        mutationHandler: this.mutationHandler
+        mutationHandler: this.mutationHandler,
+        mouseupHandler: this.mouseUpHnd
       })
 
       // ****  PANSCALER IS NEEDED ! (ZOOMED POSITION !!)
@@ -224,9 +242,38 @@ class DrawRectangle extends Draw {
 
       //-// console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
 
+
+
+
+      // ------------------------
+      // DRAW BOUNDING BOX !
+
+      //console.log(this.svgDom)
+      superClass.boundBoxCoords.x = parseInt(this.svgDom.getAttribute('x'))
+      superClass.boundBoxCoords.y = parseInt(this.svgDom.getAttribute('y'))
+      superClass.boundBoxCoords.width = this.svgDom.getBBox().width
+      superClass.boundBoxCoords.height = this.svgDom.getBBox().height
+
+      superClass.drawBoundingBox(this.svgDom)
+
+
+
+
+
+
+
       ev.target.dispatchEvent(evAttrManOn)
     }
     this.svgDom.addEventListener("mousedown", this.mouseDownHnd, false)
+
+
+
+    this.mouseUpHnd = (ev) => {
+      console.log('MOUSE IS UP !!')
+      // DELETE BOUNDING BOX !!!!
+      superClass.removeBoundingBox()
+
+    }
 
 
     // =========================================
