@@ -53,7 +53,7 @@ class Draw {
       // CHECK IF THE GROUP ID IS IDENTICAL
       if(this.currentObj.groupId === ev.detail.id) {
 
-        //console.log(`DUPLICATE OBJECT BUTTON PRESSED !!!!  --->    ${ev.detail.id}`)
+        console.log(`DUPLICATE OBJECT BUTTON PRESSED !!!!  --->    ${ev.detail.id}`)
 
         // < GETTING CLASS NAME >
         // https://stackoverflow.com/questions/332422/get-the-name-of-an-objects-type
@@ -65,6 +65,10 @@ class Draw {
 
         switch(className) {
           case 'DrawArrow':
+
+            console.log(this.stateObj.arrowShapeInitSet)
+            console.log(this.currentObj)
+
             // CREATE NEW ONE
             createdObjNew = this.stateObj.createArrow(this.stateObj.arrowShapeInitSet)
             createdObjNew.duplicateSetting(this.currentObj)

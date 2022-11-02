@@ -4,6 +4,8 @@ import {RMMath} from "./RMMath.mjs"
 import {SvgFactory} from "./SvgFactory.mjs"
 import {DraggableScreen} from "./DraggableScreen.mjs"
 
+
+
 class Handle {
 
   constructor(settings) {
@@ -20,12 +22,22 @@ class Handle {
     // GETTING FACTORY FOR DRAWING SVG ELEMENT
     this.svgFactory = new SvgFactory().initialize()
 
+    console.log(settings.dataStore)
+    this.dataStore = settings.dataStore
+    this.localStore
 
     // ------------------------------------------------------
     // FOR CUSTOM EVENT FOR UPDATING ATTRIB BOX
     let evAttrbox = settings.evAttrbox
     //-// console.log(evAttrbox)
     let eventToAttribBox = new CustomEvent('attrManagerUpdate', evAttrbox)
+
+
+    // ------------------------------------------------------
+    // FLAGS TO IDENTIFY MOUSE CLICKED
+    this.posRectClicked = false
+    this.rotCirAClicked = false
+    // ** WE DO NOT NEED rotCirB BECAUSE IT MOVES REFLECTED FROM rotCirA
 
 
     // ------------------------------------------------------
@@ -271,13 +283,19 @@ class Handle {
       subtree: false
     }
 
+
+
+
+
+
+
     // WHEN RECT OBJECT WAS UPDATED WITH POSITION,
     // THAT SHOULD AFFECT TO EVERY OTHER CONTROLLERS
     const monitorRect = (mutationsList, observer) => {
       for(const mutation of mutationsList) {
         if( mutation.type === 'attributes' ) {
-          //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
-          //-// console.log(mutation.target.getAttribute(mutation.attributeName))
+          //console.log(`${mutation.attributeName}   WAS MODIFIED`)
+          //console.log(mutation.target.getAttribute(mutation.attributeName))
 
           if(mutation.attributeName === 'x') {
             //-// console.log(mutation.target.getAttribute(mutation.attributeName))
@@ -305,13 +323,19 @@ class Handle {
     const observer_rect = new MutationObserver(monitorRect)
     observer_rect.observe(this.posRect.svgDom, observeConfig)
 
+
+
+
+
+
+
     // WHEN ROT CIRCLE A MOVES,
     // LINE'S POINT A SHOULD BE MOVED
     const monitorRotCirA = (mutationsList, observer) => {
       for(const mutation of mutationsList) {
         if( mutation.type === 'attributes' ) {
-          //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
-          //-// console.log(mutation.target.getAttribute(mutation.attributeName))
+          //console.log(`${mutation.attributeName}   WAS MODIFIED`)
+          //console.log(mutation.target.getAttribute(mutation.attributeName))
 
           // UPDATE CURVECIRCLE TO UPDATE ARROW PROPERLY
           let rxry = RMMath.pointOnCircle(
@@ -341,11 +365,34 @@ class Handle {
 
           //this.calcRelPos_RotCirA()
           //this.calcRelPos_RotCirB()
+
+
+          // ---------------------------------
+          // SAVING VALUE TO LOCAL STORAGE
+          const abcSelect = this.posRect.id.split('_')[1]
+          const dtStrKey_x = 'hnd' + abcSelect + '_' + 'rotCirB_posX'
+          const dtStrKey_y = 'hnd' + abcSelect + '_' + 'rotCirB_posY'
+
+          //console.log(dtStrKey_y)
+
+          this.dataStore[dtStrKey_x] = parseInt(this.rotCircle_B.svgDom.getAttribute('cx'))
+          this.dataStore[dtStrKey_y] = parseInt(this.rotCircle_B.svgDom.getAttribute('cy'))
+
+          
+          this.localStore.saveToLocalStr(this.dataStore)
+
+
         }
       }
     }
     const observer_rotCirA = new MutationObserver(monitorRotCirA)
     observer_rotCirA.observe(this.rotCircle_A.svgDom, observeConfig)
+
+
+
+
+
+
 
     // WHEN ROT CIRCLE B MOVES,
     // LINE'S POINT B SHOULD BE MOVED
@@ -361,6 +408,13 @@ class Handle {
     }
     const observer_rotCirB = new MutationObserver(monitorRotCirB)
     observer_rotCirB.observe(this.rotCircle_B.svgDom, observeConfig)
+
+
+
+
+
+
+
 
 
 
@@ -389,11 +443,11 @@ class Handle {
 
           if(mutation.attributeName === 'data-x-pos') {
 
-            this.updatePosRect('x', mutation)
+            this.updatePosRect('x', mutation, this.dataStore)
 
           } else if(mutation.attributeName === 'data-y-pos') {
 
-            this.updatePosRect('y', mutation)
+            this.updatePosRect('y', mutation, this.dataStore)
 
           }
 
@@ -403,18 +457,25 @@ class Handle {
       }
     }
 
+
+
+
+ 
+
+
     this.mutationHandler_rotCirA = (mutationList, observer) => {
       for(const mutation of mutationList) {
         if( mutation.type === 'attributes' ) {
-          //-// console.log(`${mutation.target.id} :::   ${mutation.attributeName}   WAS MODIFIED`)
+          //console.log(mutation)
+          //console.log(`${mutation.target.id} :::   ${mutation.attributeName}   WAS MODIFIED`)
 
           if(mutation.attributeName === 'data-x-pos') {
 
-            this.updateRotCirA('x', mutation)
+            this.updateRotCirA('x', mutation, this.dataStore)
 
           } else if(mutation.attributeName === 'data-y-pos') {
 
-            this.updateRotCirA('y', mutation)
+            this.updateRotCirA('y', mutation, this.dataStore)
 
           }
 
@@ -434,10 +495,12 @@ class Handle {
 
     // MOUSE DOWN EVENT
     this.posRectEvHnd_md = (ev) => {
-      //-// console.log(`POS RECT MOUSE DOWN !! ::   ${ev.target.id}`)
+      console.log(`POS RECT MOUSE DOWN !! ::   ${ev.target.id}`)
 
       //-// console.log(`MOUSE CLIENT X POSITION ::   ${ev.clientX}`)
       //-// console.log(`POS RECT X POSITION ::   ${ev.target.getAttribute('x')}`)
+
+      this.posRectClicked = true
 
       ev.stopImmediatePropagation()
       ev.preventDefault()
@@ -461,7 +524,10 @@ class Handle {
 
 
     this.posRectEvHnd_mu = (dom) => {
-      //-// console.log(`POS RECT MOUSE UP !! ::   ${dom.id}`)
+      console.log(`POS RECT MOUSE UP !! ::   ${dom.id}`)
+
+      this.posRectClicked = false
+
       dom.dispatchEvent(eventToAttribBox)
 
     }
@@ -471,6 +537,7 @@ class Handle {
     // FOR MOVEMENT OF CIRCLE SHAPE FOR 'ROTATING HANDLE' (A IS UPPER ONE)
 
     this.rotCircle_AEvHnd_md = (ev) => {
+      this.rotCirAClicked = true
 
       ev.stopImmediatePropagation()
       ev.preventDefault()
@@ -498,6 +565,8 @@ class Handle {
 
     this.rotCircle_AEvHnd_mu = (dom) => {
       //-// console.log(`ROT CIRCLE A MOUSE CLICKED !! ::   ${dom.id}`)
+      this.rotCirAClicked = false
+
       dom.dispatchEvent(eventToAttribBox)
 
     }
@@ -518,13 +587,39 @@ class Handle {
 
 
 
-  // ======================================================================
-  // PUBLIC API
-  // ======================================================================
+    // this.handlesAposRectMouseMove = (ev) => {
+    //   ev.stopImmediatePropagation()
+    //   ev.preventDefault()
+      
+    //   console.log(this.arrow.handles.A.posRectClicked)
+
+    //   if(this.arrow.handles.A.posRectClicked) {
+
+        
+
+    //     this.dataStore.zIndex            = this.group.dataset.zIndex
+
+    //     this.dataStore.hndA_posRect_posX = parseInt(this.arrow.handles.A.posRect.svgDom.getAttribute('x'))
+    //     this.dataStore.hndA_posRect_posY = parseInt(this.arrow.handles.A.posRect.svgDom.getAttribute('y'))
+
+    //     this.arrow.fill                  = this.arrow.svgDom.getAttribute('fill')
+    //     this.dataStore.fill              = this.arrow.svgDom.getAttribute('fill')
+    //     this.dataStore.opacity           = this.arrow.svgDom.style.opacity
+
+    //     //console.log(this.arrow.svgDom)
+    //     this.arrow.svgDom.dispatchEvent(eventToArribMan)
+    //     this.localStorage.saveToLocalStr(this.dataStore)
+
+    //     // UPDATE ARROW'S SHAPE
+    //     this.arrow.update()
+
+    //   }
+    // }
+
 
 
   // UPDATE HANDLES
-  updatePosRect(channel, mutation) {
+  updatePosRect(channel, mutation, dataStore) {
 
     switch(channel) {
 
@@ -540,6 +635,21 @@ class Handle {
         //this.posRect.svgDom.setAttribute("x", mappedPosition.x)
         //-// console.log(`updatePosRect ::  this.rotCircle_A.xPosRelRect   ::    ${this.rotCircle_A.xPosRelRect}`)
 
+        //console.log(dataStore)
+        //console.log(this.posRect.id)
+
+        // ---------------------------------
+        // SAVING VALUE TO LOCAL STORAGE
+        const abcSelect_x = this.posRect.id.split('_')[1]
+        const dtStrKey_x = 'hnd' + abcSelect_x + '_' + 'posRect_posX'
+
+        //console.log(dtStrKey_x)
+
+        dataStore[dtStrKey_x] = parseInt(this.posRect.svgDom.getAttribute('x'))
+
+        this.localStore.saveToLocalStr(this.dataStore)
+
+
         break
 
       case 'y':
@@ -552,13 +662,28 @@ class Handle {
         this.posRect.svgDom.setAttribute("y", Math.floor(mappedPositionY.y - rectHeight/2))
         //this.posRect.svgDom.setAttribute("y", mappedPositionY.y)
 
+        //console.log(dataStore)
+        //console.log(this.posRect.id)
+
+
+        // ---------------------------------
+        // SAVING VALUE TO LOCAL STORAGE
+        const abcSelect_y = this.posRect.id.split('_')[1]
+        const dtStrKey_y = 'hnd' + abcSelect_y + '_' + 'posRect_posY'
+
+        //console.log(dtStrKey_y)
+
+        dataStore[dtStrKey_y] = parseInt(this.posRect.svgDom.getAttribute('y'))
+
+        this.localStore.saveToLocalStr(this.dataStore)
+
         break
 
     }
 
   }
 
-  updateRotCirA(channel, mutation) {
+  updateRotCirA(channel, mutation, dataStore) {
 
     switch(channel) {
 
@@ -572,6 +697,20 @@ class Handle {
         this.rotCircle_A.svgDom.setAttribute("cx", Math.floor(mappedPositionX.x))
         //-// console.log(`updateRotCirA ::  this.rotCircle_A.xPosRelRect   ::    ${this.rotCircle_A.xPosRelRect}`)
 
+        //console.log(dataStore)
+        //console.log(this.posRect.id)
+
+
+        // ---------------------------------
+        // SAVING VALUE TO LOCAL STORAGE
+        const abcSelect_x = this.rotCircle_A.id.split('_')[1]
+        const dtStrKey_x = 'hnd' + abcSelect_x + '_' + 'rotCirA_posX'
+
+        //console.log(dtStrKey_x)
+
+        dataStore[dtStrKey_x] = parseInt(this.rotCircle_A.svgDom.getAttribute('cx'))
+
+        this.localStore.saveToLocalStr(this.dataStore)
 
         break
 
@@ -584,6 +723,21 @@ class Handle {
 
         // APPLY POSITION
         this.rotCircle_A.svgDom.setAttribute("cy", Math.floor(mappedPositionY.y))
+
+        //console.log(dataStore)
+        //console.log(this.posRect.id)
+
+
+        // ---------------------------------
+        // SAVING VALUE TO LOCAL STORAGE
+        const abcSelect_y = this.rotCircle_A.id.split('_')[1]
+        const dtStrKey_y = 'hnd' + abcSelect_y + '_' + 'rotCirA_posY'
+
+        //console.log(dtStrKey_y)
+
+        dataStore[dtStrKey_y] = parseInt(this.rotCircle_A.svgDom.getAttribute('cy'))
+
+        this.localStore.saveToLocalStr(this.dataStore)
 
         break
 
@@ -626,6 +780,24 @@ class Handle {
 
     this.rotCircle_A.svgDom.setAttribute('cx', parseInt(this.posRect.svgDom.getAttribute('x')) + this.rotCircle_A.xPosRelRect)
     this.rotCircle_A.svgDom.setAttribute('cy', parseInt(this.posRect.svgDom.getAttribute('y')) + this.rotCircle_A.yPosRelRect)
+  
+    // ---------------------------------
+    // SAVING VALUE TO LOCAL STORAGE
+    const abcSelect = this.posRect.id.split('_')[1]
+    const dtStrKey_x = 'hnd' + abcSelect + '_' + 'rotCirA_posX'
+    const dtStrKey_y = 'hnd' + abcSelect + '_' + 'rotCirA_posY'
+
+    //console.log(dtStrKey_y)
+
+    this.dataStore[dtStrKey_x] = parseInt(this.rotCircle_A.svgDom.getAttribute('cx'))
+    this.dataStore[dtStrKey_y] = parseInt(this.rotCircle_A.svgDom.getAttribute('cy'))
+
+    
+    this.localStore.saveToLocalStr(this.dataStore)
+
+
+
+
   }
 
   followToRect_RotCirB() {
@@ -635,7 +807,20 @@ class Handle {
 
     this.rotCircle_B.svgDom.setAttribute('cx', parseInt(this.posRect.svgDom.getAttribute('x')) + this.rotCircle_B.xPosRelRect)
     this.rotCircle_B.svgDom.setAttribute('cy', parseInt(this.posRect.svgDom.getAttribute('y')) + this.rotCircle_B.yPosRelRect)
+    
 
+    // ---------------------------------
+    // SAVING VALUE TO LOCAL STORAGE
+    const abcSelect = this.posRect.id.split('_')[1]
+    const dtStrKey_x = 'hnd' + abcSelect + '_' + 'rotCirB_posX'
+    const dtStrKey_y = 'hnd' + abcSelect + '_' + 'rotCirB_posY'
+
+    //console.log(dtStrKey_y)
+
+    this.dataStore[dtStrKey_x] = parseInt(this.rotCircle_B.svgDom.getAttribute('cx'))
+    this.dataStore[dtStrKey_y] = parseInt(this.rotCircle_B.svgDom.getAttribute('cy'))
+
+    this.localStore.saveToLocalStr(this.dataStore)
 
   }
 
@@ -1014,7 +1199,11 @@ class Handle {
     return point.matrixTransform( CTM.inverse() )
   }
 
+  transferDataStore(dtStore, localStore) {
 
+    this.dataStore = dtStore
+    this.localStore = localStore
+  }
 
   mousePointToSVGPoint(event) {
 

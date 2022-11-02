@@ -28,9 +28,8 @@ class AttribBox {
     this.currentShapeType = undefined
 
 
-
-
     // DOM SETTINGS
+    // BUTTON SETTING
     this.domCfgs = {
       textarea:
         {
@@ -39,6 +38,7 @@ class AttribBox {
                    evHandles:
                    {
                      mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                     mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                      //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                    },
                    markers: []
@@ -48,6 +48,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -64,6 +65,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -80,6 +82,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -103,6 +106,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -112,6 +116,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -174,6 +179,7 @@ class AttribBox {
                    evHandles:
                    {
                      mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                     mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                      //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                    },
                    markers: []
@@ -183,6 +189,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -199,6 +206,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -208,6 +216,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -224,6 +233,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -240,6 +250,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -302,6 +313,7 @@ class AttribBox {
                    evHandles:
                    {
                      mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                     mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                      //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                    },
                    markers: []
@@ -311,6 +323,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -327,6 +340,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -336,6 +350,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -352,6 +367,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -414,6 +430,7 @@ class AttribBox {
                    evHandles:
                    {
                      mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                     mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                      //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                    },
                    markers: []
@@ -423,6 +440,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -432,6 +450,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -441,6 +460,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -450,6 +470,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -459,6 +480,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -468,6 +490,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -477,6 +500,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -486,6 +510,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -495,6 +520,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -504,6 +530,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -513,6 +540,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -522,6 +550,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -531,6 +560,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -540,6 +570,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -549,6 +580,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -558,6 +590,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -567,6 +600,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -576,6 +610,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -762,7 +797,9 @@ class AttribBox {
                    attr: "cx",
                    evHandles:
                    {
-                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                     mousedown:  (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                     mouseover:  (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                     // mouseleave: (ev) => {this.hideLocalTimeline(this.groupId, ev.target.id)},
                      //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                    },
                    markers: []
@@ -772,6 +809,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -788,6 +826,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -797,6 +836,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -813,6 +853,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -829,6 +870,7 @@ class AttribBox {
                   evHandles:
                   {
                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
                   },
                   markers: []
@@ -1183,7 +1225,7 @@ class AttribBox {
         <!-- ARROW DUPLICATE -->
         <button class="bl_btn_duplicate ly_btn_duplicate" id="attr_arrow_duplicate" type="button">Duplicate Object</button>
       </div>
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager">
         <!-- CREATE KEYFRAME ALL -->
         <button class="bl_keyframe_btn ly_keyframe_btn keyAll" id="attr_arrow_all_key" type="button">Keyframe ALL Belows</button>
       </div>
@@ -1209,7 +1251,7 @@ class AttribBox {
         <!-- KEYFRAME'S TIME -->
         <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_arrow_opacity_key_time" type="number" value=${this.timelinePercent} />
       </div>
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager">
         <!-- HANDLE A : RECT X POSITION -->
         <label class="bl_attribManager_label ly_attribManager_label">
           <span class="bl_attr_span ly_attr_span">Handle A RECT: X</span>
@@ -1226,7 +1268,7 @@ class AttribBox {
         <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_arrowArect_pos_key_time" type="number" value=${this.timelinePercent} />
       </div>
 
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager">
         <!-- HANDLE A : CIRCLE1 X POSITION -->
         <label class="bl_attribManager_label ly_attribManager_label">
           <span class="bl_attr_span ly_attr_span">Handle A CIRCLE1 : X</span>
@@ -1243,7 +1285,7 @@ class AttribBox {
         <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_arrowAcir1_pos_key_time" type="number" value=${this.timelinePercent} />
       </div>
 
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager" style="display:none;">
         <!-- HANDLE A : CIRCLE2 X POSITION -->
         <label class="bl_attribManager_label ly_attribManager_label">
           <span class="bl_attr_span ly_attr_span">Handle A CIRCLE2 : X</span>
@@ -1261,7 +1303,7 @@ class AttribBox {
       </div>
 
 
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager">
         <!-- HANDLE B : RECT X POSITION -->
         <label class="bl_attribManager_label ly_attribManager_label">
           <span class="bl_attr_span ly_attr_span">Handle B RECT : X</span>
@@ -1278,7 +1320,7 @@ class AttribBox {
         <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_arrowBrect_pos_key_time" type="number" value=${this.timelinePercent} />
       </div>
 
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager">
         <!-- HANDLE B : CIRCLE1 X POSITION -->
         <label class="bl_attribManager_label ly_attribManager_label">
           <span class="bl_attr_span ly_attr_span">Handle B CIRCLE1 : X</span>
@@ -1295,7 +1337,7 @@ class AttribBox {
         <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_arrowBcir1_pos_key_time" type="number" value=${this.timelinePercent} />
       </div>
 
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager" style="display:none;">
         <!-- HANDLE B : CIRCLE2 X POSITION -->
         <label class="bl_attribManager_label ly_attribManager_label">
           <span class="bl_attr_span ly_attr_span">Handle B CIRCLE2 : X</span>
@@ -1312,7 +1354,7 @@ class AttribBox {
         <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_arrowBcir2_pos_key_time" type="number" value=${this.timelinePercent} />
       </div>
 
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager">
         <!-- HANDLE C : RECT X POSITION -->
         <label class="bl_attribManager_label ly_attribManager_label">
           <span class="bl_attr_span ly_attr_span">Handle C RECT : X</span>
@@ -1329,7 +1371,7 @@ class AttribBox {
         <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_arrowCrect_pos_key_time" type="number" value=${this.timelinePercent} />
       </div>
 
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager">
         <!-- HANDLE C : CIRCLE1 X POSITION -->
         <label class="bl_attribManager_label ly_attribManager_label">
           <span class="bl_attr_span ly_attr_span">Handle C CIRCLE1 : X</span>
@@ -1346,7 +1388,7 @@ class AttribBox {
         <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_arrowCcir1_pos_key_time" type="number" value=${this.timelinePercent} />
       </div>
 
-      <div class="bl_attribManager ly_attribManager">
+      <div style="display:none;" class="bl_attribManager ly_attribManager" style="display:none;">
         <!-- HANDLE C : CIRCLE2 X POSITION -->
         <label class="bl_attribManager_label ly_attribManager_label">
           <span class="bl_attr_span ly_attr_span">Handle C CIRCLE2 : X</span>
@@ -1491,7 +1533,7 @@ class AttribBox {
       this.localTimeline = new SliderIndicator({
         id: groupId + '_' + controlId,
         target: this.timelineLocalWrapper,
-        width: '80%',
+        width: '70%',
         height: 30,
         posX: 10,
         posY: 0,
@@ -1590,13 +1632,24 @@ class AttribBox {
 
       // DISPLAYING MARKERS
       let timeArray = []
-      for(let i=0; i < keyfrmArray.length; i++) {
-        timeArray.push(keyfrmArray[i].when)
-      }
 
+      if(keyfrmArray !== undefined) {
+        for(let i=0; i < keyfrmArray.length; i++) {
+          timeArray.push(keyfrmArray[i].when)
+        }
+      }
       this.localTimeline.makeMarkerPercent(timeArray)
     }
 
+
+
+    this.hideLocalTimeline = (id, controlId) => {
+      console.log(`AttribBox ::  hideLocalTimeline ::    ${id}    ${controlId}`)
+      console.log(this.localTimelineMarker)
+
+      if(this.localTimeline) this.localTimeline.remove()
+
+    }
 
 
     this.setLocalTimelineEvHnd = (shapeType) => {
@@ -1606,6 +1659,9 @@ class AttribBox {
         // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys
         for(let evHndKeyName of Object.keys(this.domCfgs[shapeType][elemName].evHandles)){
           const domTarget = document.getElementById(this.domCfgs[shapeType][elemName].id)
+
+          // console.log(domTarget)
+
           domTarget.addEventListener(
             evHndKeyName,
             this.domCfgs[shapeType][elemName].evHandles[evHndKeyName])
@@ -1777,6 +1833,8 @@ class AttribBox {
           domObjs[domKey].markers.push(time)
         }
       }
+
+
     }
 
     this.setKeybutton_widhgt = (controlId) => {
@@ -2039,9 +2097,9 @@ class AttribBox {
 
     this.setKeybutton_all = (controlId) => {
 
-      //-// console.log(this.domCfgs)
+      console.log(this.domCfgs)
 
-      //-// console.log(`----  this.setKeybutton_all ::    ${controlId}`)
+      console.log(`----  this.setKeybutton_all ::    ${controlId}`)
       // controlId -> attr_rect_pos_key
       let splittedId = controlId.split('_')
       let type = splittedId[1]
@@ -2158,9 +2216,6 @@ class AttribBox {
       // EVENT DISPATCHING
       targetSvgDom.dispatchEvent(evToObject)
     }
-
-
-
 
 
 

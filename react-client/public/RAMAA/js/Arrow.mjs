@@ -27,6 +27,7 @@ class Arrow {
     // ID
     this.id = settings.id
 
+
     // --------------------------------------------
     // HANDLES
     // 1. LOADING FROM LOCAL STORAGE
@@ -46,7 +47,7 @@ class Arrow {
           rotCirA_posX: settings.hndA_rotCirA_posX,
           rotCirA_posY: settings.hndA_rotCirA_posY,
           rotCirB_posX: settings.hndA_rotCirB_posX,
-          rotCirB_posY: settings.hndA_rotCirB_posY
+          rotCirB_posY: settings.hndA_rotCirB_posY,
         }),
         B: new Handle({
           isStored: true,
@@ -91,7 +92,7 @@ class Arrow {
           ry: 20,
           lineWidth: 1,
           posX: settings.x,
-          posY: settings.y
+          posY: settings.y,
         }),
         B: new Handle({
           isStored: false,
@@ -102,7 +103,7 @@ class Arrow {
           ry: 15,
           lineWidth: 1,
           posX: settings.x + 200,
-          posY: settings.y + 50
+          posY: settings.y + 50,
         }),
         C: new Handle({
           isStored: false,
@@ -113,7 +114,7 @@ class Arrow {
           ry: 15,
           lineWidth: 1,
           posX: settings.x + 400,
-          posY: settings.y
+          posY: settings.y,
         })
       }
     }

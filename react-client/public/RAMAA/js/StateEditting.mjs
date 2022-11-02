@@ -88,7 +88,7 @@ class StateEditting extends State {
     this.timelineObj = new SliderDraggable({
       id: 'Timeline_main',
       target: timelineTarget,
-      width: '80%',
+      width: '70%',
       height: 56,
       posX: 0,
       posY: 0,
@@ -147,7 +147,7 @@ class StateEditting extends State {
 
 
         if( mutation.type === 'attributes' && mutation) {
-          //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
+          // console.log(`${mutation.attributeName}   WAS MODIFIED`)
           //-// console.log(`${mutation.target.id}   WAS MODIFIED`)
           //-// console.log(`${mutation.target.getAttribute(mutation.attributeName)}   WAS MODIFIED`)
 
@@ -156,6 +156,14 @@ class StateEditting extends State {
           let maximumVal = this.timelineObj.getSliderLength()
           let timeVal = timelineX / maximumVal * this.stateTimeline.duration
           this.timelinePercent = timelineX / maximumVal * 100.0
+
+
+          // console.log(timelineX)
+          // console.log(maximumVal)
+          // console.log(this.stateTimeline.duration)
+          // console.log(timeVal)
+          // console.log(this.timelinePercent)
+
 
           const event = new CustomEvent("TIMELINE_MAIN", {
             bubbles: true,

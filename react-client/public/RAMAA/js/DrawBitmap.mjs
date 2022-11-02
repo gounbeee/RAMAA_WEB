@@ -477,15 +477,29 @@ class DrawBitmap extends Draw {
     // =========================================
     // UPDATING KEYFRAME
     // =========================================
+
+    // THIS CASE INCLUDES THE CHANGES FROM LOCAL TIMELINE !!!!
     this.updateKeyframeTime = (ev) => {
       //-// console.log(`updateKeyframeTime ::  ${ev.detail.groupId}  ->  KEY INDEX  :: ${ev.detail.keyIndex}  ->  SHAPE :: ${ev.detail.shapeType}  ->  ATTR NAME :: ${ev.detail.attrName}  ->  NEW PERCENT :: ${ev.detail.percentage}`)
 
-      //-// console.log(this.timelines)
+      //console.log(this.timelines)
       const incomingGrpId = ev.detail.groupId
       const incomingShape = ev.detail.shapeType
-      const incomingAttrName = ev.detail.attrName
+      let incomingAttrName = ev.detail.attrName
       const incomingKeyIndex = parseInt(ev.detail.keyIndex)
       const incomingPercentage = Math.floor(ev.detail.percentage)
+
+      // LINKED ATTR IS LIKE POSITION X & Y
+      let attrName_linked = undefined
+
+      // CHECKING INCOMING ATTRIBUTE NAME IS CORRECT
+      if(incomingAttrName === 'x') {
+        
+        attrName_linked = 'y'
+      } else if(incomingAttrName === 'y') {
+
+        attrName_linked = 'x'
+      }
 
 
       // IF INCOMING EVENT IS SENT FROM SAME OBJECT
@@ -510,28 +524,67 @@ class DrawBitmap extends Draw {
           const shapeType = timelnName.split('_')[1]
           const attrName = timelnName.split('_')[2]
 
+          // THIS IS FOR CHECKING LINKED OR NOT
+          let timelnName_linked = undefined
+          if(attrName_linked !== undefined) {
+            timelnName_linked = timelnName.split('_')[0] + '_' + timelnName.split('_')[1] + '_' + attrName_linked
+            //console.log(timelnName_linked)
+          }
+
+
+
+
           if(shapeType === incomingShape && attrName === incomingAttrName) {
             // UPDATE TIMELINE
             let keyArray_Timeline = this.timelines[timelnName].keyframes
             let keyArray_AnimStorage = animStorageObj[timelnName].keyframes
 
+            //console.log(timelnName)
+
             // FIND UPDATED KEY FRAME USING KEYFRAME INDEX
             // 1. TIMELINES OBJECT UPDATE
             keyArray_Timeline[incomingKeyIndex].when = `${incomingPercentage}`
+
+
             // 2. LOCAL STORAGE (ANIM) UPDATE
             keyArray_AnimStorage[incomingKeyIndex].when = `${incomingPercentage}`
             str.setItem(animKeyName, JSON.stringify(animStorageObj))
             // 3. LOCAL STORAGE (ATTRIB BOX) UPDATE
-            attrboxStorageObj[attrName][incomingKeyIndex].when = `${incomingPercentage}`
+            attrboxStorageObj[attrName_linked][incomingKeyIndex].when = `${incomingPercentage}`
             str.setItem(attrboxKeyName, JSON.stringify(attrboxStorageObj))
 
             //-// console.log(localStorage)
+
+
+            if(timelnName_linked !== undefined) {
+              
+              let keyArray_Timeline_linked = this.timelines[timelnName_linked].keyframes
+              let keyArray_AnimStorage_linked = animStorageObj[timelnName_linked].keyframes
+
+              //console.log(timelnName)
+
+              // FIND UPDATED KEY FRAME USING KEYFRAME INDEX
+              // 1. TIMELINES OBJECT UPDATE
+              keyArray_Timeline_linked[incomingKeyIndex].when = `${incomingPercentage}`
+
+
+              // 2. LOCAL STORAGE (ANIM) UPDATE
+              keyArray_AnimStorage_linked[incomingKeyIndex].when = `${incomingPercentage}`
+              str.setItem(animKeyName, JSON.stringify(animStorageObj))
+              // 3. LOCAL STORAGE (ATTRIB BOX) UPDATE
+              attrboxStorageObj[attrName][incomingKeyIndex].when = `${incomingPercentage}`
+              str.setItem(attrboxKeyName, JSON.stringify(attrboxStorageObj))
+
+
+
+            }
+
+
           }
         }
       }
     }
     this.group.addEventListener('update_keyframe_time', this.updateKeyframeTime, false)
-
 
 
 

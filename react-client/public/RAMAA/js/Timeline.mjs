@@ -32,10 +32,6 @@ class Timeline {
   }
 
 
-
-  // =================================================
-  // PUBLIC API
-
   addKeyframe(setting) {
     this.keyframes.push(setting.keyframes)
     return this

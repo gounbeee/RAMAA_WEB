@@ -7,7 +7,8 @@ import { Security } from "./Security.mjs"
 import {SvgFactory} from "./SvgFactory.mjs"
 import {DraggableScreen} from "./DraggableScreen.mjs"
 
-
+//
+// THIS CLASS IS FOR timeline_local_wrapper !!!!
 class SliderIndicator {
 
   constructor(settings) {
@@ -164,7 +165,7 @@ class SliderIndicator {
             // SETTING NEW TIME VALUE TO KEYFRAME
             const newPercentage = (mappedPosition.x - this.startPos) / (this.lastPos - this.startPos) * 100.0
 
-            //-// console.log(newPercentage)
+            //console.log(newPercentage)
 
             // USING this.indicatorSel.id
             // "bf8c86a0-32b6-483a-a5fe-21f48d8a3370_attr_rect_x_indicator_0"

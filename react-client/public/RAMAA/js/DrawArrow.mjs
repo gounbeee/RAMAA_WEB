@@ -34,6 +34,13 @@ class DrawArrow extends Draw {
     this.panscaler = parseFloat(document.getElementById('zoom_select').dataset.panScaler)
 
 
+
+    // ----
+    //
+    this.mutationsList
+
+
+
     // ------------------------------------
     // CREATING LocalStorage OBJECT
     const localStrSettings = {
@@ -43,6 +50,11 @@ class DrawArrow extends Draw {
 
 
     this.animStore = {}
+
+
+
+
+
 
 
     // ======================================================================
@@ -88,6 +100,29 @@ class DrawArrow extends Draw {
       }
     }
 
+
+
+
+
+    // -----------------------------------------------------------
+    // < DISPATCHING EVENT WITH DATA >
+    // USING CustomEvent
+
+    // -----------------------------------------------------------
+    // WE ARE CREATING CustomEvent OBJECT WITH DrawArrow OBJECT !
+    // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+    let eventToArribMan = new CustomEvent('attrManagerOn', {
+      bubbles: true,                                            // TODO :: DOCUMENT THIS!
+                                                                //         THIS IS CIRITICAL FOR BUBBLING UP !!
+      detail: {
+        type: 'ARROW',
+        // arrow: this.arrow,
+        arrowObject: this
+      }
+    })
+
+
+
     // ------------------------------------
     // DRAW ARROW
     // **** NEED TO BE ROUTE LOCAL STORAGE LOADING
@@ -121,11 +156,14 @@ class DrawArrow extends Draw {
 
         thickness: settings.thickness,
         fill: settings.fill,
-        opacity: settings.opacity
+        opacity: settings.opacity,
+        dataStore: this.dataStore
       })
       // CREATING DOM ELEMENT
       this.arrow.create()
+
     } else {
+
       this.arrow = new Arrow({
         isStored: false,
         target: this.group,                                          // TARGET SVG-DOM OBJECT
@@ -135,7 +173,8 @@ class DrawArrow extends Draw {
         y: settings.y,
         thickness: settings.thickness,
         fill: settings.fill,
-        opacity: settings.opacity
+        opacity: settings.opacity,
+        dataStore: this.dataStore
       })
       // CREATING DOM ELEMENT
       this.arrow.create()
@@ -161,23 +200,8 @@ class DrawArrow extends Draw {
     // ======================================================================
 
 
-    // -----------------------------------------------------------
-    // < DISPATCHING EVENT WITH DATA >
-    // USING CustomEvent
 
 
-    // -----------------------------------------------------------
-    // WE ARE CREATING CustomEvent OBJECT WITH TextArea OBJECT !
-    // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
-    let eventToArribMan = new CustomEvent('attrManagerOn', {
-      bubbles: true,                                            // TODO :: DOCUMENT THIS!
-                                                                //         THIS IS CIRITICAL TO BUBBLING UP !!
-      detail: {
-        type: 'ARROW',
-        // arrow: this.arrow,
-        arrowObject: this
-      }
-    })
 
 
     this.resetHandles = (ev) => {
@@ -193,7 +217,7 @@ class DrawArrow extends Draw {
     // https://developer.mozilla.org/en-US/docs/Web/API/Element/dblclick_event
 
     this.arrowDoubleClick = (ev) => {
-      //-// console.log(`---- SVG-ARROW DOUBLE CLICKED ::  -- ID -- ${this.arrow.svgDom.getAttribute('id')}`)
+      //console.log(`---- SVG-ARROW DOUBLE CLICKED ::  -- ID -- ${this.arrow.svgDom.getAttribute('id')}`)
       // -----------------------------------------------------------
       // USING GLOBAL-SCOPED EVENT (main_global.js)
       // https://javascript.info/dispatch-events
@@ -201,8 +225,15 @@ class DrawArrow extends Draw {
       // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent
       // https://developer.mozilla.org/en-US/docs/Web/Events/Creating_and_triggering_events
       ev.target.dispatchEvent(eventToArribMan)
+
+      //console.log(ev.target)
+
     }
     this.arrow.svgDom.addEventListener("dblclick", this.arrowDoubleClick, false)
+
+
+
+
 
 
     this.arrowMouseDown = (ev) => {
@@ -211,22 +242,6 @@ class DrawArrow extends Draw {
       ev.preventDefault()
 
       this.arrow.seeHandles()
-
-
-      // // ------------------------
-      // // DRAW BOUNDING BOX !
-
-      // console.log(this.arrow.svgDom.getBBox())
-
-      // //console.log()
-
-      // superClass.boundBoxCoords.x = parseInt(this.arrow.svgDom.getBBox().x)
-      // superClass.boundBoxCoords.y = parseInt(this.arrow.svgDom.getBBox().y) 
-      // superClass.boundBoxCoords.width = parseInt(this.arrow.svgDom.getBBox().width) 
-      // superClass.boundBoxCoords.height = parseInt(this.arrow.svgDom.getBBox().height) 
-
-      // superClass.drawBoundingBox(this.svgDom)
-
 
       ev.target.dispatchEvent(eventToArribMan)
     }
@@ -247,52 +262,38 @@ class DrawArrow extends Draw {
 
     this.observer = new MutationObserver((mutationsList, observer) => {
 
+      //console.log(mutationsList)
+
+      this.mutationsList = mutationsList
+
+
+    })
+    this.observer.observe(this.group, observeConfig)
+
+
+
+    this.opacityObserver = new MutationObserver((mutationsList, observer) => {
+
+      //console.log(mutationsList)
+
+      this.mutationsList = mutationsList
       for(const mutation of mutationsList) {
-        if( mutation.type === 'attributes' ) {
-          //-// console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
-          //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
-          //-// console.log(`TO ${mutation.target.getAttribute(mutation.attributeName)}`)
+        if(mutation.type === 'attributes') {
 
+          //console.log(this.arrow.svgDom.style.opacity)
 
-          // ----------------------
-          // UPDATING LOCAL STORAGE
-          this.dataStore.zIndex = this.group.dataset.zIndex
-          this.dataStore.hndA_posRect_posX = parseInt(this.arrow.handles.A.posRect.svgDom.getAttribute('x'))
-          this.dataStore.hndA_posRect_posY = parseInt(this.arrow.handles.A.posRect.svgDom.getAttribute('y'))
-          this.dataStore.hndA_rotCirA_posX = parseInt(this.arrow.handles.A.rotCircle_A.svgDom.getAttribute('cx'))
-          this.dataStore.hndA_rotCirA_posY = parseInt(this.arrow.handles.A.rotCircle_A.svgDom.getAttribute('cy'))
-          this.dataStore.hndA_rotCirB_posX = parseInt(this.arrow.handles.A.rotCircle_B.svgDom.getAttribute('cx'))
-          this.dataStore.hndA_rotCirB_posY = parseInt(this.arrow.handles.A.rotCircle_B.svgDom.getAttribute('cy'))
-
-          this.dataStore.hndB_posRect_posX = parseInt(this.arrow.handles.B.posRect.svgDom.getAttribute('x'))
-          this.dataStore.hndB_posRect_posY = parseInt(this.arrow.handles.B.posRect.svgDom.getAttribute('y'))
-          this.dataStore.hndB_rotCirA_posX = parseInt(this.arrow.handles.B.rotCircle_A.svgDom.getAttribute('cx'))
-          this.dataStore.hndB_rotCirA_posY = parseInt(this.arrow.handles.B.rotCircle_A.svgDom.getAttribute('cy'))
-          this.dataStore.hndB_rotCirB_posX = parseInt(this.arrow.handles.B.rotCircle_B.svgDom.getAttribute('cx'))
-          this.dataStore.hndB_rotCirB_posY = parseInt(this.arrow.handles.B.rotCircle_B.svgDom.getAttribute('cy'))
-
-          this.dataStore.hndC_posRect_posX = parseInt(this.arrow.handles.C.posRect.svgDom.getAttribute('x'))
-          this.dataStore.hndC_posRect_posY = parseInt(this.arrow.handles.C.posRect.svgDom.getAttribute('y'))
-          this.dataStore.hndC_rotCirA_posX = parseInt(this.arrow.handles.C.rotCircle_A.svgDom.getAttribute('cx'))
-          this.dataStore.hndC_rotCirA_posY = parseInt(this.arrow.handles.C.rotCircle_A.svgDom.getAttribute('cy'))
-          this.dataStore.hndC_rotCirB_posX = parseInt(this.arrow.handles.C.rotCircle_B.svgDom.getAttribute('cx'))
-          this.dataStore.hndC_rotCirB_posY = parseInt(this.arrow.handles.C.rotCircle_B.svgDom.getAttribute('cy'))
-          
-          this.arrow.fill = this.arrow.svgDom.getAttribute('fill')
-          this.dataStore.fill = this.arrow.svgDom.getAttribute('fill')
           this.dataStore.opacity = this.arrow.svgDom.style.opacity
-
-
-
-
+          this.dataStore.fill = this.arrow.svgDom.getAttribute('fill')
+          this.dataStore.zIndex = this.group.dataset.zIndex
 
           this.localStorage.saveToLocalStr(this.dataStore)
-          //-// console.log(this.dataStore)
 
         }
       }
     })
-    this.observer.observe(this.group, observeConfig)
+    this.opacityObserver.observe(this.arrow.svgDom, observeConfig)
+
+
 
 
 
@@ -528,7 +529,53 @@ class DrawArrow extends Draw {
 
             //-// console.log(localStorage)
             
+            // ------------------------------------------------------------------
+            // < CHECKING FOR LINKED PARAMETER >
+            let attrName_linked
+
+            if(attrName === 'x') attrName_linked = 'y'
+            else if(attrName === 'y') attrName_linked = 'x'
+              console.log('attrName')
+              console.log(attrName)
+              console.log('attrName_linked')
+              console.log(attrName_linked)
+
+            // CONSTRUCT KEYNAME FOR ATTIBBOX STORAGE
+            const attrKeyName_linked = shapeType + hndIndex + attrName_linked           // rectAy
+              console.log('attrKeyName')
+              console.log(attrKeyName)
+              console.log('attrKeyName_linked')
+              console.log(attrKeyName_linked)
+              console.log(attrboxKeyName)
+
+            // THIS IS FOR CHECKING LINKED OR NOT
+            let timelnName_linked = undefined
+            if(attrName_linked !== undefined) {
+              timelnName_linked = timelnName.split('_')[0] + '_' + timelnName.split('_')[1] + '_' + attrName_linked
+              console.log(timelnName_linked)
+
+
+              // GETTING CURRENT TIMELINE AND ANIM STORAGE
+              let keyArray_Timeline_linked = this.timelines[timelnName_linked].keyframes
+              let keyArray_AnimStorage_linked = animStorageObj[timelnName_linked].keyframes
+
+              // FIND UPDATED KEY FRAME USING KEYFRAME INDEX
+              // 1. TIMELINES OBJECT UPDATE
+              keyArray_Timeline_linked[incomingKeyIndex].when = `${incomingPercentage}`
+              // 2. LOCAL STORAGE (ANIM) UPDATE
+              keyArray_AnimStorage_linked[incomingKeyIndex].when = `${incomingPercentage}`
+              str.setItem(animKeyName, JSON.stringify(animStorageObj))
+              // 3. LOCAL STORAGE (ATTRIB BOX) UPDATE
+
+              // FOR HANDLE'S ATTRIBUTES
+              attrboxStorageObj[attrKeyName_linked][attrName_linked][incomingKeyIndex].when = `${incomingPercentage}`
+              str.setItem(attrboxKeyName, JSON.stringify(attrboxStorageObj))
+              
+            }
+          
+
           }
+
         }
       }
     }
@@ -610,8 +657,20 @@ class DrawArrow extends Draw {
     // SAVING TO LOCAL DATA
     // WHEN INITIALIZATION
     if(settings.isStored === false) {
+
+
       this.setDataStore()
-      this.localStorage.saveToLocalStr(this.dataStore)
+
+      // ------------------------------------------------
+      // TRANSFER dataStore TO ARROW AND HANDLES !!!!!
+      this.arrow.handles.A.transferDataStore(this.dataStore, this.localStorage)
+      this.arrow.handles.B.transferDataStore(this.dataStore, this.localStorage)
+      this.arrow.handles.C.transferDataStore(this.dataStore, this.localStorage)
+
+
+
+      //this.localStorage.saveToLocalStr(this.dataStore)
+
 
       // REQUIRED DATA FOR ATTRIBBOX STORAGE IS FOR DISPLAYING 'LOCAL TIMELINE'
       // SO THAT MEANS ONLY 'ANIMATABLE PARAMETERS'
@@ -623,11 +682,21 @@ class DrawArrow extends Draw {
 
 
     } else {
+
       // ---------------------------------------------------------
       // LOADING FROM LOCAL STORAGE
 
       // SHAPES
+
       this.setDataStore()
+
+
+      //console.log(this.dataStore)
+      // ------------------------------------------------
+      // TRANSFER dataStore TO ARROW AND HANDLES !!!!!
+      this.arrow.handles.A.transferDataStore(this.dataStore, this.localStorage)
+      this.arrow.handles.B.transferDataStore(this.dataStore, this.localStorage)
+      this.arrow.handles.C.transferDataStore(this.dataStore, this.localStorage)
 
 
       // ANIMATIONS
@@ -771,7 +840,7 @@ class DrawArrow extends Draw {
 
     // ------------------------------------
     // AFTERLOADING (IF NECESSARY)
-    if(settings.isStored) this.afterload(settings)
+    // if(settings.isStored) this.afterload(settings)
 
 
     // ======================================================================
@@ -789,6 +858,7 @@ class DrawArrow extends Draw {
   // 1. WHEN NEWLY CREATED
   // 2. LOADING FROM LOCAL STORAGE
   setDataStore() {
+
     this.dataStore = {
       type: 'ARROW',
       isStored: true,
@@ -989,8 +1059,9 @@ class DrawArrow extends Draw {
 
 
     // ORDER BELOW IS CRITICAL!!!
-    this.arrow.svgDom.setAttribute("fill", prevObj.arrow.fill)            // 1
-    this.arrow.fill = prevObj.arrow.fill                                  // 2
+    //console.log(prevObj.arrow.fill)
+    this.arrow.svgDom.setAttribute("fill", prevObj.arrow.svgDom.getAttribute('fill'))            // 1
+    this.arrow.fill = prevObj.arrow.svgDom.getAttribute('fill')                                  // 2
     this.arrow.svgDom.style.opacity = prevObj.arrow.svgDom.style.opacity
 
     this.arrow.calRelPos_Handles()

@@ -524,7 +524,7 @@ class AttribManager {
       },
 
       arrow_move : function(ev, groupDom, arrow) {
-        //-// console.log(arrow)
+        //console.log(arrow)
 
         // ---------------------------------
         // DATA FROM
@@ -544,8 +544,8 @@ class AttribManager {
 
 
         arrow_which = arrowId.replace('arrow', '')[0]                 // A
-        arrow_objName = arrowId.substring(6, arrowId.length)        // rect
-        arrow_attrName = idSplitted[idSplitted.length-1]              // xPos
+        arrow_objName = arrowId.substring(6, arrowId.length)          // rect, cir1
+        arrow_attrName = idSplitted[idSplitted.length-1]              // x, y ...
 
 
         // ---------------------------------
@@ -557,10 +557,14 @@ class AttribManager {
         let arrow_objName_new
 
         // CONVERT DOM ID TO TARGET ID(PART)
+
+        // console.log(arrow_objName)
+        // console.log(arrow_attrName)
+
         switch( arrow_objName ) {
           case 'rect':
             arrow_objName_new = 'posRect'
-            if( arrow_attrName === 'xPos' ) {
+            if( arrow_attrName === 'x' ) {
               //valueCurrent = parseInt(document.getElementById(baseId + '_' + arrow_which + '_' + arrow_objName_new).getAttribute('x'))
               attrName = 'x'
             } else if( arrow_attrName === 'y' ) {
@@ -570,7 +574,7 @@ class AttribManager {
             break
           case 'cir1':
             arrow_objName_new = 'rotCircle_A'
-            if( arrow_attrName === 'xPos' ) {
+            if( arrow_attrName === 'x' ) {
               //valueCurrent = parseInt(document.getElementById(baseId + '_' + arrow_which + '_' + arrow_objName_new).getAttribute('cx'))
               attrName = 'cx'
             } else if( arrow_attrName === 'y' ) {
@@ -580,7 +584,7 @@ class AttribManager {
             break
           case 'cir2':
             arrow_objName_new = 'rotCircle_B'
-            if( arrow_attrName === 'xPos' ) {
+            if( arrow_attrName === 'x' ) {
               //valueCurrent = parseInt(document.getElementById(baseId + '_' + arrow_which + '_' + arrow_objName_new).getAttribute('cx'))
               attrName = 'cx'
             } else if( arrow_attrName === 'y' ) {
@@ -596,11 +600,14 @@ class AttribManager {
         let targetSVG = document.getElementById(targetId)
         targetSVG.setAttribute(attrName, newValue)
 
+        // console.log(attrName)
+        // console.log(newValue)
+        // console.log(targetSVG)
 
         // 2- UPDATE PATH
         //    WITH SETTINGS
 
-        arrow.update({
+        arrow.arrow.update({
           objName: arrow_objName,
           attrName: arrow_attrName
         })
@@ -1093,7 +1100,7 @@ class AttribManager {
     // -------------------------------------------------------
     // EVENT HANDLERS FOR UPDATING ATTRIB BOX
     this.workarea.addEventListener('attrManagerUpdate', (event) => {
-      //-// console.log(`~~~~   AttribManager :: CUSTOM EVENT - attrManagerUpdate IS TRIGGERED ! event.target IS -- ${event.target.id}`)
+      console.log(`~~~~   AttribManager :: CUSTOM EVENT - attrManagerUpdate IS TRIGGERED ! event.target IS -- ${event.target.id}`)
 
       // UPDATE ATTRIB BOX FOR HANDLES
       let grpId = event.target.id.split('_')[0]

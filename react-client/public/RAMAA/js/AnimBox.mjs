@@ -453,7 +453,7 @@ class AnimBox {
       for(const mutation of mutationsList) {
 
         if( mutation.type === 'attributes' && mutation) {
-          //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
+          //console.log(`${mutation.attributeName}   WAS MODIFIED`)
           //-// console.log(`${mutation.target.id}   WAS MODIFIED`)
           //-// console.log(`${mutation.target.getAttribute(mutation.attributeName)}   WAS MODIFIED`)
 
@@ -463,7 +463,7 @@ class AnimBox {
           let timeVal = timelineX / maximumVal * parseFloat(document.getElementById('Timeline_main').dataset.timeDuration)
           let timelinePercent = timelineX / maximumVal * 100.0
 
-          //-// console.log(timelinePercent)
+          //console.log(timelinePercent)
           const animBoxStartPosX = layOut.minX
           const animBoxSliderLength = layOut.maxX - layOut.minX
 

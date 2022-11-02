@@ -32,15 +32,13 @@ class KeyframeManager {
 
     this.mainTimeLineReact = (ev) => {
 
-      //-// console.log(group.id)
-      //-// console.log(ev.detail.percentVal)
-
+      //console.log(ev.detail)
 
       let maintimeline = ev.detail.time
       let maintimelinePercent = ev.detail.timePercent
 
       // IF THERE IS KEY-FRAMED ELEMENTS, ANIMATE THAT ATTRIBUTES
-      //-// console.log(this.timelines[settings.targetId].getResult(maintimeline))
+      //console.log(this.timelines[settings.targetId].getResult(maintimeline))
 
       // IF SETTING'S TARGET ID IS NOT INCLUDED IN TIMELINES, JUST RETURN
       if(!Object.keys(this.currentObj.timelines).includes(settings.targetId)) return
@@ -255,6 +253,8 @@ class KeyframeManager {
         // TARGET ::
         // 1bdd7634-a521-42be-bcd6-e8941b4d0dd3_A_posRect
 
+        //console.log(resultId)
+
 
         if(settings.obj) {
 
@@ -262,7 +262,7 @@ class KeyframeManager {
           // SO NEEDED TO CALCULATE BELOW BEFORE APPLYING POSITIONS.
           // WITHOUT THIS, 'FROZEN' RELATIVE POSITIONS WILL
           // 'OVERWRITE' THE ROTATION CIRCLE'S POSITION
-          // SO ROTATION CIRCLE'S ANIMATION WILL 'CANCELED'
+          // SO ROTATION CIRCLE'S ANIMATION WILL BE 'CANCELED'
           settings.obj.arrow.calRelPos_Handles()
 
           settings.obj.arrow.update({
