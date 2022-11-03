@@ -15,9 +15,9 @@ import { ButtonToggle }         from "./ButtonToggle.mjs"
 import { ButtonSimple }         from "./ButtonSimple.mjs"
 import { BitmapPad }            from "./BitmapPad.mjs"
 import { Security }             from "./Security.mjs"
-import { ConnectionManager }    from "./ConnectionManager.mjs"
 import { InputManager }         from "./InputManager.mjs"
 import { SelectionManager }     from "./SelectionManager.mjs"
+import { SvgFactory }           from "./SvgFactory.mjs"
 
 
 // FUNCTIONALITIES FOR BETA VERSION
@@ -51,7 +51,8 @@ class StateEditting extends State {
     // -------------------------------------------
     // INITIALIZING CANVAS
     this.canvasSettings = {
-      state: this.name,
+      state: this.name, 
+      stateObj: this, 
       WIDTH: 800,
       HEIGHT: 500,
       stylesheets: ['bl_workarea', 'ly_workarea'],
@@ -73,7 +74,7 @@ class StateEditting extends State {
     this.attribManager = new AttribManager()
 
     // CREATING ModalManager OBJECT
-    this.modalManager = new ModalManager()
+    this.modalManager = new ModalManager(this)
 
     // CREATING LocalStorage OBJECT
     this.localStorageManager = new LocalStorageManager()
@@ -81,8 +82,41 @@ class StateEditting extends State {
     // CREATING SourceManager OBJECT
     this.sourceManager = new SourceManager()
 
+    // INPUT MANAGER
+    const inputManager = new InputManager()
+    
     // SELECTION MANAGER 
     this.selectionManager = new SelectionManager()
+
+    // GETTING FACTORY FOR DRAWING SVG ELEMENT
+    this.svgFactory = new SvgFactory().initialize()
+
+
+
+    // ----------------------------------------------
+    // SETTING CANVAS-DOM OVERLAY
+
+    this.nsSvg = 'http://www.w3.org/2000/svg'
+
+    this.canvas_dom_overlay = document.createElementNS(this.nsSvg, 'svg')
+    this.canvas_dom_overlay.setAttribute("id", "svgcanvas_overlay")
+    // CANVAS POSITION X AND Y
+    this.canvas_dom_overlay.setAttribute("x", 0)
+    this.canvas_dom_overlay.setAttribute("y", 0)
+
+    this.canvas_dom_overlay.setAttribute("width", document.getElementById('workarea').offsetWidth)
+    this.canvas_dom_overlay.setAttribute("height", document.getElementById('workarea').offsetHeight)
+    
+    // this.canvas_dom_overlay.classList.add('bl_workarea')
+    // this.canvas_dom_overlay.classList.add('ly_workarea')
+    this.canvas_dom_overlay.setAttribute("viewBox", `0 0 ${document.getElementById('workarea').offsetWidth} ${document.getElementById('workarea').offsetHeight}`)
+
+
+    document.getElementById('allArea').appendChild(this.canvas_dom_overlay)
+
+    //document.getElementById('allArea').insertBefore(this.canvas_dom_overlay, document.getElementById('allArea').firstChild)
+
+
 
 
     // -------------------------------------------------------------
@@ -1021,7 +1055,6 @@ class StateEditting extends State {
 
 
     // CONNECTION MANAGER 
-
     const createConnBtn = document.getElementById('menu_create_connection')
 
     createConnBtn.addEventListener('click', (e) => {
@@ -1033,14 +1066,31 @@ class StateEditting extends State {
     
 
 
-
-    const inputManager = new InputManager()
-
+    // INPUT MANAGER :: MONITORING KEY
     inputManager.onGlobalKeyCheck()
 
 
 
+    // CONNECTED OBJECT LIST
+    this.connectsList = {}
 
+
+
+    this.makeConnections = () => {
+
+      console.log('makeConnections !!!!')
+
+
+      for( let grpId in gl_SELECTEDLIST ) {
+
+
+        console.log('CREATE CONNECTION !!!!')
+
+        gl_SELECTEDLIST[grpId].makeConnections()
+
+      }
+
+    }
 
   }
 
@@ -1151,7 +1201,8 @@ class StateEditting extends State {
 
 
   update() {
-    //-// console.log('%%  StateEditting.js : update FUNCTION EXECUTED')
+    //console.log('%%  StateEditting.js : update FUNCTION EXECUTED')
+
 
 
   }

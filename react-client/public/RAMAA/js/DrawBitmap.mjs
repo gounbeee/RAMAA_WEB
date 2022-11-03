@@ -225,6 +225,7 @@ class DrawBitmap extends Draw {
             height: this.foreignDom.getBBox().height
           })
 
+          this.selectionManager.deleteOverlayBox()
 
 
 
@@ -319,10 +320,13 @@ class DrawBitmap extends Draw {
       else if (gl_SELECTEDLIST[this.groupId] === undefined && gl_SHIFTKEYPRESSED) this.selectionManager.add(this)
       else {
 
-        gl_SELECTEDLIST = {}
+        this.selectionManager.deleteOverlayBox()
         this.selectionManager.add(this)
 
       }
+
+
+      this.selectionManager.drawOverlayBox()
 
 
 
@@ -338,6 +342,7 @@ class DrawBitmap extends Draw {
       console.log('MOUSE IS UP !!')
       // DELETE BOUNDING BOX !!!!
       superClass.removeBoundingBox()
+
 
     }
 
@@ -891,7 +896,7 @@ class DrawBitmap extends Draw {
     this.selectionManager = stateObj.selectionManager
 
 
-  
+
   }
 
 

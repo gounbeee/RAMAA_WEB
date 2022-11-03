@@ -185,7 +185,7 @@ class DrawRectangle extends Draw {
             height: this.svgDom.getBBox().height
           })
 
-
+          this.selectionManager.deleteOverlayBox()
 
 
 
@@ -268,10 +268,13 @@ class DrawRectangle extends Draw {
       else if (gl_SELECTEDLIST[this.groupId] === undefined && gl_SHIFTKEYPRESSED) this.selectionManager.add(this)
       else {
 
-        gl_SELECTEDLIST = {}
+        this.selectionManager.deleteOverlayBox()
         this.selectionManager.add(this)
 
       }
+
+      this.selectionManager.drawOverlayBox()
+
 
 
 
@@ -286,6 +289,7 @@ class DrawRectangle extends Draw {
       console.log('MOUSE IS UP !!')
       // DELETE BOUNDING BOX !!!!
       superClass.removeBoundingBox()
+
 
     }
 

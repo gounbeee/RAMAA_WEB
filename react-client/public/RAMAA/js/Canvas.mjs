@@ -64,6 +64,10 @@ class Canvas {
     this.panScaler = 1.0
 
 
+    // RECEIVING STATE OBJ
+    this.stateObj = settings.stateObj
+
+
     // ----------------------------------------------
     // SETTING CANVAS-DOM
     this.canvas_dom = document.createElementNS(this.nsSvg, 'svg')
@@ -392,7 +396,7 @@ class Canvas {
         this.canvas_dom.dispatchEvent(resetHandles)
 
         console.log("RESETTING gl_SELECTEDLIST")
-        gl_SELECTEDLIST = {}
+        this.stateObj.selectionManager.deleteOverlayBox()
         console.log(gl_SELECTEDLIST)
 
 
@@ -402,6 +406,9 @@ class Canvas {
         return mousemove.pipe(
           // mm IS MouseEvent WHEN MOUSE IS MOVING
           map(mm => {
+
+            this.stateObj.selectionManager.deleteOverlayBox()
+
 
             //console.log(`MOUSE MOVING  :: mm.layerX  ${mm.layerX}   --  mm.layerY  ${mm.layerY}`)
             //console.log(`MOUSE MOVING  ::  ${mm.movementX}   --   ${mm.movementY}`)

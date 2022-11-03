@@ -6,6 +6,7 @@ import { TextArea }         from "./TextArea.mjs"
 import { DraggableScreen }  from "./DraggableScreen.mjs"
 import { ZIndexManager }    from "./ZIndexManager.mjs"
 import { LocalStorage }     from "./LocalStorage.mjs"
+import { SvgFactory }       from "./SvgFactory.mjs"
 
 
 // DRAW SVG OBJECT : RECTANGLE SHAPE
@@ -51,6 +52,13 @@ class DrawTextArea extends Draw {
     if(!this.groupId) {
       this.groupId = new Security().getUUIDv4()
     }
+
+
+
+    // CONNECTIONS
+    this.connections = {}
+
+
 
 
     // ======================================================================
@@ -318,7 +326,7 @@ class DrawTextArea extends Draw {
             height: this.svgDom.getBBox().height
           })
 
-
+          this.selectionManager.deleteOverlayBox()
 
 
           // =================================================================================================
@@ -484,6 +492,8 @@ class DrawTextArea extends Draw {
       superClass.drawBoundingBox(this.svgDom)
 
 
+
+
       // ------------------------
       // GLOBAL SELECT LIST !!!!
       console.log(gl_SELECTEDLIST[this.groupId])
@@ -494,10 +504,15 @@ class DrawTextArea extends Draw {
       else if (gl_SELECTEDLIST[this.groupId] === undefined && gl_SHIFTKEYPRESSED) this.selectionManager.add(this)
       else {
 
-        gl_SELECTEDLIST = {}
+        this.selectionManager.deleteOverlayBox()
         this.selectionManager.add(this)
 
       }
+
+      this.selectionManager.drawOverlayBox()
+
+
+
 
 
       // SETTING SCREEN DRAG OBJECT
@@ -1168,6 +1183,70 @@ class DrawTextArea extends Draw {
 
     // SELECTION MANAGER 
     this.selectionManager = stateObj.selectionManager
+
+
+    this.svgFactory = new SvgFactory().initialize()
+
+    this.makeConnections = () => {
+
+
+      console.log("DrawTextArea  :: makeConnections() ")
+
+      // CREATE SLOT TO CONNECT
+      for( let grpId in gl_SELECTEDLIST ) {
+
+        if(grpId !== this.groupId) {
+          this.connections[grpId] = gl_SELECTEDLIST[grpId]
+          console.log(grpId)
+        }
+      }
+
+
+      // DRAW LINE FROM THIS OBJ TO CONNECTIONS
+      console.log(this.connections)
+
+
+      // x: this.textAreaObject.posX,
+      // y: this.textAreaObject.posY + this.svgDom.getBBox().y,
+      // width: this.svgDom.getBBox().width,
+      // height: this.svgDom.getBBox().height
+
+      for( let grpId in this.connections ) {
+
+
+        console.log(this.connections[grpId])
+
+
+        const settings = {
+          target: document.getElementById("svgcanvas_overlay"),
+          id: this.groupId + '_To_' + grpId,
+          pointA: {
+            posX: this.textAreaObject.posX,
+            posY: this.textAreaObject.posY,
+          },
+          pointB: {
+            posX: this.connections[grpId].textAreaObject.posX,
+            posY: this.connections[grpId].textAreaObject.posY,
+          },
+          lineColor: "#FFFFFF",
+          lineWidth: 3,
+        }
+
+        console.log(this.svgFactory)
+
+        this.svgFactory.createSvgDomLine(settings)
+
+
+      }      
+      
+
+
+    }
+
+
+
+
+
 
 
 

@@ -280,6 +280,7 @@ class DrawBall extends Draw {
             width: this.svgDom.getBBox().width,
             height: this.svgDom.getBBox().height
           })
+          this.selectionManager.deleteOverlayBox()
 
 
 
@@ -363,12 +364,12 @@ class DrawBall extends Draw {
       else if (gl_SELECTEDLIST[this.groupId] === undefined && gl_SHIFTKEYPRESSED) this.selectionManager.add(this)
       else {
 
-        gl_SELECTEDLIST = {}
+        this.selectionManager.deleteOverlayBox()
         this.selectionManager.add(this)
 
       }
 
-
+      this.selectionManager.drawOverlayBox()
 
 
 
@@ -384,6 +385,7 @@ class DrawBall extends Draw {
       console.log('MOUSE IS UP !!')
       // DELETE BOUNDING BOX !!!!
       superClass.removeBoundingBox()
+
 
     }
 

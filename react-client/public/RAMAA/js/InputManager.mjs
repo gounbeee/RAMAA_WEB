@@ -10,7 +10,7 @@ class InputManager {
 
 	constructor(settings, stateObj) {
 
-		console.log('%% SelectionManager.mjs :: SelectionManager CONSTRUCTOR EXECUTED')
+		console.log('%% InputManager.mjs :: InputManager CONSTRUCTOR EXECUTED')
 
 
 

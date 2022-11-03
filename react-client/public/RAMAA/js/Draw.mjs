@@ -308,15 +308,6 @@ class Draw {
 
 
 
-  connectWith( target ) {
-
-
-    
-
-
-    
-  }
-
 
 
 

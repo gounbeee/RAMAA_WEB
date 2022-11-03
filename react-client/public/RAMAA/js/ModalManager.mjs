@@ -9,8 +9,12 @@ import { ConnectionManager }  from "./ConnectionManager.mjs"
 
 class ModalManager {
 
-  constructor() {
+  constructor(stateObj) {
     //-// console.log('%% ModalManager.mjs :: ModalManager CONSTRUCTOR EXECUTED')
+
+
+    this.stateObj = stateObj
+
 
     this.modalList = {
 
@@ -57,55 +61,6 @@ class ModalManager {
         } 
       }),
 
-      // 
-      articleList: new ModalBox({
-        html: `
-              `,
-        initialize: (target) => {
-          // WE CAN LAZY INITIALIZATION WITH THIS CALLBACK FUNCTION !
-          // BECAUSE WE PASSED this OBJECT TO THE FUNCTION IN ModalBox CLASS !
-
-          //console.log("ARTICLES INITIALIZED")
-          //console.log(target)
-
-
-          // 1. SEND REQUSET TO SERVER TO GET JSON FILE WHICH CONTAINS ARTICLES
-          
-          
-
-
-          // 2.
-          // 
-          target.boxHtml.innerHTML = '<h1>Articles 2</h1>';
-
-
-
-
-        },
-        buttons: {
-
-          // btn_deleteall_yes: (ev) => {
-          //   //console.log('YES CLICKED')
-
-          //   let evToState = new CustomEvent('deleteAllObjs', {
-          //     bubbles:true
-          //   })
-
-          //   document.getElementById('workarea').dispatchEvent(evToState)
-
-
-          // },
-          // btn_deleteall_no: (ev) => {
-          //   //console.log('NO CLICKED')
-          //   this.modalList.deleteAll.hideBox()
-          // }
-
-          
-        } 
-      }),
-
-
-
       connManager: new ModalBox({
         html: `
               <h1>CREATE CONNECTION</h1>
@@ -114,23 +69,32 @@ class ModalManager {
               `,
         initialize: (target) => {
 
+          // IF THERE ARE NO SELECTED OBJECTS,
+          // DO NOTHING
+          let length = Object.keys(gl_SELECTEDLIST).length;
+          if(length > 0) {
 
-          console.log(target)
-          console.log(target.boxHtml)
-          
-          this.connectionManager = new ConnectionManager()
-          this.connectionManager.showDialog(event, this, target.boxHtml)
-    
+
+
+          } else {
+
+            console.log( "THERE ARE NO TARGETS !!!!" )
+
+          }
+
+
+
         },
         buttons: {
           btn_connManager_create: (ev) => {
             console.log('CREATE CLICKED')
 
-            // let evToState = new CustomEvent('deleteAllObjs', {
-            //   bubbles:true
-            // })
+            console.log(gl_SELECTEDLIST)
 
-            // document.getElementById('workarea').dispatchEvent(evToState)
+            this.stateObj.makeConnections()
+            
+
+
 
 
           },
