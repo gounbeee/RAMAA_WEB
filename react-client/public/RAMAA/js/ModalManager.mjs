@@ -1,7 +1,7 @@
 'use strict'
 
 import { ModalBox }     from "./ModalBox.mjs"
-// import { YourContents } from "./YourContents.mjs"
+import { ConnectionManager }  from "./ConnectionManager.mjs"
 
 
 // FOR NOW THIS CLASS HAVE ALL MODALBOX HTML AND JAVASCRIPT!
@@ -101,6 +101,48 @@ class ModalManager {
           // }
 
           
+        } 
+      }),
+
+
+
+      connManager: new ModalBox({
+        html: `
+              <h1>CREATE CONNECTION</h1>
+              <button class="modal_btn_yesorno" id="btn_connManager_back">Back</button>
+              <button class="modal_btn_yesorno" id="btn_connManager_create">Create</button> 
+              `,
+        initialize: (target) => {
+
+
+          console.log(target)
+          console.log(target.boxHtml)
+          
+          this.connectionManager = new ConnectionManager()
+          this.connectionManager.showDialog(event, this, target.boxHtml)
+    
+        },
+        buttons: {
+          btn_connManager_create: (ev) => {
+            console.log('CREATE CLICKED')
+
+            // let evToState = new CustomEvent('deleteAllObjs', {
+            //   bubbles:true
+            // })
+
+            // document.getElementById('workarea').dispatchEvent(evToState)
+
+
+          },
+          btn_connManager_back: (ev) => {
+            console.log('BACK CLICKED')
+
+
+            this.modalList.connManager.hideBox()
+
+
+
+          }
         } 
       }),
 

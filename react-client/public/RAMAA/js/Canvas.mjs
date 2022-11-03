@@ -391,6 +391,10 @@ class Canvas {
         // this.mainCanvas_area.dispatchEvent(resetHandles)
         this.canvas_dom.dispatchEvent(resetHandles)
 
+        console.log("RESETTING gl_SELECTEDLIST")
+        gl_SELECTEDLIST = {}
+        console.log(gl_SELECTEDLIST)
+
 
         // -------------------------------------------------------------
         // INNER OBSERVABLE
@@ -436,6 +440,30 @@ class Canvas {
       // STORE CURRENT VALUE
       this.canvas_dom.dataset.xSaved = -1.0 * viewPosX ;
       this.canvas_dom.dataset.ySaved = -1.0 * viewPosY ;
+
+
+      // console.log(document.getElementById('ramaaApp_overlay').children)
+
+      // const overlayList = document.getElementById('ramaaApp_overlay').children
+
+      // for( let ind in overlayList) {
+
+      //   console.log(overlayList[ind])
+
+
+
+
+      // }
+
+      // // // ----------------------------------------
+      // // // UPDATE BOUNDING BOX EITHER !!!!
+      // // superClass.updateBoundingBox({
+      // //   x: this.textAreaObject.posX,
+      // //   y: this.textAreaObject.posY + this.svgDom.getBBox().y,
+      // //   width: this.svgDom.getBBox().width,
+      // //   height: this.svgDom.getBBox().height
+      // // })
+
     });
 
 

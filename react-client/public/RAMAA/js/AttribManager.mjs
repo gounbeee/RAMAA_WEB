@@ -3,6 +3,7 @@
 import { AttribBox }        from "./AttribBox.mjs"
 import { TextArea }         from "./TextArea.mjs"
 import { AnimManager }      from "./AnimManager.mjs"
+import { InputManager }      from "./InputManager.mjs"
 
 
 
@@ -1019,8 +1020,11 @@ class AttribManager {
       // DISPLAY ANIM MANAGER
       document.getElementById('animManager_btn').style.display = ''
 
+
+
       // IF THERE IS ALREADY EXISTED AttribBox, RESET THAT
       if(this.attribBoxesAll.length > 0) this.resetAttribBox()
+
 
       // FOR RESETTING HANDLES
       const resetHandles = new Event('resetHandles')
@@ -1090,6 +1094,9 @@ class AttribManager {
           throw new Error(`THERE IS NO MATCHED TYPE`)
       }
 
+
+
+
     })
 
 
@@ -1100,7 +1107,7 @@ class AttribManager {
     // -------------------------------------------------------
     // EVENT HANDLERS FOR UPDATING ATTRIB BOX
     this.workarea.addEventListener('attrManagerUpdate', (event) => {
-      console.log(`~~~~   AttribManager :: CUSTOM EVENT - attrManagerUpdate IS TRIGGERED ! event.target IS -- ${event.target.id}`)
+      //console.log(`~~~~   AttribManager :: CUSTOM EVENT - attrManagerUpdate IS TRIGGERED ! event.target IS -- ${event.target.id}`)
 
       // UPDATE ATTRIB BOX FOR HANDLES
       let grpId = event.target.id.split('_')[0]
@@ -1189,6 +1196,7 @@ class AttribManager {
 
 
   setSelectedObj(customEventObj) {
+
     let detail = customEventObj.detail
     let selected = undefined
 
@@ -1268,6 +1276,26 @@ class AttribManager {
 
 
   resetAttribBox() {
+
+    // // console.log("resetAttribBox :: RESETTED") 
+    // // console.log(this.selectedObj)
+
+    // console.log(gl_SHIFTKEYPRESSED)
+    // console.log(this.selectedObj)
+
+
+    // PUT OUT FROM SELECTED LIST
+    if(this.selectedObj && gl_SELECTEDLIST[this.selectedObj.groupId] === this.selectedObj) {
+      console.log("resetAttribBox :: RESETTED") 
+      //console.log(gl_SHIFTKEYPRESSED) 
+      this.selectedObj.selectionManager.removeFromList(this.selectedObj)
+    
+    }
+
+
+
+
+    // RESET PROCESS
     for(let attribBoxName in this.attribBoxesAll) {
       if(this.attribBoxesAll[attribBoxName]) {
         this.attribBoxesAll[attribBoxName].remove()

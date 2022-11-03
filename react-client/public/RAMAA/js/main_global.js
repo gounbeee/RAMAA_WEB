@@ -3,3 +3,5 @@
 let gl_SCENEINDEX = 0
 
 
+let gl_SHIFTKEYPRESSED = undefined
+let gl_SELECTEDLIST = {}

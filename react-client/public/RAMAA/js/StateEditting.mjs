@@ -15,8 +15,9 @@ import { ButtonToggle }         from "./ButtonToggle.mjs"
 import { ButtonSimple }         from "./ButtonSimple.mjs"
 import { BitmapPad }            from "./BitmapPad.mjs"
 import { Security }             from "./Security.mjs"
-
-//import { SlotMatrix }           from "./SlotMatrix.mjs"
+import { ConnectionManager }    from "./ConnectionManager.mjs"
+import { InputManager }         from "./InputManager.mjs"
+import { SelectionManager }     from "./SelectionManager.mjs"
 
 
 // FUNCTIONALITIES FOR BETA VERSION
@@ -79,6 +80,9 @@ class StateEditting extends State {
 
     // CREATING SourceManager OBJECT
     this.sourceManager = new SourceManager()
+
+    // SELECTION MANAGER 
+    this.selectionManager = new SelectionManager()
 
 
     // -------------------------------------------------------------
@@ -587,7 +591,7 @@ class StateEditting extends State {
       lineMargin: 8,
       fill: "#333333",
       opacity: 1.0,
-      fontName: 'nsjp'
+      fontName: 'nsjp',
     }
     this.createBtnTextAreaClick = (event) => {
       //-// console.log("%% StateEditting.mjs :: MENU - createBtnTextAreaClick BUTTON CLICKED")
@@ -1016,7 +1020,23 @@ class StateEditting extends State {
 
 
 
+    // CONNECTION MANAGER 
 
+    const createConnBtn = document.getElementById('menu_create_connection')
+
+    createConnBtn.addEventListener('click', (e) => {
+
+      this.modalManager.modalList.connManager.open()
+  
+
+    })
+    
+
+
+
+    const inputManager = new InputManager()
+
+    inputManager.onGlobalKeyCheck()
 
 
 

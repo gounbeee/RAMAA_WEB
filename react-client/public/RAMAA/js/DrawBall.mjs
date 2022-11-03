@@ -352,6 +352,27 @@ class DrawBall extends Draw {
 
 
 
+
+      // ------------------------
+      // GLOBAL SELECT LIST !!!!
+      console.log(gl_SELECTEDLIST[this.groupId])
+      console.log(gl_SHIFTKEYPRESSED)
+      let size = Object.keys(gl_SELECTEDLIST).length;
+
+      if(size === 0) this.selectionManager.add(this)
+      else if (gl_SELECTEDLIST[this.groupId] === undefined && gl_SHIFTKEYPRESSED) this.selectionManager.add(this)
+      else {
+
+        gl_SELECTEDLIST = {}
+        this.selectionManager.add(this)
+
+      }
+
+
+
+
+
+
       ev.target.dispatchEvent(evAttrManOn)
     }
     this.svgDom.addEventListener("mousedown", this.mouseDownHnd, false)
@@ -878,6 +899,15 @@ class DrawBall extends Draw {
     // RE-ALIGN DOMs ACCORDING TO Z-INDEX
     // ======================================================================
     ZIndexManager.refreshAllSvg()
+
+
+
+
+    // SELECTION MANAGER 
+    this.selectionManager = stateObj.selectionManager
+
+
+
 
   }
 

@@ -51,6 +51,13 @@ class ModalBox {
 
     document.getElementById("ramaaApp").appendChild(this.elRoot)
 
+    
+    // EXECUTE INITIALIZE FUNTCION IF SETTINGS HAVE
+    if(setting.initialize !== undefined) {
+      setting.initialize(this)
+    }
+
+
     // SETTING EVENT LISTENERS
     if(setting.buttons !== undefined) {
       if(Object.keys(setting.buttons).length > 0 ) {
@@ -61,10 +68,7 @@ class ModalBox {
       }
     }
 
-    // EXECUTE INITIALIZE FUNTCION IF SETTINGS HAVE
-    if(setting.initialize !== undefined) {
-      setting.initialize(this)
-    }
+
 
 
 

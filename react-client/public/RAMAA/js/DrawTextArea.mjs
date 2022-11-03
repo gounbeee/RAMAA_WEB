@@ -177,6 +177,7 @@ class DrawTextArea extends Draw {
       detail: {
         type: 'TEXTAREA',
         textAreaObject: this,
+        //superClass: superClass
         //textArea: this.textAreaObject
       }
     })
@@ -483,9 +484,23 @@ class DrawTextArea extends Draw {
       superClass.drawBoundingBox(this.svgDom)
 
 
+      // ------------------------
+      // GLOBAL SELECT LIST !!!!
+      console.log(gl_SELECTEDLIST[this.groupId])
+      console.log(gl_SHIFTKEYPRESSED)
+      let size = Object.keys(gl_SELECTEDLIST).length;
+
+      if(size === 0) this.selectionManager.add(this)
+      else if (gl_SELECTEDLIST[this.groupId] === undefined && gl_SHIFTKEYPRESSED) this.selectionManager.add(this)
+      else {
+
+        gl_SELECTEDLIST = {}
+        this.selectionManager.add(this)
+
+      }
 
 
-
+      // SETTING SCREEN DRAG OBJECT
       this.screenDrag.setScreen({
         dragObj: this.group,
         mutationHandler: this.mutationHandler,
@@ -552,11 +567,6 @@ class DrawTextArea extends Draw {
           //console.log(child)
           //console.log(this.textAreaObject.tspans.length)
           //console.log(this.updatedTextArea.tspans.length)
-
-
-
-
-
 
 
 
@@ -1150,6 +1160,18 @@ class DrawTextArea extends Draw {
     // RE-ALIGN DOMs ACCORDING TO Z-INDEX
     // ======================================================================
     ZIndexManager.refreshAllSvg()
+
+
+
+
+
+
+    // SELECTION MANAGER 
+    this.selectionManager = stateObj.selectionManager
+
+
+
+
 
 
   }
