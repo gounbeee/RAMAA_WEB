@@ -359,8 +359,18 @@ class DrawTextArea extends Draw {
           //-// console.log(parseFloat(document.getElementById('zoom_select').dataset.panScaler))
 
 
+
+
           // APPLYING VALUE
           this.group.setAttribute('transform', `translate(${this.textAreaObject.posX}, ${this.textAreaObject.posY})`)
+
+
+
+          // UPDATING CONNECTIONS
+          this.updateConnections()
+
+
+
 
           // LOCAL STORAGE
           this.dataStore.x = this.textAreaObject.posX
@@ -369,6 +379,8 @@ class DrawTextArea extends Draw {
 
 
           this.group.dispatchEvent(updateWithTextArea)
+
+
 
         }
       }
@@ -479,8 +491,8 @@ class DrawTextArea extends Draw {
       
       const canvas_rect = document.getElementById('CANVAS_RECT')
 
-      const mappedPosition = this.screenPointToDivPoint(canvas_rect, this.group, ev.clientX, ev.clientY)
-      //const mappedPosition = this.screenPointToDivPoint(this.svgRoot, this.svgDom, ev.clientX, ev.clientY)
+      //const mappedPosition = this.screenPointToDivPoint(canvas_rect, this.group, ev.clientX, ev.clientY)
+      const mappedPosition = this.screenPointToDivPoint(this.svgRoot, this.svgDom, ev.clientX, ev.clientY)
 
       // ****  PANSCALER IS NEEDED ! (ZOOMED POSITION !!)
 
@@ -488,7 +500,7 @@ class DrawTextArea extends Draw {
       this.anchorPosY = mappedPosition.y * parseFloat(document.getElementById('zoom_select').dataset.panScaler)
 
       //console.log(`panScaler  ::  ${parseFloat(document.getElementById('zoom_select').dataset.panScaler)}`)
-      // console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
+      console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
 
 
 
@@ -1301,6 +1313,108 @@ class DrawTextArea extends Draw {
 
 
     }   
+
+
+
+    this.updateConnections = () => {
+
+      console.log("DrawTextArea  :: updateConnections() ")
+      
+      for( let grpId in this.connections ) {
+
+
+        // FIRST WE DELETE OLD ONE
+        const children = this.connections[grpId].childNodes
+
+        console.log(children)
+        children.forEach( child => {
+
+          if(child.tagName === 'line') {
+            console.log(child)
+            child.remove()
+          }
+
+        })
+
+      }
+
+      // FIRST WE DELETE OLD ONE
+      const children_current = this.group.childNodes
+
+      console.log(children_current)
+      children_current.forEach( child => {
+
+        if(child.tagName === 'line') {
+          console.log(child)
+          child.remove()
+        }
+
+      })
+
+
+      this.makeConnections()
+
+
+
+    }
+
+
+
+
+
+
+    //   for( let grpId in this.connections ) {
+
+    //     const targetObject = this.connections
+
+
+    //     let translatePos = targetObject[grpId].getAttribute('transform')
+    //     let translatePosArray = translatePos.split(',')
+    //     const currentX = parseInt(translatePosArray[0].match(/[\d\.]+/))
+    //     const currentY = parseInt(translatePosArray[1].match(/[\d\.]+/))
+
+    //     // console.log(currentX)
+    //     // console.log(currentY)
+    //     // console.log(parseInt(this.connections[grpId].dataset.width))
+    //     // console.log(parseInt(this.connections[grpId].dataset.height))
+
+    //     //let fromRect = this.connections[grpId].getBoundingClientRect()
+    //     //fromRect.left
+    //     //console.log(fromRect)
+
+    //     const settings = {
+    //       target: document.getElementById(this.groupId),
+    //       id: this.groupId + '_To_' + grpId,
+    //       pointA: {
+    //         posX: this.svgDom.getBBox().width /2,
+    //         posY: this.svgDom.getBBox().y + this.svgDom.getBBox().height/2,
+    //       },
+    //       pointB: {
+    //         posX: currentX - this.textAreaObject.posX + parseInt(targetObject[grpId].dataset.width)/2 ,
+    //         posY: currentY - this.textAreaObject.posY + 29,       // ***** TODO :: THIS IS NOW HARD CODED !!!!
+    //       },
+    //       lineColor: "#FFFFFF",
+    //       lineWidth: 1,
+    //     }
+
+    //     //console.log(this.svgFactory)
+
+    //     let lineConnected = this.svgFactory.createSvgDomLine(settings)
+    //     //console.log(lineConnected)
+
+    //     // STORE TO LOCAL STORAGE
+    //     this.setDataStore()
+    //     this.localStorage.saveToLocalStr(this.dataStore)
+
+
+    //   }
+
+
+
+    // }  
+
+
+
 
   }
 
