@@ -1208,6 +1208,13 @@ class DrawTextArea extends Draw {
 
       //console.log("DrawTextArea  :: makeConnections() ")
 
+      // CLEANING EMPTY SLOT
+      for( let key in this.connections ) {
+        if(key === "") delete this.connections[""]
+        if(this.connections[key] === '') delete this.connections[key]
+      }
+
+
       // CREATE SLOT TO CONNECT
       for( let grpId in gl_SELECTEDLIST ) {
 
@@ -1219,7 +1226,7 @@ class DrawTextArea extends Draw {
 
 
       // DRAW LINE FROM THIS OBJ TO CONNECTIONS
-      //console.log(this.connections)
+      console.log(this.connections)
 
       // x: this.textAreaObject.posX,
       // y: this.textAreaObject.posY + this.svgDom.getBBox().y,

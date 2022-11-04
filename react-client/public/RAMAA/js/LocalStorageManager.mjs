@@ -145,6 +145,9 @@ class LocalStorageManager {
 
         for( let grpIdConnected in stateObj.renderListAll[grpId].connections) {
 
+          console.log("grpIdConnected")
+          console.log(grpIdConnected)
+
           if(grpIdConnected !== '' ) {
 
             console.log("grpIdConnected")
@@ -153,7 +156,6 @@ class LocalStorageManager {
 
             console.log(stateObj.renderListAll[grpId].connections[grpIdConnected])
 
-            stateObj.renderListAll[grpId].makeConnections()
 
           }
       
@@ -164,6 +166,10 @@ class LocalStorageManager {
       }
 
 
+      for( let grpId in stateObj.renderListAll ) {
+            stateObj.renderListAll[grpId].makeConnections()
+
+      }
 
 
     }
