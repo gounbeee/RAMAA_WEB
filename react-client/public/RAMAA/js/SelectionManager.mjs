@@ -80,7 +80,7 @@ class SelectionManager {
 			const canvasPosX = parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved'))
 			const canvasPosY = parseInt(document.getElementById('canvas_dom').getAttribute('data-y-saved'))
 
-			this.overlayBoxList[grpId].id = gl_SELECTEDLIST[grpId].groupId
+			this.overlayBoxList[grpId].id = gl_SELECTEDLIST[grpId].groupId + '_bbox'
 			this.overlayBoxList[grpId].style.position = 'fixed';
 			this.overlayBoxList[grpId].style.top = `${overlayBoxCoords.y + canvasPosY }px`;
 			this.overlayBoxList[grpId].style.left = `${overlayBoxCoords.x + canvasPosX }px`;

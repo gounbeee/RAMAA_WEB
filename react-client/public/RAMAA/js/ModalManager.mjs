@@ -78,7 +78,7 @@ class ModalManager {
 
           } else {
 
-            console.log( "THERE ARE NO TARGETS !!!!" )
+            console.log( "ModalManager   ::   THERE ARE NO SELECTED OBJECTS !!!!" )
 
           }
 

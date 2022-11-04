@@ -16,6 +16,9 @@ class DrawTextArea extends Draw {
   constructor(settings, stateObj) {
     //-// console.log('%% DrawTextArea.mjs :: DrawTextArea CONSTRUCTOR EXECUTED')
     
+
+    //console.log(settings)
+
     const superClass = super()
 
     const settingsToSuper = {
@@ -38,7 +41,6 @@ class DrawTextArea extends Draw {
       evDispatcher: this.group
     }
     this.localStorage = new LocalStorage(localStrSettings)
-
     this.animStore = {}
 
 
@@ -54,9 +56,10 @@ class DrawTextArea extends Draw {
     }
 
 
-
+    // ------------------------------------
     // CONNECTIONS
     this.connections = {}
+
 
 
 
@@ -86,7 +89,8 @@ class DrawTextArea extends Draw {
         lineMargin: settings.lineMargin,
         fill: settings.fill,
         opacity: parseFloat(settings.opacity),
-        fontName: settings.fontName
+        fontName: settings.fontName,
+        connections: {}
       }
 
     }
@@ -126,6 +130,17 @@ class DrawTextArea extends Draw {
     //
     this.svgDom.setAttribute("id", this.groupId + '_textarea')
 
+
+
+
+
+    // APPEND TSPANS TO TEXT ELEMENT
+    for( let i = 0; i < this.textAreaObject.tspans.length; i++ ) {
+      this.svgDom.appendChild(this.textAreaObject.tspans[i])
+    }
+
+
+
     // ------------------------------------------------------------------
     // STORING DATA TO DOM
     // USING <text> ELEMENT'S x,y ATTRIBUTES AS SAVING PURPOSE OF
@@ -137,14 +152,12 @@ class DrawTextArea extends Draw {
     this.group.dataset.lineMargin = this.textAreaObject.lineMargin
     this.group.dataset.opacity = this.textAreaObject.opacity
 
-
-    // APPEND TSPANS TO TEXT ELEMENT
-    for( let i = 0; i < this.textAreaObject.tspans.length; i++ ) {
-      this.svgDom.appendChild(this.textAreaObject.tspans[i])
-    }
-
     this.textAreaObject.setLineFeedIndex()
     this.group.appendChild(this.svgDom)
+
+
+    this.group.dataset.width = parseInt(this.svgDom.getBBox().width)
+    this.group.dataset.height = parseInt(this.svgDom.getBBox().height)
 
 
     // ------------------------------------
@@ -1185,73 +1198,118 @@ class DrawTextArea extends Draw {
     this.selectionManager = stateObj.selectionManager
 
 
-    this.svgFactory = new SvgFactory().initialize()
 
+
+
+
+
+    this.svgFactory = new SvgFactory().initialize()
     this.makeConnections = () => {
 
-
-      console.log("DrawTextArea  :: makeConnections() ")
+      //console.log("DrawTextArea  :: makeConnections() ")
 
       // CREATE SLOT TO CONNECT
       for( let grpId in gl_SELECTEDLIST ) {
 
         if(grpId !== this.groupId) {
-          this.connections[grpId] = gl_SELECTEDLIST[grpId]
-          console.log(grpId)
+          this.connections[grpId] = gl_SELECTEDLIST[grpId].group
+          console.log(gl_SELECTEDLIST[grpId])
         }
       }
 
 
       // DRAW LINE FROM THIS OBJ TO CONNECTIONS
-      console.log(this.connections)
-
+      //console.log(this.connections)
 
       // x: this.textAreaObject.posX,
       // y: this.textAreaObject.posY + this.svgDom.getBBox().y,
-      // width: this.svgDom.getBBox().width,
+      // width: thi s.svgDom.getBBox().width,
       // height: this.svgDom.getBBox().height
 
       for( let grpId in this.connections ) {
 
+        let targetObject
 
-        console.log(this.connections[grpId])
+        if(grpId !== '') {
 
+          targetObject = this.connections
 
-        const settings = {
-          target: document.getElementById("svgcanvas_overlay"),
-          id: this.groupId + '_To_' + grpId,
-          pointA: {
-            posX: this.textAreaObject.posX,
-            posY: this.textAreaObject.posY,
-          },
-          pointB: {
-            posX: this.connections[grpId].textAreaObject.posX,
-            posY: this.connections[grpId].textAreaObject.posY,
-          },
-          lineColor: "#FFFFFF",
-          lineWidth: 3,
+        } else {
+
+          targetObject = gl_SELECTEDLIST
+
         }
 
-        console.log(this.svgFactory)
+        console.log(targetObject)
 
-        this.svgFactory.createSvgDomLine(settings)
+        // console.log(this.connections[grpId])
+        // console.log(this.connections[grpId].boundBoxCoords.x)
+        // console.log(this.textAreaObject.posX)
+        //console.log(this.connections[grpId])
+
+        let translatePos = targetObject[grpId].getAttribute('transform')
+        let translatePosArray = translatePos.split(',')
+        const currentX = parseInt(translatePosArray[0].match(/[\d\.]+/))
+        const currentY = parseInt(translatePosArray[1].match(/[\d\.]+/))
+
+        // console.log(currentX)
+        // console.log(currentY)
+        // console.log(parseInt(this.connections[grpId].dataset.width))
+        // console.log(parseInt(this.connections[grpId].dataset.height))
+
+        //let fromRect = this.connections[grpId].getBoundingClientRect()
+        //fromRect.left
+        //console.log(fromRect)
+
+        const settings = {
+          target: document.getElementById(this.groupId),
+          id: this.groupId + '_To_' + grpId,
+          pointA: {
+            posX: this.svgDom.getBBox().width /2,
+            posY: this.svgDom.getBBox().y + this.svgDom.getBBox().height/2,
+          },
+          pointB: {
+            posX: currentX - this.textAreaObject.posX + parseInt(targetObject[grpId].dataset.width)/2 ,
+            posY: currentY - this.textAreaObject.posY + 29,       // ***** TODO :: THIS IS NOW HARD CODED !!!!
+          },
+          lineColor: "#FFFFFF",
+          lineWidth: 1,
+        }
+
+        //console.log(this.svgFactory)
+
+        let lineConnected = this.svgFactory.createSvgDomLine(settings)
+        //console.log(lineConnected)
+
+        // STORE TO LOCAL STORAGE
+        this.setDataStore()
+        this.localStorage.saveToLocalStr(this.dataStore)
+  
+        //console.log(this.dataStore)
 
 
-      }      
-      
+
+      }
 
 
+
+    }   
+
+  }
+
+
+
+  // WE STORE IDs TO EASTABLISH CONNECTIONS
+  storeConnections(connectionList) {
+
+    let connectedIds = []
+
+    for( let grpId in connectionList ) {
+      console.log(grpId)
+      connectedIds.push(grpId)
     }
 
-
-
-
-
-
-
-
-
-
+    return connectedIds.toString()
 
   }
 
@@ -1260,11 +1318,15 @@ class DrawTextArea extends Draw {
   // ----------------------------------------------------------------------
   //
   setDataStore() {
+    const connectionList = this.storeConnections(this.connections)
+    console.log("setDataStore() FUNCTION... CHECKING CONNECTIONS")
+
+
     this.dataStore = {
       type: 'TEXTAREA',
       isStored: true,
       id: this.groupId,
-      zIndex: this.group.dataset.zIndex,
+      zIndex: parseInt(this.group.dataset.zIndex),
       svg_id: this.svgDom.id,
       x: this.textAreaObject.posX,
       y: this.textAreaObject.posY,
@@ -1276,15 +1338,36 @@ class DrawTextArea extends Draw {
       textControlId : this.textContentControlId,
       fontSize: parseInt(this.group.dataset.fontSize),
       fontName: this.group.dataset.fontName,
-      lineMargin: parseInt(this.group.dataset.lineMargin)
+      lineMargin: parseInt(this.group.dataset.lineMargin),
+      connections: connectionList
+
     }
   }
 
   preload(settings) {
-    //-// console.log(` (LOCAL STORAGE) PRELOADING ->   ${settings.id}`)
+    console.log(` (LOCAL STORAGE) PRELOADING ->   ${settings.id}`)
     // OVERLOADING REQUIRED MEMBERS
     this.groupId = settings.id
     this.textContentControlId = settings.textControlId
+
+    // CONVERT STRING DATA TO OBJECT
+    // BECAUSE THE CONNECTION DATA IN LOCAL STORAGE IS STRING TYPE 
+    console.log(settings)
+
+    const splConArr = settings.connections.split(',')
+    let connObj = {}
+
+    splConArr.forEach( (id) => {
+      connObj[id] = ""
+    })
+    console.log("--PRELOADING PHASE, WE JUST PREPARE SLOT FOR CONNECTIONS")
+    console.log(connObj)
+
+    // STORING CONNECTIONS OBJECT TO MEMBER VARIABLE
+    this.connections = connObj
+
+
+
 
     // DATA LOADING FROM LOCALSTORAGE
     this.textAreaSettings = {
@@ -1297,7 +1380,8 @@ class DrawTextArea extends Draw {
       lineMargin: settings.lineMargin,
       fill: settings.fill,
       opacity: parseFloat(settings.opacity),
-      fontName: settings.fontName
+      fontName: settings.fontName,
+
     }
 
 
@@ -1327,6 +1411,14 @@ class DrawTextArea extends Draw {
         control: this.textContentControlId
       }
     })
+
+
+
+
+
+
+
+
 
     // BECAUSE WE DELETE ALL TSPANS WHEN updateTect() IN TEXTAREA CLASS,
     // (TSPAN[0] IS DELETED !!!!)
@@ -1524,6 +1616,8 @@ class DrawTextArea extends Draw {
     // DELETE DOM
     this.svgDom.remove()
     this.group.remove()
+
+    this.connections = {}
 
   }
 

@@ -3,7 +3,6 @@
 
 import { StateMachine }       from "./StateMachine.mjs"
 import { State }              from "./State.mjs"
-import { StateMoving }        from "./StateMoving.mjs"
 import { StateEditting }      from "./StateEditting.mjs"
 
 
@@ -38,9 +37,6 @@ class RMMain {
       SIGNINGUP:        new State("signingup"),
       LOADDATABASE:     new State("loaddatabase"),
       EDITTING:         new StateEditting("editting"),
-      MOVING:           new StateMoving("moving"),
-      CHAT_TYPING:      new State("chat_typing"),
-      CHAT_SENDING:     new State("chat_sending"),
       QUITTING:         new State("quitting")
     }
 

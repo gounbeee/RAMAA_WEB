@@ -846,24 +846,33 @@ class AttribManager {
           //if( child.tagName !== 'text' && child.tagName !== 'tspan') {
 
           switch( child.tagName ) {
+            case 'line':                              // WE CAN HAVE line SVG ELEMENT FOR ALL TYPES
             case 'tspan':
               type = 'TEXTAREA'
               break
+            case 'line': 
             case 'text':
               type = 'TEXTAREA'
               break
+            case 'line': 
             case 'rect':
               type = 'RECTANGLE'
               break
+            case 'line':             
             case 'ellipse':
               type = 'BALL'
               break
+            case 'line':   
             case 'foreignObject':
               type = 'BITMAP'
               break
-            case 'circle':                            // TODO :: EXPAND THIS !!
+            case 'line':   
+            case 'circle':                            
               type = 'CIRCLE'
               break
+            // case 'line':                            
+            //   type = 'CONNECTION'
+            //   break
             default:
               throw new Error(`THERE IS NO MATCHED TYPE --- INPUT -- ${child.tagName}`)
           }
@@ -1054,6 +1063,7 @@ class AttribManager {
       switch(searchedType) {
 
         case 'TEXTAREA':
+        case 'TEXTAREA':
           this.allAttribs = AttribManager.getTextAreaAttributes(this.selectedObj.group)
           // MAP TO DOMs
           this.mapTextAreaAttributes(this.allAttribs, this.selectedObj)
@@ -1088,7 +1098,9 @@ class AttribManager {
           // SETUP EVENT HANDLERS TO ATTRIBUTE PANEL
           this.setBallDomEventListeners(this.selectedObj.group, this.selectedObj)
           break
-        case 'CIRCLE':    // TODO :: EXPAND THIS !
+        case 'CIRCLE':  
+          break
+        case 'CONNECTION':  
           break
         default:
           throw new Error(`THERE IS NO MATCHED TYPE`)

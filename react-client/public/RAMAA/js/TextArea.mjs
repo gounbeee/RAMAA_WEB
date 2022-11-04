@@ -88,6 +88,11 @@ class TextArea {
     this.applyFont(this.fontName)
 
 
+    // // AFTER WE CREATED TSPANS, WE CAN KNOW THE ENTIRE HEIGHT
+    // this.width = this.txt.
+    // this.height = this.fontSize * this.textLnFeed.length + this.lineMargin * this.textLnFeed.length
+
+
     // UPDATING FONT SIZE AFTER APPLYING FONT
     //this.updateFontSize()
 
@@ -376,7 +381,9 @@ class TextArea {
       this.tspans.push(el)
 
 
+
     }
+
 
 
   }

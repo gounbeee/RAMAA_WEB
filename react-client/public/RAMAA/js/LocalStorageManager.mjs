@@ -62,13 +62,27 @@ class LocalStorageManager {
 
     let strFiltered = {}
 
+    
+    console.log(str)
+
+
+
     if(Object.keys(str).length > 0) {
       for(let keyName in str) {
         // TO RETRIEVE SVG outerHTML STRINGS ONLY
         // WE USE '-' LETTER FILTERING
         // (WE HAVE 'FUNCTIONS' EITHER WITH THIS APPROACH)
+
+
+
         if(keyName.includes('-')) {
+
+          console.log(keyName)
+
           strFiltered[keyName] = JSON.parse(str[keyName])
+
+
+
         }
       }
     }
@@ -103,16 +117,59 @@ class LocalStorageManager {
         // +
         // EXCLUDE ATTRBOX LOCAL STORAGE DATA
         if(keyName.includes('-') && !keyName.includes('anim') && !keyName.includes('attrbox')) {
-          // //-// console.log(keyName)
-          // //-// console.log(str[keyName])
-          // //-// console.log(JSON.parse(str[keyName]))
+          // console.log(keyName)
+          // console.log(str[keyName])
+          // console.log(JSON.parse(str[keyName]))
 
           stateObj.addRenderObject(JSON.parse(str[keyName]), stateObj)
 
         }
       }
+
+      // ---------------------------------------------------
+      // < LAZY LOADING FOR CONNECTIONS >
+      // 
+      // AFTER LOAD FROM LOCAL STORAGE,
+      // WE NEED TO GET REAL ELEMENT FOR CONNECTION
+
+      // DATA FOR CONNECTION IS STRING IN LOCAL STORAGE,
+      // BUT WE NEED ACTUAL DOM OBJECT
+
+      console.log(stateObj.renderListAll)
+      for( let grpId in stateObj.renderListAll ) {
+        console.log("grpId")
+        console.log(grpId)
+        console.log(stateObj.renderListAll)
+        console.log(Object.keys(stateObj.renderListAll[grpId].connections).length)
+
+
+        for( let grpIdConnected in stateObj.renderListAll[grpId].connections) {
+
+          if(grpIdConnected !== '' ) {
+
+            console.log("grpIdConnected")
+            console.log(grpIdConnected)
+            stateObj.renderListAll[grpId].connections[grpIdConnected] = document.getElementById(grpIdConnected)
+
+            console.log(stateObj.renderListAll[grpId].connections[grpIdConnected])
+
+            stateObj.renderListAll[grpId].makeConnections()
+
+          }
+      
+
+        }
+
+
+      }
+
+
+
+
     }
   }
+
+
 
 
   remove() {

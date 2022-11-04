@@ -229,8 +229,15 @@ class StateEditting extends State {
 
 
     // --------------------------------------------------------------
+    // --------------------------------------------------------------
+    // --------------------------------------------------------------
+    // --------------------------------------------------------------
     //
+    // LOADING SCENE FROM LOCAL STORAGE
+
     this.localStorageManager.restoreShape(this)
+
+
 
 
     // --------------------------------------------------------------
@@ -614,6 +621,18 @@ class StateEditting extends State {
     }
 
 
+    // ===================================================================================================
+    // ===================================================================================================
+    // ===================================================================================================
+    // ===================================================================================================
+
+    // CREATION CODE
+
+
+
+    // ---------------------------------------------------------------------
+
+
     this.textareaInitSet = {
       isStored: false,
       stateObj: this,
@@ -626,7 +645,11 @@ class StateEditting extends State {
       fill: "#333333",
       opacity: 1.0,
       fontName: 'nsjp',
+      connections: {}
     }
+
+    
+    // NEW CREATION
     this.createBtnTextAreaClick = (event) => {
       //-// console.log("%% StateEditting.mjs :: MENU - createBtnTextAreaClick BUTTON CLICKED")
       //event.stopPropagation()
@@ -639,6 +662,9 @@ class StateEditting extends State {
         stateNow.addRenderObject(this.textareaInitSet, this)
       }
     }
+
+
+    // LOAD CREATION
     this.createTextArea = (settings) => {
       //-// console.log("%% StateEditting.mjs :: MENU - createBtnTextAreaClick BUTTON CLICKED")
       //event.stopPropagation()
@@ -651,6 +677,10 @@ class StateEditting extends State {
         return stateNow.addRenderObject(settings, this)
       }
     }
+
+
+
+    // ---------------------------------------------------------------------
 
     this.arrowShapeInitSet = {
       isStored: false,
@@ -684,6 +714,10 @@ class StateEditting extends State {
         return stateNow.addRenderObject(settings, this)
       }
     }
+
+
+    // ---------------------------------------------------------------------
+
 
     this.rectShapeInitSet = {
       isStored: false,                  // true  -->  ALREADY EXISTS IN LOCAL STORAGE
@@ -720,6 +754,10 @@ class StateEditting extends State {
         return stateNow.addRenderObject(settings, this)
       }
     }
+
+
+
+    // ---------------------------------------------------------------------
 
 
     this.drawingInitSet = {
@@ -762,6 +800,12 @@ class StateEditting extends State {
   
     }
 
+
+
+    // ---------------------------------------------------------------------
+
+
+
     this.ballShapeInitSet = {
       isStored: false,                  // true  -->  ALREADY EXISTS IN LOCAL STORAGE
       stateObj: this,
@@ -797,6 +841,11 @@ class StateEditting extends State {
         return stateNow.addRenderObject(settings, this)
       }
     }
+
+
+    // ---------------------------------------------------------------------
+
+
 
     // TODO :: SKIN CHANGING?
     this.aboutBtnConfigClick = ( event ) => {
