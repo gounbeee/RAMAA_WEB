@@ -1,6 +1,7 @@
 'use strict'
 
 import { DrawFactory }          from "./DrawFactory.mjs"
+import { LocalStorage }         from "./LocalStorage.mjs"
 
 
 
@@ -20,6 +21,11 @@ class LocalStorageManager {
     // FACTORY FOR DRAWING
     this.drawFactory = new DrawFactory().initialize()
 
+
+    // const localStrSettings = {
+    //   evDispatcher: this.storeTarget
+    // }
+    // this.localStrObj = new LocalStorage(localStrSettings)
 
 
     this.storeLocalBrowser = (ev) => {
@@ -135,36 +141,42 @@ class LocalStorageManager {
       // DATA FOR CONNECTION IS STRING IN LOCAL STORAGE,
       // BUT WE NEED ACTUAL DOM OBJECT
 
-      console.log(stateObj.renderListAll)
+      // console.log(stateObj.renderListAll)
       for( let grpId in stateObj.renderListAll ) {
-        console.log("grpId")
-        console.log(grpId)
-        console.log(stateObj.renderListAll)
-        console.log(Object.keys(stateObj.renderListAll[grpId].connections).length)
+        // console.log("grpId")
+        // console.log(grpId)
+        // console.log(stateObj.renderListAll)
+        // console.log(Object.keys(stateObj.renderListAll[grpId].connections).length)
 
 
         for( let grpIdConnected in stateObj.renderListAll[grpId].connections) {
 
-          console.log("grpIdConnected")
-          console.log(grpIdConnected)
+          // console.log("grpIdConnected")
+          // console.log(grpIdConnected)
 
-          if(grpIdConnected !== '' ) {
+          if(grpIdConnected !== '' || stateObj.renderListAll[grpId].connections[grpIdConnected] !== null) {
 
-            console.log("grpIdConnected")
-            console.log(grpIdConnected)
+            // console.log("grpIdConnected")
+            // console.log(grpIdConnected)
             stateObj.renderListAll[grpId].connections[grpIdConnected] = document.getElementById(grpIdConnected)
 
-            console.log(stateObj.renderListAll[grpId].connections[grpIdConnected])
+            // console.log(stateObj.renderListAll[grpId].connections[grpIdConnected])
 
+
+          } else {
+            // CLEANING IF THERE IS NULL
+            delete stateObj.renderListAll[grpId].connections[grpIdConnected]
 
           }
-      
-
         }
-
-
       }
 
+
+
+
+
+
+      // EXECUTE makeConnetions FUNCTION FOR ALL OBJECTS
 
       for( let grpId in stateObj.renderListAll ) {
             stateObj.renderListAll[grpId].makeConnections()

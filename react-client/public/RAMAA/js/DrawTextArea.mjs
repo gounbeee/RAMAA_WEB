@@ -420,7 +420,7 @@ class DrawTextArea extends Draw {
 
       for(const mutation of mutationsList) {
         if( mutation.type === 'attributes' ) {
-          //-// console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
+          // console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
           // //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
           //-// console.log(`TO ${mutation.target.getAttribute(mutation.attributeName)}`)
 
@@ -430,6 +430,10 @@ class DrawTextArea extends Draw {
           // this.dataStore.y = parseInt(this.svgDom.getAttribute('y'))
           // this.dataStore.width = parseInt(this.svgDom.getAttribute('width'))
           // this.dataStore.height = parseInt(this.svgDom.getAttribute('height'))
+            
+          // UPDATE CONNECTIONS
+          this.updateConnections()
+
 
           this.dataStore.fill = this.group.dataset.fill
           this.dataStore.zIndex = parseInt(this.group.dataset.zIndex)
@@ -575,7 +579,7 @@ class DrawTextArea extends Draw {
       if(!ev.detail.control.id) this.textContentControlId = ev.detail.control
       else this.textContentControlId = ev.detail.control.id
 
-      //-// console.log('DRAW TEXTAREA  TEXT AREA CHANGED')
+      // console.log('DRAW TEXTAREA  TEXT AREA CHANGED')
       //-// console.log(newText)
 
       // FOR SVG ELEMENTS...
@@ -614,6 +618,11 @@ class DrawTextArea extends Draw {
 
         }
       })
+
+
+      // UPDATE CONNECTIONS
+      if(this.updateConnections) this.updateConnections()
+
 
 
       // --------------------------------------
@@ -697,6 +706,10 @@ class DrawTextArea extends Draw {
 
         }
       })
+
+      // UPDATE CONNECTIONS
+      if(this.updateConnections) this.updateConnections()
+
 
       // UPDATE TO LOCAL STORAGE
       this.dataStore.width = parseInt(this.textAreaObject.width)
@@ -1212,44 +1225,93 @@ class DrawTextArea extends Draw {
 
 
 
-
-
-
     this.svgFactory = new SvgFactory().initialize()
+
+
     this.makeConnections = () => {
 
       //console.log("DrawTextArea  :: makeConnections() ")
 
       // CLEANING EMPTY SLOT
-      for( let key in this.connections ) {
-        if(key === "") delete this.connections[""]
-        if(this.connections[key] === '') delete this.connections[key]
+      for( let grpId in this.connections ) {
+        if(grpId === "" ) delete this.connections[""]
+        if(this.connections[grpId] === '' || this.connections[grpId] === null) {
+          //console.log(this.connections[grpId])
+          delete this.connections[grpId]
+        }
       }
 
 
       // CREATE SLOT TO CONNECT
       for( let grpId in gl_SELECTEDLIST ) {
 
+        // WE WANT TO CREATE SLOTS WHICH IS NOT THE SAME ONE(THIS OBJECT)
         if(grpId !== this.groupId) {
+          //
           this.connections[grpId] = gl_SELECTEDLIST[grpId].group
-          console.log(gl_SELECTEDLIST[grpId])
+          //console.log(gl_SELECTEDLIST[grpId])
+        }
+      }
+      //console.log(this.connections)
+
+
+
+
+
+
+      // UPDATING LOCAL STORAGE'S CONNECTION 
+      for(let keyName in localStorage) {
+
+        if(keyName.includes('-') && !keyName.includes('anim') && !keyName.includes('attrbox')) {
+          let localstr = JSON.parse(localStorage[keyName])
+          //console.log(localstr)
+          //console.log(localstr.connections)
+
+
+          let connList = localstr.connections.split(',')
+
+          connList = connList.filter( id => document.getElementById(id) !== null )
+
+          //console.log(connList)
+
+          const finalListStr = connList.join()
+
+          //console.log(finalListStr)
+          //console.log(localstr)
+
+          localstr.connections = finalListStr
+
+
+          //console.log(this.dataStore)
+
+          this.dataStore.connections = finalListStr
+          this.localStorage.saveToLocalStr(this.dataStore)
+         
+
         }
       }
 
 
+
       // DRAW LINE FROM THIS OBJ TO CONNECTIONS
-      console.log(this.connections)
+      //console.log(this.connections)
+
 
       // x: this.textAreaObject.posX,
       // y: this.textAreaObject.posY + this.svgDom.getBBox().y,
       // width: thi s.svgDom.getBBox().width,
       // height: this.svgDom.getBBox().height
 
-      for( let grpId in this.connections ) {
+      // console.log("===========================================")
+      // console.log("+++++++++++++++++++++++++++++++++++++++++++")
+      // console.log("this.groupId")
+      // console.log(this.groupId)
+
+      for( let connectedGrpId in this.connections ) {
 
         let targetObject
 
-        if(grpId !== '') {
+        if(connectedGrpId !== '') {
 
           targetObject = this.connections
 
@@ -1259,159 +1321,103 @@ class DrawTextArea extends Draw {
 
         }
 
-        console.log(targetObject)
 
-        // console.log(this.connections[grpId])
-        // console.log(this.connections[grpId].boundBoxCoords.x)
-        // console.log(this.textAreaObject.posX)
-        //console.log(this.connections[grpId])
+        // console.log("connectedGrpId")
+        // console.log(connectedGrpId)
+        // console.log( "-------   BEFORE  CREATING line OBJECT ... " )
+        // console.log( this.connections[connectedGrpId] )
 
-        let translatePos = targetObject[grpId].getAttribute('transform')
-        let translatePosArray = translatePos.split(',')
-        const currentX = parseInt(translatePosArray[0].match(/[\d\.]+/))
-        const currentY = parseInt(translatePosArray[1].match(/[\d\.]+/))
+        // ONLY IF THERE IS NO DOM OBJECTS, WE WILL CREATE NEW <line SVG ELEMENT
 
-        // console.log(currentX)
-        // console.log(currentY)
-        // console.log(parseInt(this.connections[grpId].dataset.width))
-        // console.log(parseInt(this.connections[grpId].dataset.height))
+        // CHECK 1 :: DO NOT CREATE line ELEMENT TO THIS OBJECT ITSELF !!
+        // CHECK 2 :: DO NOT CREATE IF THERE IS ALREADY EXISTED line ELEMENT TO THIS OBJECT
+        if( this.groupId !== connectedGrpId 
+          && document.getElementById(connectedGrpId + '_To_' + this.groupId) === null ) {
 
-        //let fromRect = this.connections[grpId].getBoundingClientRect()
-        //fromRect.left
-        //console.log(fromRect)
+          //console.log("-------   CREATING line OBJECT ... ")
+          //console.log(targetObject)
 
-        const settings = {
-          target: document.getElementById(this.groupId),
-          id: this.groupId + '_To_' + grpId,
-          pointA: {
-            posX: this.svgDom.getBBox().width /2,
-            posY: this.svgDom.getBBox().y + this.svgDom.getBBox().height/2,
-          },
-          pointB: {
-            posX: currentX - this.textAreaObject.posX + parseInt(targetObject[grpId].dataset.width)/2 ,
-            posY: currentY - this.textAreaObject.posY + 29,       // ***** TODO :: THIS IS NOW HARD CODED !!!!
-          },
-          lineColor: "#FFFFFF",
-          lineWidth: 1,
-        }
+          // console.log(this.connections[connectedGrpId])
+          // console.log(this.connections[connectedGrpId].boundBoxCoords.x)
+          // console.log(this.textAreaObject.posX)
+          //console.log(this.connections[connectedGrpId])
 
-        //console.log(this.svgFactory)
+          let translatePos = targetObject[connectedGrpId].getAttribute('transform')
+          let translatePosArray = translatePos.split(',')
+          const currentX = parseInt(translatePosArray[0].match(/[\d\.]+/))
+          const currentY = parseInt(translatePosArray[1].match(/[\d\.]+/))
 
-        let lineConnected = this.svgFactory.createSvgDomLine(settings)
-        //console.log(lineConnected)
+          // console.log(currentX)
+          // console.log(currentY)
+          // console.log(parseInt(this.connections[connectedGrpId].dataset.width))
+          // console.log(parseInt(this.connections[connectedGrpId].dataset.height))
 
-        // STORE TO LOCAL STORAGE
-        this.setDataStore()
-        this.localStorage.saveToLocalStr(this.dataStore)
-  
-        //console.log(this.dataStore)
+          //let fromRect = this.connections[connectedGrpId].getBoundingClientRect()
+          //fromRect.left
+          //console.log(fromRect)
 
+          const settings = {
+            target: document.getElementById(this.groupId),
+            id: this.groupId + '_To_' + connectedGrpId,
+            pointA: {
+              posX: this.svgDom.getBBox().width /2,
+              posY: this.svgDom.getBBox().y + this.svgDom.getBBox().height/2,
+            },
+            pointB: {
+              posX: currentX - this.textAreaObject.posX + parseInt(targetObject[connectedGrpId].dataset.width)/2 ,
+              posY: currentY - this.textAreaObject.posY + 29,       // ***** TODO :: THIS IS NOW HARD CODED !!!!
+            },
+            lineColor: "#FFFFFF",
+            lineWidth: 1,
+          }
 
+          // console.log(this.svgFactory)
 
+          let lineConnected = this.svgFactory.createSvgDomLine(settings)
+          // console.log(lineConnected)
+
+          // STORE TO LOCAL STORAGE
+          this.setDataStore()
+          this.localStorage.saveToLocalStr(this.dataStore)
+    
+          //console.log(this.dataStore)
+        
+        } 
       }
-
-
-
     }   
 
 
 
     this.updateConnections = () => {
 
-      console.log("DrawTextArea  :: updateConnections() ")
-      
-      for( let grpId in this.connections ) {
-
+      for( let grpId in this.stateObj.renderListAll ) {
 
         // FIRST WE DELETE OLD ONE
-        const children = this.connections[grpId].childNodes
+        let objectsUnderGrp = this.stateObj.renderListAll[grpId].group.children
 
-        console.log(children)
-        children.forEach( child => {
+        //console.log(objectsUnderGrp)
 
-          if(child.tagName === 'line') {
-            console.log(child)
-            child.remove()
+        // DELETE ALL line ELEMENTS
+        for( let obj of objectsUnderGrp ) {
+          //console.log(obj)
+
+          if(obj.tagName === 'line') {
+            obj.remove()
           }
 
-        })
-
+        }
       }
 
-      // FIRST WE DELETE OLD ONE
-      const children_current = this.group.childNodes
-
-      console.log(children_current)
-      children_current.forEach( child => {
-
-        if(child.tagName === 'line') {
-          console.log(child)
-          child.remove()
-        }
-
-      })
-
-
-      this.makeConnections()
 
 
 
+      // RE-DRAW EVERY line ELEMENTS !!!!
+      for( let grpId in this.stateObj.renderListAll ) {
+        this.stateObj.renderListAll[grpId].makeConnections()
+      }
     }
 
 
-
-
-
-
-    //   for( let grpId in this.connections ) {
-
-    //     const targetObject = this.connections
-
-
-    //     let translatePos = targetObject[grpId].getAttribute('transform')
-    //     let translatePosArray = translatePos.split(',')
-    //     const currentX = parseInt(translatePosArray[0].match(/[\d\.]+/))
-    //     const currentY = parseInt(translatePosArray[1].match(/[\d\.]+/))
-
-    //     // console.log(currentX)
-    //     // console.log(currentY)
-    //     // console.log(parseInt(this.connections[grpId].dataset.width))
-    //     // console.log(parseInt(this.connections[grpId].dataset.height))
-
-    //     //let fromRect = this.connections[grpId].getBoundingClientRect()
-    //     //fromRect.left
-    //     //console.log(fromRect)
-
-    //     const settings = {
-    //       target: document.getElementById(this.groupId),
-    //       id: this.groupId + '_To_' + grpId,
-    //       pointA: {
-    //         posX: this.svgDom.getBBox().width /2,
-    //         posY: this.svgDom.getBBox().y + this.svgDom.getBBox().height/2,
-    //       },
-    //       pointB: {
-    //         posX: currentX - this.textAreaObject.posX + parseInt(targetObject[grpId].dataset.width)/2 ,
-    //         posY: currentY - this.textAreaObject.posY + 29,       // ***** TODO :: THIS IS NOW HARD CODED !!!!
-    //       },
-    //       lineColor: "#FFFFFF",
-    //       lineWidth: 1,
-    //     }
-
-    //     //console.log(this.svgFactory)
-
-    //     let lineConnected = this.svgFactory.createSvgDomLine(settings)
-    //     //console.log(lineConnected)
-
-    //     // STORE TO LOCAL STORAGE
-    //     this.setDataStore()
-    //     this.localStorage.saveToLocalStr(this.dataStore)
-
-
-    //   }
-
-
-
-    // }  
 
 
 
@@ -1426,7 +1432,7 @@ class DrawTextArea extends Draw {
     let connectedIds = []
 
     for( let grpId in connectionList ) {
-      console.log(grpId)
+      //console.log(grpId)
       connectedIds.push(grpId)
     }
 
@@ -1440,7 +1446,7 @@ class DrawTextArea extends Draw {
   //
   setDataStore() {
     const connectionList = this.storeConnections(this.connections)
-    console.log("setDataStore() FUNCTION... CHECKING CONNECTIONS")
+    //console.log("setDataStore() FUNCTION... CHECKING CONNECTIONS")
 
 
     this.dataStore = {
@@ -1466,14 +1472,14 @@ class DrawTextArea extends Draw {
   }
 
   preload(settings) {
-    console.log(` (LOCAL STORAGE) PRELOADING ->   ${settings.id}`)
+    // console.log(` (LOCAL STORAGE) PRELOADING ->   ${settings.id}`)
     // OVERLOADING REQUIRED MEMBERS
     this.groupId = settings.id
     this.textContentControlId = settings.textControlId
 
     // CONVERT STRING DATA TO OBJECT
     // BECAUSE THE CONNECTION DATA IN LOCAL STORAGE IS STRING TYPE 
-    console.log(settings)
+    // console.log(settings)
 
     const splConArr = settings.connections.split(',')
     let connObj = {}
@@ -1481,8 +1487,8 @@ class DrawTextArea extends Draw {
     splConArr.forEach( (id) => {
       connObj[id] = ""
     })
-    console.log("--PRELOADING PHASE, WE JUST PREPARE SLOT FOR CONNECTIONS")
-    console.log(connObj)
+    // console.log("--PRELOADING PHASE, WE JUST PREPARE SLOT FOR CONNECTIONS")
+    // console.log(connObj)
 
     // STORING CONNECTIONS OBJECT TO MEMBER VARIABLE
     this.connections = connObj
@@ -1534,23 +1540,14 @@ class DrawTextArea extends Draw {
     })
 
 
-
-
-
-
-
-
-
     // BECAUSE WE DELETE ALL TSPANS WHEN updateTect() IN TEXTAREA CLASS,
     // (TSPAN[0] IS DELETED !!!!)
     // SO WE NEED TO RE-EASTABLISH THE MUTATION
     //this.setMutationObserver_tspan0()
 
 
-
-
-
   }
+
 
   loadAnimStore() {
 
