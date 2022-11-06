@@ -24,20 +24,32 @@ class SelectionManager {
 		//   height:0
 		// }
 
+
+		document.getElementById('ramaaApp_overlay').addEventListener('updateSelectBox', (ev) => {
+
+			//console.log("UPDATING SELECT BOX ARRIVED !!!!")
+			//console.log(ev.target)
+			//console.log(ev.detail)
+
+
+			this.updateOverlayBox(ev)
+
+		})
+
 	}
 
 
 	add(obj) {
 
 
-		console.log("ADDING TO LIST")
-		console.log(obj.groupId)
+		//console.log("ADDING TO LIST")
+		//console.log(obj.groupId)
 
 		gl_SELECTEDLIST[obj.groupId] = obj
 
 
-		console.log("gl_SELECTEDLIST IS")
-		console.log(gl_SELECTEDLIST)
+		//console.log("gl_SELECTEDLIST IS")
+		//console.log(gl_SELECTEDLIST)
 
 	}
 
@@ -46,13 +58,13 @@ class SelectionManager {
 
 
 		if(this.selectedList) {
-			console.log("DELETE FROM LIST")
+			//console.log("DELETE FROM LIST")
 			//console.log(obj)
 			delete gl_SELECTEDLIST[obj.groupId]
 		}
 
-		console.log("gl_SELECTEDLIST IS")
-		console.log(gl_SELECTEDLIST)
+		//console.log("gl_SELECTEDLIST IS")
+		//console.log(gl_SELECTEDLIST)
 
 	}
 
@@ -60,20 +72,15 @@ class SelectionManager {
 
 	drawOverlayBox() {
 
-		console.log("drawOverlayBox EXECUTED")
+		//console.log("drawOverlayBox EXECUTED")
 
-		console.log(gl_SELECTEDLIST)
+		//console.log(gl_SELECTEDLIST)
 
 		for( let grpId in gl_SELECTEDLIST ) {
-			console.log(gl_SELECTEDLIST[grpId])
+			//console.log(gl_SELECTEDLIST[grpId])
 
 			//console.log(this.svgDom)
 			let overlayBoxCoords = gl_SELECTEDLIST[grpId].boundBoxCoords
-			// overlayBoxCoords.x = parseInt(gl_SELECTEDLIST[grpId].svgDom.getAttribute('x'))
-			// overlayBoxCoords.y = parseInt(gl_SELECTEDLIST[grpId].svgDom.getAttribute('y'))
-			// overlayBoxCoords.width = gl_SELECTEDLIST[grpId].svgDom.getBBox().width
-			// overlayBoxCoords.height = gl_SELECTEDLIST[grpId].svgDom.getBBox().height
-
 
 			this.overlayBoxList[grpId] = document.createElement('div')
 
@@ -92,19 +99,15 @@ class SelectionManager {
 			this.overlayBoxList[grpId].style.color = 'black';
 			this.overlayBoxList[grpId].style.border = "medium solid #AAEE66";
 			this.overlayBoxList[grpId].style.padding = '20px';
-			this.overlayBoxList[grpId].style.zIndex = '50';
+			this.overlayBoxList[grpId].style.zIndex = '5';
+
+			// < POINTER EVENT NONE --> TRANSPARENTLY CLICKABLE >
+			//https://stackoverflow.com/questions/16492401/javascript-setting-pointer-events
+			this.overlayBoxList[grpId].style.pointerEvents = 'none';
 
 			document.getElementById('ramaaApp_overlay').appendChild(this.overlayBoxList[grpId])
 
-			console.log(this.overlayBoxList[grpId])
-
-			// // ADDING EVENT LISTENER TO DELETE WHEN CLICKED
-			// this.overlayBoxList[grpId].addEventListener('mouseclick', (ev) => {
-			// 	console.log("CLICKED")
-			// 	document.getElementById(gl_SELECTEDLIST[grpId].groupId).remove()
-
-			// })
-
+			//console.log(this.overlayBoxList[grpId])
 
 		}
 
@@ -112,45 +115,31 @@ class SelectionManager {
 
 
 
-  	updateOverlayBox() {
+  	updateOverlayBox(ev) {
 
-  		//gl_SELECTEDLIST = {}
+  		//console.log("updateOverlayBox")
+  		//console.log(ev)
 
-  // 		for( let grpId in gl_SELECTEDLIST ) {
+   		const selectBox = document.getElementById(ev.detail.obj.groupId + '_bbox')
 
-  // 			let transform = {
+   		//console.log(ev.detail.obj.textAreaObject.posX)
 
-	 //            x: parseInt(gl_SELECTEDLIST[grpId].svgDom.getAttribute('x')),
-	 //            y: parseInt(gl_SELECTEDLIST[grpId].svgDom.getAttribute('y')),
-	 //            width: gl_SELECTEDLIST[grpId].svgDom.getBBox().width,
-	 //            height: gl_SELECTEDLIST[grpId].svgDom.getBBox().height
-		// 	}	
+		const canvasPosX = parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved'))
+		const canvasPosY = parseInt(document.getElementById('canvas_dom').getAttribute('data-y-saved'))
 
 
-		// 	let overlayBoxCoords = gl_SELECTEDLIST[grpId].boundBoxCoords
+		selectBox.style.top = `${ev.detail.obj.textAreaObject.posY + ev.detail.obj.svgDom.getBBox().y + canvasPosY}px`;
+		selectBox.style.left = `${ev.detail.obj.textAreaObject.posX + canvasPosX}px`;
+		selectBox.style.width = `${ev.detail.obj.svgDom.getBBox().width}px`;
+		selectBox.style.height = `${ev.detail.obj.svgDom.getBBox().height}px`;
 
-		// 	// BEFORE SETTING UP BOUNDING BOX, WE WILL GET CANVAS'S POSITION
-		// 	const canvasPosX = parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved'))
-		// 	const canvasPosY = parseInt(document.getElementById('canvas_dom').getAttribute('data-y-saved'))
-
-		// 	this.overlayBoxDom.style.top = `${transform.y + canvasPosY }px`;
-		// 	this.overlayBoxDom.style.left = `${transform.x + canvasPosX }px`;
-		// 	this.overlayBoxDom.style.width = `${transform.width}px`;
-		// 	this.overlayBoxDom.style.height = `${transform.height}px`;
-
-
-		// 	// this.overlayBoxDom.style.top = `${transform.y - (this.overlayBoxCoords.height*0.25/2) + canvasPosY }px`;
-		// 	// this.overlayBoxDom.style.left = `${transform.x - (this.overlayBoxCoords.width*0.25/2) + canvasPosX }px`;
-		// 	// this.overlayBoxDom.style.width = `${transform.width * 1.25}px`;
-		// 	// this.overlayBoxDom.style.height = `${transform.height * 1.25}px`;
-
-		// }
 
   	}
 
 
-  	deleteOverlayBox() {
 
+  	deleteOverlayBox() {
+  		this.overlayBoxList = {}
   		const parent = document.getElementById('ramaaApp_overlay')
 
 	    while (parent.firstChild) {

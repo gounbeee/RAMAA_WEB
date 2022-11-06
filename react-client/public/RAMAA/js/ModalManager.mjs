@@ -63,7 +63,8 @@ class ModalManager {
 
       connManager: new ModalBox({
         html: `
-              <h1>CREATE CONNECTION</h1>
+              <h1>CREATE CONNECTION WITH TEXTS</h1>
+              <h1>Select Multiple Text Area objects first, then click Create button!</h1>
               <button class="modal_btn_yesorno" id="btn_connManager_back">Back</button>
               <button class="modal_btn_yesorno" id="btn_connManager_create">Create</button> 
               `,
@@ -87,14 +88,25 @@ class ModalManager {
         },
         buttons: {
           btn_connManager_create: (ev) => {
-            console.log('CREATE CLICKED')
+            console.log('CREATE CONNECTION CLICKED')
 
             console.log(gl_SELECTEDLIST)
 
+            // CHECK EVERY SELECTED OBJECTS ARE DrawTextArea TYPE !!!!
+            for( let grpId in gl_SELECTEDLIST ) {
+              // WE WILL CREATE CONNECTIONS ONLY FOR TEXTAREA OBJECT !!!!
+              if(gl_SELECTEDLIST[grpId].constructor.name !== 'DrawTextArea') {
+                console.log("YOU CAN CREATE CONNECTION LINE FOR ONLY DrawTextArea !!!!")
+                return
+              }
+            }
+
 
             for( let grpId in gl_SELECTEDLIST ) {
-
-              gl_SELECTEDLIST[grpId].createConnections()
+              // WE WILL CREATE CONNECTIONS ONLY FOR TEXTAREA OBJECT !!!!
+              if(gl_SELECTEDLIST[grpId].constructor.name === 'DrawTextArea') {
+                gl_SELECTEDLIST[grpId].createConnections()
+              } 
             }
 
             for( let grpId in gl_SELECTEDLIST ) {
@@ -107,9 +119,7 @@ class ModalManager {
           btn_connManager_back: (ev) => {
             console.log('BACK CLICKED')
 
-
             this.modalList.connManager.hideBox()
-
 
 
           }

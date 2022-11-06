@@ -126,7 +126,7 @@ class StateEditting extends State {
     this.timelineObj = new SliderDraggable({
       id: 'Timeline_main',
       target: timelineTarget,
-      width: '70%',
+      width: '95%',
       height: 56,
       posX: 0,
       posY: 0,
@@ -1100,8 +1100,13 @@ class StateEditting extends State {
     this.attrDispBtn.addEventListener("click", this.attrDispBtnClick )
 
 
+    // INPUT MANAGER :: MONITORING KEY
+    inputManager.onGlobalKeyCheck()
 
 
+
+    // ------------------------------------------------------------------------------------------
+    // < CONNECTION FUNCTIONALITY >
 
     // CONNECTION MANAGER 
     const createConnBtn = document.getElementById('menu_create_connection')
@@ -1109,15 +1114,8 @@ class StateEditting extends State {
     createConnBtn.addEventListener('click', (e) => {
 
       this.modalManager.modalList.connManager.open()
-  
-
     })
     
-
-
-    // INPUT MANAGER :: MONITORING KEY
-    inputManager.onGlobalKeyCheck()
-
 
 
 

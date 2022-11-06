@@ -1533,7 +1533,7 @@ class AttribBox {
       this.localTimeline = new SliderIndicator({
         id: groupId + '_' + controlId,
         target: this.timelineLocalWrapper,
-        width: '70%',
+        width: '95%',
         height: 30,
         posX: 10,
         posY: 0,

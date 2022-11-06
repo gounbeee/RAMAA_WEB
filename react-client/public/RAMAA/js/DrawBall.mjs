@@ -272,14 +272,16 @@ class DrawBall extends Draw {
 
 
 
-          // ----------------------------------------
-          // UPDATE BOUNDING BOX EITHER !!!!
-          superClass.updateBoundingBox({
-            x: parseInt(this.svgDom.getAttribute('cx')) - parseInt(this.svgDom.getBBox().width/2),
-            y: parseInt(this.svgDom.getAttribute('cy')) - parseInt(this.svgDom.getBBox().height/2),
-            width: this.svgDom.getBBox().width,
-            height: this.svgDom.getBBox().height
-          })
+          // // ----------------------------------------
+          // // UPDATE BOUNDING BOX EITHER !!!!
+          // superClass.updateBoundingBox({
+          //   x: parseInt(this.svgDom.getAttribute('cx')) - parseInt(this.svgDom.getBBox().width/2),
+          //   y: parseInt(this.svgDom.getAttribute('cy')) - parseInt(this.svgDom.getBBox().height/2),
+          //   width: this.svgDom.getBBox().width,
+          //   height: this.svgDom.getBBox().height
+          // })
+
+          
           this.selectionManager.deleteOverlayBox()
 
 
@@ -339,16 +341,16 @@ class DrawBall extends Draw {
       //-// console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
 
 
-      // ------------------------
-      // DRAW BOUNDING BOX !
+      // // ------------------------
+      // // DRAW BOUNDING BOX !
 
-      //console.log(this.svgDom)
-      superClass.boundBoxCoords.x = parseInt(this.svgDom.getAttribute('cx')) - parseInt(this.svgDom.getBBox().width/2)
-      superClass.boundBoxCoords.y = parseInt(this.svgDom.getAttribute('cy')) - parseInt(this.svgDom.getBBox().height/2)
-      superClass.boundBoxCoords.width = this.svgDom.getBBox().width
-      superClass.boundBoxCoords.height = this.svgDom.getBBox().height
+      // //console.log(this.svgDom)
+      // superClass.boundBoxCoords.x = parseInt(this.svgDom.getAttribute('cx')) - parseInt(this.svgDom.getBBox().width/2)
+      // superClass.boundBoxCoords.y = parseInt(this.svgDom.getAttribute('cy')) - parseInt(this.svgDom.getBBox().height/2)
+      // superClass.boundBoxCoords.width = this.svgDom.getBBox().width
+      // superClass.boundBoxCoords.height = this.svgDom.getBBox().height
 
-      superClass.drawBoundingBox(this.svgDom)
+      // superClass.drawBoundingBox(this.svgDom)
 
 
 
@@ -369,7 +371,7 @@ class DrawBall extends Draw {
 
       }
 
-      this.selectionManager.drawOverlayBox()
+      //this.selectionManager.drawOverlayBox()
 
 
 
@@ -384,7 +386,7 @@ class DrawBall extends Draw {
     this.mouseUpHnd = (ev) => {
       console.log('MOUSE IS UP !!')
       // DELETE BOUNDING BOX !!!!
-      superClass.removeBoundingBox()
+      //superClass.removeBoundingBox()
 
 
     }

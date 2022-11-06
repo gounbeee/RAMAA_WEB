@@ -216,14 +216,14 @@ class DrawBitmap extends Draw {
         
 
 
-          // ----------------------------------------
-          // UPDATE BOUNDING BOX EITHER !!!!
-          superClass.updateBoundingBox({
-            x: parseInt(this.foreignDom.getAttribute('x')),
-            y: parseInt(this.foreignDom.getAttribute('y')),
-            width: this.foreignDom.getBBox().width,
-            height: this.foreignDom.getBBox().height
-          })
+          // // ----------------------------------------
+          // // UPDATE BOUNDING BOX EITHER !!!!
+          // superClass.updateBoundingBox({
+          //   x: parseInt(this.foreignDom.getAttribute('x')),
+          //   y: parseInt(this.foreignDom.getAttribute('y')),
+          //   width: this.foreignDom.getBBox().width,
+          //   height: this.foreignDom.getBBox().height
+          // })
 
           this.selectionManager.deleteOverlayBox()
 
@@ -297,16 +297,16 @@ class DrawBitmap extends Draw {
 
 
 
-      // // ------------------------
-      // // DRAW BOUNDING BOX !
-      //console.log(this.foreignDom)
+      // // // ------------------------
+      // // // DRAW BOUNDING BOX !
+      // //console.log(this.foreignDom)
 
-      superClass.boundBoxCoords.x = parseInt(this.foreignDom.getAttribute('x'))
-      superClass.boundBoxCoords.y = parseInt(this.foreignDom.getAttribute('y'))
-      superClass.boundBoxCoords.width = this.foreignDom.getBBox().width
-      superClass.boundBoxCoords.height = this.foreignDom.getBBox().height
+      // superClass.boundBoxCoords.x = parseInt(this.foreignDom.getAttribute('x'))
+      // superClass.boundBoxCoords.y = parseInt(this.foreignDom.getAttribute('y'))
+      // superClass.boundBoxCoords.width = this.foreignDom.getBBox().width
+      // superClass.boundBoxCoords.height = this.foreignDom.getBBox().height
 
-      superClass.drawBoundingBox(this.foreignDom)
+      // superClass.drawBoundingBox(this.foreignDom)
 
 
 
@@ -326,7 +326,7 @@ class DrawBitmap extends Draw {
       }
 
 
-      this.selectionManager.drawOverlayBox()
+      //this.selectionManager.drawOverlayBox()
 
 
 
@@ -341,7 +341,7 @@ class DrawBitmap extends Draw {
     this.mouseUpHnd = (ev) => {
       console.log('MOUSE IS UP !!')
       // DELETE BOUNDING BOX !!!!
-      superClass.removeBoundingBox()
+      //superClass.removeBoundingBox()
 
 
     }

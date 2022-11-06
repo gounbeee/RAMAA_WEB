@@ -176,14 +176,14 @@ class DrawRectangle extends Draw {
 
 
 
-          // ----------------------------------------
-          // UPDATE BOUNDING BOX EITHER !!!!
-          superClass.updateBoundingBox({
-            x: parseInt(this.svgDom.getAttribute('x')),
-            y: parseInt(this.svgDom.getAttribute('y')),
-            width: this.svgDom.getBBox().width,
-            height: this.svgDom.getBBox().height
-          })
+          // // ----------------------------------------
+          // // UPDATE BOUNDING BOX EITHER !!!!
+          // superClass.updateBoundingBox({
+          //   x: parseInt(this.svgDom.getAttribute('x')),
+          //   y: parseInt(this.svgDom.getAttribute('y')),
+          //   width: this.svgDom.getBBox().width,
+          //   height: this.svgDom.getBBox().height
+          // })
 
           this.selectionManager.deleteOverlayBox()
 
@@ -245,16 +245,16 @@ class DrawRectangle extends Draw {
 
 
 
-      // ------------------------
-      // DRAW BOUNDING BOX !
+      // // ------------------------
+      // // DRAW BOUNDING BOX !
 
-      //console.log(this.svgDom)
-      superClass.boundBoxCoords.x = parseInt(this.svgDom.getAttribute('x'))
-      superClass.boundBoxCoords.y = parseInt(this.svgDom.getAttribute('y'))
-      superClass.boundBoxCoords.width = this.svgDom.getBBox().width
-      superClass.boundBoxCoords.height = this.svgDom.getBBox().height
+      // //console.log(this.svgDom)
+      // superClass.boundBoxCoords.x = parseInt(this.svgDom.getAttribute('x'))
+      // superClass.boundBoxCoords.y = parseInt(this.svgDom.getAttribute('y'))
+      // superClass.boundBoxCoords.width = this.svgDom.getBBox().width
+      // superClass.boundBoxCoords.height = this.svgDom.getBBox().height
 
-      superClass.drawBoundingBox(this.svgDom)
+      // superClass.drawBoundingBox(this.svgDom)
 
 
 
@@ -273,7 +273,7 @@ class DrawRectangle extends Draw {
 
       }
 
-      this.selectionManager.drawOverlayBox()
+      //this.selectionManager.drawOverlayBox()
 
 
 
@@ -288,7 +288,7 @@ class DrawRectangle extends Draw {
     this.mouseUpHnd = (ev) => {
       console.log('MOUSE IS UP !!')
       // DELETE BOUNDING BOX !!!!
-      superClass.removeBoundingBox()
+      //superClass.removeBoundingBox()
 
 
     }
