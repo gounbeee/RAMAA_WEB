@@ -377,7 +377,7 @@ class Canvas {
         // BECAUSE ABOVE'S  "mousedown = fromEvent(target, "mousedown")"
         // THEN, mousedown IS AN OBSERVABLE OBJECT,
         // SO HERE, WE ARE PIPING mergeMap FUNCTION SO THAT
-        // WE ARE CALCULATE CURRENT POSITION OF MOUSE CLICKED
+        // WE ARE CALCULATING CURRENT POSITION OF MOUSE CLICKED
         //console.log(md)
 
         anchorX = md.layerX // 

@@ -91,10 +91,14 @@ class ModalManager {
 
             console.log(gl_SELECTEDLIST)
 
-            this.stateObj.makeConnections()
+
+            for( let grpId in gl_SELECTEDLIST ) {
+
+              gl_SELECTEDLIST[grpId].createConnections()
+              //gl_SELECTEDLIST[grpId].drawConnections('CREATION')
+            }
+
             
-
-
 
 
           },

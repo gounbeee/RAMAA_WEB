@@ -131,59 +131,6 @@ class LocalStorageManager {
 
         }
       }
-
-      // ---------------------------------------------------
-      // < LAZY LOADING FOR CONNECTIONS >
-      // 
-      // AFTER LOAD FROM LOCAL STORAGE,
-      // WE NEED TO GET REAL ELEMENT FOR CONNECTION
-
-      // DATA FOR CONNECTION IS STRING IN LOCAL STORAGE,
-      // BUT WE NEED ACTUAL DOM OBJECT
-
-      // console.log(stateObj.renderListAll)
-      for( let grpId in stateObj.renderListAll ) {
-        // console.log("grpId")
-        // console.log(grpId)
-        // console.log(stateObj.renderListAll)
-        // console.log(Object.keys(stateObj.renderListAll[grpId].connections).length)
-
-
-        for( let grpIdConnected in stateObj.renderListAll[grpId].connections) {
-
-          // console.log("grpIdConnected")
-          // console.log(grpIdConnected)
-
-          if(grpIdConnected !== '' || stateObj.renderListAll[grpId].connections[grpIdConnected] !== null) {
-
-            // console.log("grpIdConnected")
-            // console.log(grpIdConnected)
-            stateObj.renderListAll[grpId].connections[grpIdConnected] = document.getElementById(grpIdConnected)
-
-            // console.log(stateObj.renderListAll[grpId].connections[grpIdConnected])
-
-
-          } else {
-            // CLEANING IF THERE IS NULL
-            delete stateObj.renderListAll[grpId].connections[grpIdConnected]
-
-          }
-        }
-      }
-
-
-
-
-
-
-      // EXECUTE makeConnetions FUNCTION FOR ALL OBJECTS
-
-      for( let grpId in stateObj.renderListAll ) {
-            stateObj.renderListAll[grpId].makeConnections()
-
-      }
-
-
     }
   }
 

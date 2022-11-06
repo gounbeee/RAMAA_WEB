@@ -1120,28 +1120,224 @@ class StateEditting extends State {
 
 
 
-    // CONNECTED OBJECT LIST
-    this.connectsList = {}
+
+    this.restoreConnections = () => {
+
+      console.log("this.restoreConnections")
+
+
+      // ---------------------------------------------------
+      // < LAZY LOADING FOR CONNECTIONS >
+      // 
+      // AFTER LOADING FROM LOCAL STORAGE,
+      // WE NEED TO GET REAL ELEMENT FOR CONNECTION
+
+      // DATA FOR CONNECTION IS STRING IN LOCAL STORAGE,
+      // BUT WE NEED ACTUAL DOM OBJECT
+
+      // console.log(this.renderListAll)
+      for( let grpId in this.renderListAll ) {
+        // console.log("grpId")
+        // console.log(grpId)
+        // console.log(this.renderListAll)
+        // console.log(this.renderListAll[grpId].connections)
+        // console.log(Object.keys(this.renderListAll[grpId].connections).length)
+
+
+        for( let grpIdConnected in this.renderListAll[grpId].connections) {
+
+          // console.log("grpIdConnected")
+          // console.log(grpIdConnected)
+
+          if(grpIdConnected !== '' || this.renderListAll[grpId].connections[grpIdConnected] !== null) {
+
+            // console.log("grpIdConnected")
+            // console.log(grpIdConnected)
+            this.renderListAll[grpId].connections[grpIdConnected] = document.getElementById(grpIdConnected)
 
 
 
-    this.makeConnections = () => {
+          } else {
+            // CLEANING IF THERE IS NULL
+            //console.log("NULL IS SEARCHED !!!!")
+            //delete this.renderListAll[grpId].connections[grpIdConnected]
 
-      console.log('makeConnections !!!!')
+          }
+        }
+      }
+    }
+    this.restoreConnections()
 
 
-      for( let grpId in gl_SELECTEDLIST ) {
 
 
-        console.log('CREATE CONNECTION !!!!')
+    this.updateConn = (ev) => {
+      //console.log("this.updateConn   EXECUTED !!!!")
+      //console.log(ev.detail)
+      const obj = ev.detail.obj
 
-        gl_SELECTEDLIST[grpId].makeConnections()
+      // console.log("obj.groupId")
+      // console.log(obj.groupId)
+      // console.log("obj.currentConnArray")
+      // console.log(obj.currentConnArray)
+
+      this.cleanConnections(obj.groupId, obj.currentConnArray)
+
+
+
+      for( let connectedGrpId in obj.connections ) {
+
+        if(obj.connections[connectedGrpId] === null) return
+
+
+        //console.log(obj.connections)
+
+        let translatePos = obj.connections[connectedGrpId].getAttribute('transform')
+        let translatePosArray = translatePos.split(',')
+        const currentX = parseInt(translatePosArray[0].match(/[\d\.]+/))
+        const currentY = parseInt(translatePosArray[1].match(/[\d\.]+/))
+
+
+        const settings = {
+          target: obj.group,
+          id: obj.groupId + '_To_' + connectedGrpId,
+
+          pointA: {
+            posX: 0,
+            posY: 0,
+          },
+          pointB: {
+            posX: currentX - obj.textAreaObject.posX,
+            posY: currentY - obj.textAreaObject.posY,       // ***** TODO :: THIS IS NOW HARD CODED !!!!
+          },
+
+          lineColor: "#FFFFFF",
+          lineWidth: 1,
+        }
+
+        // console.log(this.svgFactory)
+
+        // console.log("++++++++++)_(*&T^R%ET^&*()&^%&T*()&^%&*(&^%E$^T&*((")
+
+        let lineConnected = this.svgFactory.createSvgDomLine(settings)
+        // console.log(lineConnected)
+
+        // STORE TO LOCAL STORAGE
+        obj.setDataStore()
+        obj.localStorage.saveToLocalStr(obj.dataStore)
+
+
 
       }
+    }
+    document.getElementById("workarea").addEventListener('connection_update', this.updateConn)
 
+
+
+
+    this.cleanConnections = (groupId, connectedIds) => {
+
+      // FIRST WE DELETE CONNECTIONS 
+      // INVOLVED WITH CURRENT OBJECT
+      connectedIds.forEach( conIds => {
+        
+        const lineEmlId = groupId + "_To_" + conIds
+      
+        if(document.getElementById(lineEmlId) !== null) {
+
+          //console.log(document.getElementById(lineEmlId) )
+          document.getElementById(lineEmlId).remove() 
+
+        }
+      })
+
+      // SECOND, WE DELETE OTHER OBJECT'S CONNECTIONS INVOLVED WITH CURRENT OBEJCT 
+      for( let grpId in this.renderListAll ) {
+
+        // FIRST WE DELETE OLD ONE
+        let objectsUnderGrp = this.renderListAll[grpId].group.children
+
+        //console.log(objectsUnderGrp)
+
+        // DELETE ALL line ELEMENTS
+        for( let obj of objectsUnderGrp ) {
+          //console.log(obj)
+
+          if(obj.tagName === 'line') {
+
+
+
+            if( obj.getAttribute('id').includes(groupId) ) {
+              //console.log(obj)
+              obj.remove()
+            }
+          }
+        }
+      }
     }
 
+
+
+
+
+    // ----------------------------------------------
+    // RXJS
+
+    
+    // https://steemit.com/utopian-io/@superoo7/tutorials-drag-and-drop-with-rxjs
+    // https://codepen.io/superoo7/pen/OwZWZV
+
+    // const { fromEvent, interval } = rxjs;
+    // const { takeUntil, mergeMap, flatMap, map, merge } = rxjs.operators;
+    
+
+    // // dom element
+    // //const target = document.querySelector(".box");
+    // //const target = this.canvas_dom;
+    
+
+    // // CREATING < OBSERVABLE > 
+    // // WITH fromEvent FUNCTION 
+    // const connUpdate = fromEvent(document, "connection_update")
+
+
+
+    // const connUpdateObserver = connUpdate.pipe(
+
+    //   mergeMap( md => {
+
+    //     console.log(md)
+
+    //     return md
+
+
+    //   })
+
+    // )
+
+
+    // const subscription = connUpdateObserver.subscribe( data => {
+
+    //   console.log(data)
+
+    // })
+
+
+    // console.log(subscription)
+
+
+
+
+
+
+
+
+
+
   }
+
+
+
 
 
   // ============================================================

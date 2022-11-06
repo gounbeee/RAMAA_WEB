@@ -60,8 +60,7 @@ class DrawTextArea extends Draw {
     // CONNECTIONS
     this.connections = {}
 
-
-
+    this.currentConnArray = []
 
 
     // ======================================================================
@@ -366,12 +365,6 @@ class DrawTextArea extends Draw {
 
 
 
-          // UPDATING CONNECTIONS
-          this.updateConnections()
-
-
-
-
           // LOCAL STORAGE
           this.dataStore.x = this.textAreaObject.posX
           this.dataStore.y = this.textAreaObject.posY
@@ -423,16 +416,8 @@ class DrawTextArea extends Draw {
           // console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
           // //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
           //-// console.log(`TO ${mutation.target.getAttribute(mutation.attributeName)}`)
-
-          // ----------------------
-          // UPDATING LOCAL STORAGE
-          // this.dataStore.x = parseInt(this.svgDom.getAttribute('x'))
-          // this.dataStore.y = parseInt(this.svgDom.getAttribute('y'))
-          // this.dataStore.width = parseInt(this.svgDom.getAttribute('width'))
-          // this.dataStore.height = parseInt(this.svgDom.getAttribute('height'))
-            
-          // UPDATE CONNECTIONS
-          this.updateConnections()
+          
+          this.updateConns()
 
 
           this.dataStore.fill = this.group.dataset.fill
@@ -525,8 +510,8 @@ class DrawTextArea extends Draw {
 
       // ------------------------
       // GLOBAL SELECT LIST !!!!
-      console.log(gl_SELECTEDLIST[this.groupId])
-      console.log(gl_SHIFTKEYPRESSED)
+      //console.log(gl_SELECTEDLIST[this.groupId])
+      //console.log(gl_SHIFTKEYPRESSED)
       let size = Object.keys(gl_SELECTEDLIST).length;
 
       if(size === 0) this.selectionManager.add(this)
@@ -1105,7 +1090,14 @@ class DrawTextArea extends Draw {
       // CHECK IF THE GROUP ID IS IDENTICAL
       if(this.groupId === ev.detail.id) {
 
-        //-// console.log(`DELETE OBJECT BUTTON PRESSED !!!!  --->    ${ev.detail.id}`)
+        console.log(`DELETE OBJECT BUTTON PRESSED !!!!  --->    ${ev.detail.id}`)
+
+
+        // // UPDATE CONNECTIONS
+
+        // this.connections = {}
+        // this.cleanConnections()
+        // this.updateConnections()
 
 
         let str = localStorage
@@ -1149,7 +1141,9 @@ class DrawTextArea extends Draw {
         document.getElementById('workarea').dispatchEvent(evToState)
 
 
+
       }
+
     }
     this.group.addEventListener('deleteObject', this.deleteObjectHandler,false)
 
@@ -1228,119 +1222,168 @@ class DrawTextArea extends Draw {
     this.svgFactory = new SvgFactory().initialize()
 
 
-    this.makeConnections = () => {
 
-      //console.log("DrawTextArea  :: makeConnections() ")
 
+
+    this.createConnections = () => {
+
+      console.log("DrawTextArea  :: createConnections() ")
+      
       // CLEANING EMPTY SLOT
       for( let grpId in this.connections ) {
         if(grpId === "" ) delete this.connections[""]
         if(this.connections[grpId] === '' || this.connections[grpId] === null) {
           //console.log(this.connections[grpId])
+          console.log("---------------------------------------------")
+          console.log("------------          DELETE     ------------")
           delete this.connections[grpId]
         }
       }
 
 
+      console.log("-----   START -----)(*&^%RE$^&*()_")
+      console.log("this.groupId   vvvv ")
+      console.log(this.groupId)
+      // console.log("-----   this.connections")
+      // console.log(this.connections)
+
+
+      // ------------------------------------
+      // NEW CONNECTION ARRAY
+
       // CREATE SLOT TO CONNECT
       for( let grpId in gl_SELECTEDLIST ) {
-
+        //console.log(grpId)
         // WE WANT TO CREATE SLOTS WHICH IS NOT THE SAME ONE(THIS OBJECT)
-        if(grpId !== this.groupId) {
-          //
-          this.connections[grpId] = gl_SELECTEDLIST[grpId].group
-          //console.log(gl_SELECTEDLIST[grpId])
+        if(grpId !== this.groupId ) {
+          console.log(`this.groupId   ---    ${this.groupId}`)
+          console.log(`grpId   ---    ${grpId}`)
+
+          let alreadyExisted = false
+          for(let i=0; i < this.currentConnArray.length; i++) {
+            if( this.currentConnArray[i] === grpId ) alreadyExisted = true
+          }
+
+          if(alreadyExisted)  console.log("ALRESY EXISTED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+          else console.log("NO EXIgnrjkythrtrhgjryhtjghj,hrtjhmgffghvjgf")
+
+
+          if(!alreadyExisted) this.currentConnArray.push(grpId)
         }
       }
-      //console.log(this.connections)
+      console.log("//////   this.currentConnArray")
+      console.log(this.currentConnArray)
 
 
+      // ------------------------------------
+      // CURRENT CONNECTION ARRAY
+      
+      for(let i=0; i < this.currentConnArray.length; i++) {
+        this.connections[this.currentConnArray[i]] = document.getElementById(this.currentConnArray[i])           
+      }
+
+      console.log("-----   RESULT -----)(*&^%RE$^&*()_")  
+      console.log(`this.groupId   IS    ${this.groupId}`)
+      console.log("-----   this.connections")
+      console.log(this.connections)
+      console.log("-----   END -----)(*&^%RE$^&*()_")
 
 
-
-
-      // UPDATING LOCAL STORAGE'S CONNECTION 
+      // ADDING LOCAL STORAGE'S CONNECTION 
       for(let keyName in localStorage) {
 
         if(keyName.includes('-') && !keyName.includes('anim') && !keyName.includes('attrbox')) {
-          let localstr = JSON.parse(localStorage[keyName])
-          //console.log(localstr)
-          //console.log(localstr.connections)
 
-
-          let connList = localstr.connections.split(',')
-
-          connList = connList.filter( id => document.getElementById(id) !== null )
-
-          //console.log(connList)
-
-          const finalListStr = connList.join()
-
-          //console.log(finalListStr)
-          //console.log(localstr)
-
-          localstr.connections = finalListStr
-
-
-          //console.log(this.dataStore)
-
-          this.dataStore.connections = finalListStr
+          this.dataStore.connections = this.currentConnArray.join()
           this.localStorage.saveToLocalStr(this.dataStore)
          
-
         }
       }
 
 
+    }
+
+
+
+    this.updateConns = () => {
+
+      let evToUpdateConn = new CustomEvent('connection_update', {
+        bubbles: true,
+        detail: {
+          message: "UPDATE CONNECTIONS !",
+          obj: this,
+        }
+      })
+
+      // EVENT DISPATCHING
+      document.getElementById("workarea").dispatchEvent(evToUpdateConn)
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    this.drawConnections = (mode) => {
+
+      let targetObject
+
+      if( mode === 'RESTORING') targetObject = this.connections
+      else if ( mode === 'CREATION') targetObject = gl_SELECTEDLIST.connections
+
+      console.log(`THE MODE IS        ------             ${mode}   !!!!!!!`)
+      
+
+      if(Object.keys(this.connections).length === 1 && this.connections[""] === null) {
+        // console.log(" this.connection   IS   EMPTY !!!!! ")
+        return
+      }
+
 
       // DRAW LINE FROM THIS OBJ TO CONNECTIONS
-      //console.log(this.connections)
+      console.log( Object.keys(this.connections).length )
+      
+
+      console.log("===========================================")
+      console.log("+++++++++++++++++++++++++++++++++++++++++++")
+      console.log("**************     this.groupId")
+      console.log(this.groupId)
 
 
-      // x: this.textAreaObject.posX,
-      // y: this.textAreaObject.posY + this.svgDom.getBBox().y,
-      // width: thi s.svgDom.getBBox().width,
-      // height: this.svgDom.getBBox().height
+      console.log("this.connections")
+      console.log(this.connections)
 
-      // console.log("===========================================")
-      // console.log("+++++++++++++++++++++++++++++++++++++++++++")
-      // console.log("this.groupId")
-      // console.log(this.groupId)
 
       for( let connectedGrpId in this.connections ) {
 
-        let targetObject
+        if(this.connections[connectedGrpId] === null) return
 
-        if(connectedGrpId !== '') {
-
-          targetObject = this.connections
-
-        } else {
-
-          targetObject = gl_SELECTEDLIST
-
-        }
-
-
-        // console.log("connectedGrpId")
-        // console.log(connectedGrpId)
-        // console.log( "-------   BEFORE  CREATING line OBJECT ... " )
-        // console.log( this.connections[connectedGrpId] )
+        console.log("connectedGrpId")
+        console.log(connectedGrpId)
+        console.log( "-------   BEFORE  CREATING line OBJECT ... " )
+        console.log( this.connections[connectedGrpId] )
 
         // ONLY IF THERE IS NO DOM OBJECTS, WE WILL CREATE NEW <line SVG ELEMENT
 
         // CHECK 1 :: DO NOT CREATE line ELEMENT TO THIS OBJECT ITSELF !!
         // CHECK 2 :: DO NOT CREATE IF THERE IS ALREADY EXISTED line ELEMENT TO THIS OBJECT
         if( this.groupId !== connectedGrpId 
-          && document.getElementById(connectedGrpId + '_To_' + this.groupId) === null ) {
+          && document.getElementById(connectedGrpId + '_To_' + this.groupId) === null 
+          && this.countLineElem(this.group) > 0 ) {
 
-          //console.log("-------   CREATING line OBJECT ... ")
-          //console.log(targetObject)
+          console.log("-------   CREATING line OBJECT ... ")
+          console.log(targetObject)
 
-          // console.log(this.connections[connectedGrpId])
-          // console.log(this.connections[connectedGrpId].boundBoxCoords.x)
-          // console.log(this.textAreaObject.posX)
-          //console.log(this.connections[connectedGrpId])
 
           let translatePos = targetObject[connectedGrpId].getAttribute('transform')
           let translatePosArray = translatePos.split(',')
@@ -1359,19 +1402,23 @@ class DrawTextArea extends Draw {
           const settings = {
             target: document.getElementById(this.groupId),
             id: this.groupId + '_To_' + connectedGrpId,
+
             pointA: {
-              posX: this.svgDom.getBBox().width /2,
-              posY: this.svgDom.getBBox().y + this.svgDom.getBBox().height/2,
+              posX: 0,
+              posY: 0,
             },
             pointB: {
-              posX: currentX - this.textAreaObject.posX + parseInt(targetObject[connectedGrpId].dataset.width)/2 ,
-              posY: currentY - this.textAreaObject.posY + 29,       // ***** TODO :: THIS IS NOW HARD CODED !!!!
+              posX: currentX - this.textAreaObject.posX,
+              posY: currentY - this.textAreaObject.posY,       // ***** TODO :: THIS IS NOW HARD CODED !!!!
             },
+
             lineColor: "#FFFFFF",
             lineWidth: 1,
           }
 
           // console.log(this.svgFactory)
+
+          // console.log("++++++++++)_(*&T^R%ET^&*()&^%&T*()&^%&*(&^%E$^T&*((")
 
           let lineConnected = this.svgFactory.createSvgDomLine(settings)
           // console.log(lineConnected)
@@ -1384,38 +1431,101 @@ class DrawTextArea extends Draw {
         
         } 
       }
-    }   
 
+      // --------------------------------
+      // ZINDEX ALIGNING
+      // <text> ELEMENT TO LAST ORDER
 
+      //console.log(this.group)
 
-    this.updateConnections = () => {
+      let childsArray = this.group.children
+      //console.log(childsArray.item(0))
+      //childsArray.push(childsArray.shift())
+      for ( let child of childsArray ) {
 
-      for( let grpId in this.stateObj.renderListAll ) {
-
-        // FIRST WE DELETE OLD ONE
-        let objectsUnderGrp = this.stateObj.renderListAll[grpId].group.children
-
-        //console.log(objectsUnderGrp)
-
-        // DELETE ALL line ELEMENTS
-        for( let obj of objectsUnderGrp ) {
-          //console.log(obj)
-
-          if(obj.tagName === 'line') {
-            obj.remove()
-          }
-
+        //console.log(child)
+        if( child.tagName === 'line') {
+          this.group.insertBefore(child, this.group.firstChild)
         }
+
       }
 
-
-
-
-      // RE-DRAW EVERY line ELEMENTS !!!!
-      for( let grpId in this.stateObj.renderListAll ) {
-        this.stateObj.renderListAll[grpId].makeConnections()
-      }
     }
+
+
+
+
+    this.countLineElem = (dom) => {
+      let count = 0
+
+      let objectsUnderGrp = dom.children
+
+      // DELETE ALL line ELEMENTS
+      for( let obj of objectsUnderGrp ) {
+        //console.log(obj)
+
+        if(obj.tagName === 'line') {
+          count++
+        }
+
+      }
+
+      return count
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+    // this.updateConnections = () => {
+      
+    //   if(Object.keys(this.connections).length === 1 && this.connections[""] === null) {
+    //      //console.log(" this.connection   IS   EMPTY !!!!! ")
+    //     return
+    //   }
+
+
+
+
+    //   for( let grpId in this.stateObj.renderListAll ) {
+        
+    //     if(this.stateObj.renderListAll[grpId].constructor.name === 'DrawTextArea') {
+
+    //       // FIRST WE DELETE OLD ONE
+    //       let objectsUnderGrp = this.stateObj.renderListAll[grpId].group.children
+
+    //       //console.log(objectsUnderGrp)
+
+    //       // DELETE ALL line ELEMENTS
+    //       for( let obj of objectsUnderGrp ) {
+    //         //console.log(obj)
+
+    //         if(obj.tagName === 'line') {
+    //           obj.remove()
+    //         }
+
+    //       }
+    //     }
+    //   }
+
+
+    //   // RE-DRAW EVERY line ELEMENTS !!!!
+    //   for( let grpId in this.stateObj.renderListAll ) {
+    //     if(this.stateObj.renderListAll[grpId].drawConnections)
+    //     this.stateObj.renderListAll[grpId].drawConnections("RESTORING")
+    //   }
+
+
+    // }
+
+
 
 
 
@@ -1485,10 +1595,11 @@ class DrawTextArea extends Draw {
     let connObj = {}
 
     splConArr.forEach( (id) => {
-      connObj[id] = ""
+      connObj[id] = "THIS_IS_JUST_SLOT"
+
+      // PREPARING ARRAY
+      this.currentConnArray.push(id)             ///  THIS IS CRITICAL *******************************************************************************************************************************************************************************************************
     })
-    // console.log("--PRELOADING PHASE, WE JUST PREPARE SLOT FOR CONNECTIONS")
-    // console.log(connObj)
 
     // STORING CONNECTIONS OBJECT TO MEMBER VARIABLE
     this.connections = connObj
