@@ -95,11 +95,13 @@ class ModalManager {
             for( let grpId in gl_SELECTEDLIST ) {
 
               gl_SELECTEDLIST[grpId].createConnections()
-              gl_SELECTEDLIST[grpId].updateConns()
-
-
             }
 
+            for( let grpId in gl_SELECTEDLIST ) {
+
+              gl_SELECTEDLIST[grpId].updateConns()
+
+            }
             
           },
           btn_connManager_back: (ev) => {
