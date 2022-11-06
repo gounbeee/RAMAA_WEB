@@ -1176,21 +1176,27 @@ class StateEditting extends State {
       //console.log(ev.detail)
       const obj = ev.detail.obj
 
-      // console.log("obj.groupId")
-      // console.log(obj.groupId)
-      // console.log("obj.currentConnArray")
-      // console.log(obj.currentConnArray)
+      console.log("obj.groupId")
+      console.log(obj.groupId)
+      console.log("obj.currentConnArray")
+      console.log(obj.currentConnArray)
 
       this.cleanConnections(obj.groupId, obj.currentConnArray)
 
+      // FILTERING IF THERE IS EMPTY SLOT
+      obj.currentConnArray = obj.currentConnArray.filter( id =>  id !== '')
 
 
       for( let connectedGrpId in obj.connections ) {
 
-        if(obj.connections[connectedGrpId] === null) return
+        // FILTERING IF THERE IS EMPTY SLOT (this.connectons OBJECT)
+        if(obj.connections[connectedGrpId] === null) {
+          delete obj.connections[connectedGrpId]
+          return
+        }
 
 
-        //console.log(obj.connections)
+        console.log(obj.connections)
 
         let translatePos = obj.connections[connectedGrpId].getAttribute('transform')
         let translatePosArray = translatePos.split(',')

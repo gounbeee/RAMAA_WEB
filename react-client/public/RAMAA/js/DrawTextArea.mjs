@@ -1268,7 +1268,9 @@ class DrawTextArea extends Draw {
           else console.log("NO EXIgnrjkythrtrhgjryhtjghj,hrtjhmgffghvjgf")
 
 
-          if(!alreadyExisted) this.currentConnArray.push(grpId)
+          if(!alreadyExisted && grpId !== '' && grpId !== "") this.currentConnArray.push(grpId)
+          //                    ~~~~~~~~~~~~~   
+          //                    CRITICAL !!!!
         }
       }
       console.log("//////   this.currentConnArray")
