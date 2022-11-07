@@ -53,7 +53,7 @@ class Draw {
       // CHECK IF THE GROUP ID IS IDENTICAL
       if(this.currentObj.groupId === ev.detail.id) {
 
-        console.log(`DUPLICATE OBJECT BUTTON PRESSED !!!!  --->    ${ev.detail.id}`)
+        //console.log(`DUPLICATE OBJECT BUTTON PRESSED !!!!  --->    ${ev.detail.id}`)
 
         // < GETTING CLASS NAME >
         // https://stackoverflow.com/questions/332422/get-the-name-of-an-objects-type
@@ -66,8 +66,8 @@ class Draw {
         switch(className) {
           case 'DrawArrow':
 
-            console.log(this.stateObj.arrowShapeInitSet)
-            console.log(this.currentObj)
+            //console.log(this.stateObj.arrowShapeInitSet)
+            //console.log(this.currentObj)
 
             // CREATE NEW ONE
             createdObjNew = this.stateObj.createArrow(this.stateObj.arrowShapeInitSet)
@@ -119,10 +119,6 @@ class Draw {
           break
 
         }
-
-
-
-
 
         //let str = localStorage
 
@@ -237,91 +233,6 @@ class Draw {
 
 
   }
-
-
-
-  // drawBoundingBox(svgDom) {
-
-  //   console.log("Draw OBJECT :: drawBoundingBox() EXECUTED !!!!")
-
-
-  //   // < CREATING SIMPLE DIV BOX >
-  //   // https://stackoverflow.com/questions/43770522/how-to-make-a-fixed-div-box-using-javascript-only-no-css-jquery-html
-  //   this.boundBoxDom = document.createElement('div')
-  //   //console.log(svgDom)
-
-
-  //   // BEFORE SETTING UP BOUNDING BOX, WE WILL GET CANVAS'S POSITION
-  //   const canvasPosX = parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved'))
-  //   const canvasPosY = parseInt(document.getElementById('canvas_dom').getAttribute('data-y-saved'))
-
-
-  //   this.boundBoxDom.style.position = 'fixed';
-  //   this.boundBoxDom.style.top = `${this.boundBoxCoords.y + canvasPosY }px`;
-  //   this.boundBoxDom.style.left = `${this.boundBoxCoords.x + canvasPosX }px`;
-  //   this.boundBoxDom.style.width = `${this.boundBoxCoords.width}px`;
-  //   this.boundBoxDom.style.height = `${this.boundBoxCoords.height}px`;
-
-  //   // this.boundBoxDom.style.top = `${this.boundBoxCoords.y - (this.boundBoxCoords.height*0.25/2) + canvasPosY }px`;
-  //   // this.boundBoxDom.style.left = `${this.boundBoxCoords.x - (this.boundBoxCoords.width*0.25/2) + canvasPosX }px`;
-  //   // this.boundBoxDom.style.width = `${this.boundBoxCoords.width * 1.25}px`;
-  //   // this.boundBoxDom.style.height = `${this.boundBoxCoords.height * 1.25}px`;
-
-  //   this.boundBoxDom.style.color = 'black';
-  //   this.boundBoxDom.style.border = "medium solid #FF3322";
-  //   this.boundBoxDom.style.padding = '20px';
-  //   this.boundBoxDom.style.zIndex = '50';
-
-  //   //console.log(this.boundBoxDom.style)
-  //   //console.log(parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved')))
-
-  //   document.getElementById('ramaaApp_overlay').appendChild(this.boundBoxDom)
-
-  // }
-
-
-  // updateBoundingBox(transform) {
-  //   // BEFORE SETTING UP BOUNDING BOX, WE WILL GET CANVAS'S POSITION
-  //   const canvasPosX = parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved'))
-  //   const canvasPosY = parseInt(document.getElementById('canvas_dom').getAttribute('data-y-saved'))
-
-  //   this.boundBoxDom.style.top = `${transform.y + canvasPosY }px`;
-  //   this.boundBoxDom.style.left = `${transform.x + canvasPosX }px`;
-  //   this.boundBoxDom.style.width = `${transform.width}px`;
-  //   this.boundBoxDom.style.height = `${transform.height}px`;
-
-  //   // this.boundBoxDom.style.top = `${transform.y - (this.boundBoxCoords.height*0.25/2) + canvasPosY }px`;
-  //   // this.boundBoxDom.style.left = `${transform.x - (this.boundBoxCoords.width*0.25/2) + canvasPosX }px`;
-  //   // this.boundBoxDom.style.width = `${transform.width * 1.25}px`;
-  //   // this.boundBoxDom.style.height = `${transform.height * 1.25}px`;
-
-
-  // }
-
-
-  // removeBoundingBox() {
-
-  //   this.boundBoxDom.remove()
-
-  // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

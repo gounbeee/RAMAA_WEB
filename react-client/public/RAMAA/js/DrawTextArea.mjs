@@ -1106,9 +1106,10 @@ class DrawTextArea extends Draw {
 
         // // UPDATE CONNECTIONS
 
-        // this.connections = {}
-        // this.cleanConnections()
-        // this.updateConnections()
+        //this.selectionManager.deleteOverlayBox()
+
+        this.selectionManager.removeSelectingObjsAll()
+
 
 
         let str = localStorage
