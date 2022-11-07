@@ -262,10 +262,22 @@ class DrawArrow extends Draw {
 
     this.observer = new MutationObserver((mutationsList, observer) => {
 
-      //console.log(mutationsList)
+      console.log(mutationsList)
 
       this.mutationsList = mutationsList
+      for(const mutation of mutationsList) {
+        if(mutation.type === 'attributes') {
 
+          //console.log(this.arrow.svgDom.style.opacity)
+
+          this.dataStore.opacity = this.arrow.svgDom.style.opacity
+          this.dataStore.fill = this.arrow.svgDom.getAttribute('fill')
+          this.dataStore.zIndex = this.group.dataset.zIndex
+
+          this.localStorage.saveToLocalStr(this.dataStore)
+
+        }
+      }
 
     })
     this.observer.observe(this.group, observeConfig)

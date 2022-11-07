@@ -977,7 +977,17 @@ class AttribBox {
         <!-- TEXT AREA DUPLICATE -->
         <button class="bl_btn_duplicate ly_btn_duplicate" id="attr_textarea_duplicate" type="button">Duplicate Object</button>
       </div>
-
+      <div class="bl_attribManager ly_attribManager">
+        <!-- TEXT AREA CONTENT -->
+        <label class="bl_attribManager_label ly_attribManager_label">
+          <span class="bl_attr_span ly_attr_span">TEXT AREA</span>
+          <textarea class="bl_attr_textArea" id="attr_textarea_textContent" rows="10" cols="18">WRITE TEXT HERE &#13;&#10;YOU CAN USE ENTER KEY</textarea>
+        </label>
+        <!-- CREATE KEYFRAME -->
+        <button class="bl_keyframe_btn ly_keyframe_btn" id="attr_textarea_content_key" type="button">Keyframe</button>
+        <!-- KEYFRAME'S TIME -->
+        <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_textarea_content_key_time" type="number" value=${this.timelinePercent} />
+      </div>
       <div class="bl_attribManager ly_attribManager">
         <!-- TEXT AREA FONT -->
         <label class="bl_attribManager_label ly_attribManager_label">
@@ -992,17 +1002,6 @@ class AttribBox {
         <button class="bl_keyframe_btn ly_keyframe_btn" id="attr_textarea_fontFamily_key" type="button">Keyframe</button>
         <!-- KEYFRAME'S TIME -->
         <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_textarea_fontFamily_key_time" type="number" value=${this.timelinePercent} />
-      </div>
-      <div class="bl_attribManager ly_attribManager">
-        <!-- TEXT AREA CONTENT -->
-        <label class="bl_attribManager_label ly_attribManager_label">
-          <span class="bl_attr_span ly_attr_span">TEXT AREA</span>
-          <textarea class="bl_attr_textArea" id="attr_textarea_textContent" rows="10" cols="18">WRITE TEXT HERE &#13;&#10;YOU CAN USE ENTER KEY</textarea>
-        </label>
-        <!-- CREATE KEYFRAME -->
-        <button class="bl_keyframe_btn ly_keyframe_btn" id="attr_textarea_content_key" type="button">Keyframe</button>
-        <!-- KEYFRAME'S TIME -->
-        <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_textarea_content_key_time" type="number" value=${this.timelinePercent} />
       </div>
       <div class="bl_attribManager ly_attribManager">
         <!-- TEXT AREA WIDTH -->

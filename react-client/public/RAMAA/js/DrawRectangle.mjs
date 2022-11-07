@@ -199,7 +199,7 @@ class DrawRectangle extends Draw {
 
       for(const mutation of mutationsList) {
         if( mutation.type === 'attributes' ) {
-          //-// console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
+          //console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
           // //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
           //-// console.log(`TO ${mutation.target.getAttribute(mutation.attributeName)}`)
 

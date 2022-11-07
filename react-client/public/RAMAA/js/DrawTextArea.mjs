@@ -433,7 +433,7 @@ class DrawTextArea extends Draw {
           this.updateConns()
 
           this.dataStore.fill = this.group.dataset.fill
-          this.dataStore.zIndex = parseInt(this.group.dataset.zIndex)
+          this.dataStore.zIndex = this.group.dataset.zIndex
           this.dataStore.opacity = parseFloat(this.group.dataset.opacity)
 
           this.localStorage.saveToLocalStr(this.dataStore)
@@ -1391,7 +1391,7 @@ class DrawTextArea extends Draw {
       type: 'TEXTAREA',
       isStored: true,
       id: this.groupId,
-      zIndex: parseInt(this.group.dataset.zIndex),
+      zIndex: this.group.dataset.zIndex,
       svg_id: this.svgDom.id,
       x: this.textAreaObject.posX,
       y: this.textAreaObject.posY,
@@ -1736,7 +1736,7 @@ class DrawTextArea extends Draw {
     this.dataStore.width = prevObj.textAreaObject.width
     this.dataStore.lineMargin = parseInt(this.group.dataset.lineMargin)
     this.dataStore.fill = this.group.dataset.fill
-    this.dataStore.zIndex = parseInt(this.group.dataset.zIndex)
+    this.dataStore.zIndex = this.group.dataset.zIndex
     this.dataStore.opacity = parseFloat(this.group.dataset.opacity)
 
     this.localStorage.saveToLocalStr(this.dataStore)

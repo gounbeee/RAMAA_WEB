@@ -810,8 +810,8 @@ class StateEditting extends State {
       isStored: false,                  // true  -->  ALREADY EXISTS IN LOCAL STORAGE
       stateObj: this,
       type: 'BALL',
-      width: 50,
-      height: 50,
+      width: 20,
+      height: 20,
       x: 0,
       y: 0,
       fill: "#ff9999",
