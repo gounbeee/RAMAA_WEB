@@ -262,7 +262,7 @@ class DrawArrow extends Draw {
 
     this.observer = new MutationObserver((mutationsList, observer) => {
 
-      console.log(mutationsList)
+      //console.log(mutationsList)
 
       this.mutationsList = mutationsList
       for(const mutation of mutationsList) {

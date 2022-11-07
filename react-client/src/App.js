@@ -12,15 +12,16 @@ import {BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import {useEffect} from 'react'
 
 // VIEWS
-import LandingPage from "./views/LandingPage"
-import Login from "./views/Login"
-import MakeAccount from "./views/MakeAccount"
-import { Toaster } from "react-hot-toast";
-import EmailVerify from "./views/EmailVerify";
-import PasswordReset from "./views/PasswordReset";
-import UserAdmin from "./views/UserAdmin";
-import Subjects from "./views/Subjects";
-import SubjectsDetails from "./views/SubjectsDetails";
+import LandingPage      from "./views/LandingPage"
+import Login            from "./views/Login"
+import MakeAccount      from "./views/MakeAccount"
+import { Toaster }      from "react-hot-toast";
+import EmailVerify      from "./views/EmailVerify";
+import PasswordReset    from "./views/PasswordReset";
+import UserAdmin        from "./views/UserAdmin";
+import CryptoContents   from "./views/CryptoContents";
+import Subjects         from "./views/Subjects";
+import SubjectsDetails  from "./views/SubjectsDetails";
 
 
 //import SubjectMath from "./views/subjects/math/SubjectMath";
@@ -95,6 +96,14 @@ function App() {
 
           } />
 
+        <Route path='/cryptocontents' 
+          element={ 
+            <PublicRoutes>
+              <CryptoContents/> 
+            </PublicRoutes>
+          } >
+        </Route>
+        
 
         <Route path='/subjects' 
           element={ 
@@ -106,7 +115,9 @@ function App() {
           <Route path=':categoryName' element={ <PublicRoutes><SubjectsDetails/></PublicRoutes> } />
 
         </Route>
+
         
+
 
         <Route path='/api/auth/login' 
           element={ 
