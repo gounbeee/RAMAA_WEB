@@ -33,14 +33,21 @@ class SelectionManager {
 
 
 			this.updateOverlayBox(ev)
+			this.updateSelectingObj(ev)
+
+
 
 		})
+
 
 	}
 
 
+	// ADDING OBJECT TO SELECTING LIST
 	add(obj) {
 
+  		const container = document.getElementById('ramaaApp_overlay')
+		//console.log(container.children)
 
 		//console.log("ADDING TO LIST")
 		//console.log(obj.groupId)
@@ -51,6 +58,100 @@ class SelectionManager {
 		//console.log("gl_SELECTEDLIST IS")
 		//console.log(gl_SELECTEDLIST)
 
+	}
+
+
+
+	updateSelectingObj(ev) {
+		//console.log("UPDATING SELECTING OBJ")
+		//console.log(ev.detail.obj.groupId)
+		//console.log(ev)
+
+
+		const container = document.getElementById('ramaaApp_overlay')
+
+
+	    // DELETE ALL line ELEMENTS
+	    for( let obj of container.children ) {
+			
+					// SEARCHING AND COUNTING DUPLICATION
+	    	let counter = 0
+	    	let collector = []
+
+	    	for( let objSearch of container.children ) {
+	    		if(obj.getAttribute('id') === objSearch.getAttribute('id')) {
+	    			counter++
+	    			collector.push(objSearch)
+
+	    			//console.log("SAME ID APPEARED !!")
+	    			//console.log(objSearch.getAttribute('id'))
+	    		}
+	    	}
+
+
+	    	//console.log('counter')
+	    	//console.log(counter)
+	    	//console.log('collector')
+	    	//console.log(collector)
+
+	    	// DELETE LEAVE 1 OBJECT (DO NOT ENTIRE DOM!)
+	    	// counter -1 MEANS --> WE 
+	    	if(counter > 1) {
+	    		console.log("DELETE DUPLICATION !!!!")
+	    		console.log(document.getElementById(obj.getAttribute('id')))
+
+	    		for( let i=0; i < collector.length; i++) {
+	    			//console.log("DELETING...")
+	    			//console.log(collector[i])
+
+	    			// WITH OUR SELECTION PATTERN,
+	    			// THE DOM OBJECTS EXCEPT INDEX NUMBER 0, WILL BE DUPLECATED OBJECT
+	    			// SO WE DELETE THEM
+
+	    			if(i>0) collector[i].remove()
+	    		}
+
+	    	}
+
+	    }
+
+
+
+		//this.removeSelectingObjsAll()
+
+
+		//console.log(this.overlayBoxList)
+
+		//console.log(this.overlayBoxList[ev.detail.obj.groupId])
+
+		//console.log(gl_SELECTEDLIST[ev.detail.obj.groupId])
+
+
+		const canvasPosX = parseInt(document.getElementById('canvas_dom').getAttribute('data-x-saved'))
+		const canvasPosY = parseInt(document.getElementById('canvas_dom').getAttribute('data-y-saved'))
+
+
+
+		this.overlayBoxList[ev.detail.obj.groupId].style.top = `${gl_SELECTEDLIST[ev.detail.obj.groupId].textAreaObject.posY + ev.detail.obj.svgDom.getBBox().y + canvasPosY}px`;
+		this.overlayBoxList[ev.detail.obj.groupId].style.left = `${gl_SELECTEDLIST[ev.detail.obj.groupId].textAreaObject.posX + canvasPosX}px`;
+		this.overlayBoxList[ev.detail.obj.groupId].style.width = `${gl_SELECTEDLIST[ev.detail.obj.groupId].svgDom.getBBox().width}px`;
+		this.overlayBoxList[ev.detail.obj.groupId].style.height = `${gl_SELECTEDLIST[ev.detail.obj.groupId].svgDom.getBBox().height}px`;
+
+
+	}
+
+
+	removeSelectingObjsAll() {
+
+		if(Object.keys(this.overlayBoxList).length > 0 ) {
+
+			for( let grpId in this.overlayBoxList ) {
+
+				this.overlayBoxList[grpId].remove()
+
+			}
+		}
+	
 	}
 
 
@@ -95,7 +196,6 @@ class SelectionManager {
 			this.overlayBoxList[grpId].style.height = `${overlayBoxCoords.height}px`;
 
 
-			//this.overlayBoxList[grpId].style.background = '#FF3322';
 			this.overlayBoxList[grpId].style.color = 'black';
 			this.overlayBoxList[grpId].style.border = "medium solid #AAEE66";
 			this.overlayBoxList[grpId].style.padding = '20px';

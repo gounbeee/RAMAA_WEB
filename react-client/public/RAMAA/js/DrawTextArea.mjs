@@ -432,7 +432,6 @@ class DrawTextArea extends Draw {
           // UPDATE CONNECTION LINES !!!!
           this.updateConns()
 
-
           this.dataStore.fill = this.group.dataset.fill
           this.dataStore.zIndex = parseInt(this.group.dataset.zIndex)
           this.dataStore.opacity = parseFloat(this.group.dataset.opacity)
@@ -502,7 +501,7 @@ class DrawTextArea extends Draw {
       this.anchorPosY = parseInt(mappedPosition.y * parseFloat(document.getElementById('zoom_select').dataset.panScaler))
 
       //console.log(`panScaler  ::  ${parseFloat(document.getElementById('zoom_select').dataset.panScaler)}`)
-      console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
+      //console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
 
 
 
@@ -524,6 +523,7 @@ class DrawTextArea extends Draw {
       //console.log(gl_SELECTEDLIST[this.groupId])
       //console.log(gl_SHIFTKEYPRESSED)
       let size = Object.keys(gl_SELECTEDLIST).length;
+
 
       if(size === 0) this.selectionManager.add(this)
       else if (gl_SELECTEDLIST[this.groupId] === undefined && gl_SHIFTKEYPRESSED) this.selectionManager.add(this)
@@ -1318,6 +1318,9 @@ class DrawTextArea extends Draw {
 
     this.updateConns = () => {
 
+
+
+
       let evToUpdateConn = new CustomEvent('connection_update', {
         bubbles: true,
         detail: {
@@ -1329,6 +1332,7 @@ class DrawTextArea extends Draw {
       // EVENT DISPATCHING
       document.getElementById("workarea").dispatchEvent(evToUpdateConn)
     }
+
 
 
 
