@@ -16,6 +16,10 @@ class ZIndexManager {
     // HANDLING EVENTS
 
     this.updateZIndEvHnd = (ev) => {
+
+      //ZIndexManager.refreshAllSvg()
+
+
       //-// console.log(ev.detail.obj)
       this.drawObj = ev.detail.obj
       this.elemAllList = this.svgRoot.children
@@ -27,12 +31,12 @@ class ZIndexManager {
       // TO ALL OBJECT
       if( this.groupId === this.drawObj.getGroupId()) {
 
-        //-// console.log('----------- INDEX ------------')
-        //-// console.log('-NOW WE WILL ADJUSTING ZINDEX-')
-        //-// console.log(`zIndexFrom ::  ${zIndexFrom}`)
-        //-// console.log(`zIndexTo ::  ${zIndexTo}`)
-        //-// console.log(`changePlus ::  ${changePlus}`)
-        //-// console.log(`id ::  ${this.drawObj.getGroupId()}`)
+        // console.log('----------- INDEX ------------')
+        // console.log('-NOW WE WILL ADJUSTING ZINDEX-')
+        // console.log(`zIndexFrom ::  ${zIndexFrom}`)
+        // console.log(`zIndexTo ::  ${zIndexTo}`)
+        // console.log(`changePlus ::  ${changePlus}`)
+        // console.log(`id ::  ${this.drawObj.getGroupId()}`)
 
 
         // if(changePlus === true) {
@@ -251,9 +255,24 @@ class ZIndexManager {
         }
       }
 
-      // //-// console.log(this.elemAllList)
-      // //-// console.log(sortedObj)
-      // //-// console.log(sortedKeys)
+      // console.log(this.elemAllList)
+      // console.log(sortedObj)
+      // console.log(sortedKeys)
+
+
+      // sortedKeys CAN BE RESETTED ALIGNED FASHION !
+      // for(let s=1; s <= this.elemAllList.length; s++) {
+      //   console.log(s)
+      //   sortedKeys[s-1] = s
+      //   if(s === this.elemAllList.length -1 ) this.elemAllList[s].dataset.zIndex = s
+
+
+      // }
+
+      // console.log(this.elemAllList)
+      // console.log(sortedObj)
+      // console.log(sortedKeys)
+
 
       for(let i=sortedKeys.length-1; i >= 0 ; i--){
 
@@ -261,14 +280,25 @@ class ZIndexManager {
 
           let k = parseInt(key)
 
+            //console.log(key)// = k
+
           if(sortedKeys[i] === k) {
 
             this.svgRoot.insertBefore( sortedObj[key], this.elemAllList[0] )
-
+            //console.log(k)
           }
+
 
         }
       }
+
+
+      // console.log(this.elemAllList)
+      // console.log(sortedObj)
+      // console.log(sortedKeys)
+
+
+
 
       // -------------------------------------------------------
       // RESTORE RECT CANVAS ELEMENT
