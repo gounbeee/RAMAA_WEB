@@ -34,27 +34,30 @@ class DrawFactory {
 
   draw(setting, stateObj) {
 
-    switch(setting.type) {
-      case 'TEXTAREA':
-        return new DrawTextArea(setting, stateObj)
-        
-      case 'RECTANGLE':
-        return new DrawRectangle(setting, stateObj)
+    if(setting.type) {
 
-      case 'ARROW':
-          return new DrawArrow(setting, stateObj)
+      switch(setting.type) {
+        case 'TEXTAREA':
+          return new DrawTextArea(setting, stateObj)
+          
+        case 'RECTANGLE':
+          return new DrawRectangle(setting, stateObj)
 
-      case 'BALL':
-          return new DrawBall(setting, stateObj)
+        case 'ARROW':
+            return new DrawArrow(setting, stateObj)
 
-      case 'BITMAP':
-          return new DrawBitmap(setting, stateObj)
+        case 'BALL':
+            return new DrawBall(setting, stateObj)
 
-      default:
-        throw new Error(`THERE IS NO CHANCE TO DRAW OBJECT LIKE --  ${setting.type}`)
+        case 'BITMAP':
+            return new DrawBitmap(setting, stateObj)
+
+        default:
+          throw new Error(`THERE IS NO CHANCE TO DRAW OBJECT LIKE --  ${setting.type}`)
+
+      }
 
     }
-
 
 
   }

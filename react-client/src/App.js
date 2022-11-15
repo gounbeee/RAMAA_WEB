@@ -19,13 +19,8 @@ import { Toaster }      from "react-hot-toast";
 import EmailVerify      from "./views/EmailVerify";
 import PasswordReset    from "./views/PasswordReset";
 import UserAdmin        from "./views/UserAdmin";
-import CryptoContents   from "./views/CryptoContents";
 import Subjects         from "./views/Subjects";
 import SubjectsDetails  from "./views/SubjectsDetails";
-
-
-//import SubjectMath from "./views/subjects/math/SubjectMath";
-
 
 
 
@@ -96,13 +91,6 @@ function App() {
 
           } />
 
-        <Route path='/cryptocontents' 
-          element={ 
-            <PublicRoutes>
-              <CryptoContents/> 
-            </PublicRoutes>
-          } >
-        </Route>
         
 
         <Route path='/subjects' 
@@ -149,7 +137,7 @@ function App() {
           }
         />
 
-        {/*<Route path='*' element={<LandingPage/>} /> */}
+        <Route path='*' element={<LandingPage/>} /> 
 
       </Routes>
     </BrowserRouter>

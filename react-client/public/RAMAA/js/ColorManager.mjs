@@ -91,8 +91,8 @@ class ColorManager {
   }
 
   // Interpolates two [r,g,b] colors and returns an [r,g,b] of the result
-  // Taken from the awesome ROT.js roguelike dev library at
-  // https://github.com/ondras/rot.js
+  // Taken from the awesome ROT.mjs roguelike dev library at
+  // https://github.com/ondras/rot.mjs
   interpolateColor(color1, color2, factor) {
 
     if (arguments.length < 3) { factor = 0.5 }

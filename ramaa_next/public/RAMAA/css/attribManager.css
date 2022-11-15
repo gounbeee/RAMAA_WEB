@@ -1,0 +1,449 @@
+.bl_attribManager_wrapper {
+  background-color: #1e2433;
+  overflow-y: scroll;
+  /*border-radius: 0.4em;*/
+
+  display: none;
+
+}
+
+
+.bl_btn_deleteall {
+  background-color:none;
+/*  border-radius: 16px;*/
+}
+
+
+.bl_btn_deleteall:hover {
+
+  color: #FF2222;
+
+/*  background-color: #daa5ff;*/
+}
+
+
+
+
+.bl_attribManager_edit_btn {
+
+  display: inline-block;
+  padding: 3px 13px;
+  font-size: 1.2em;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #2FAFFA;
+  /*background-color: #FFAFFA;*/
+  border: none;
+/*border-radius: 12px;*/
+/*  box-shadow: 0 4px #ee5035;*/
+  font-family: 'nsjp';
+
+
+}
+
+.bl_attribManager_edit_btn:hover {
+
+  color: #5FEFFF;
+
+}
+
+
+
+.bl_attribManager {
+  color: #adbbe3;
+  font-size: 1em;
+
+}
+
+.bl_attribManager::before {
+
+  display:  block;
+  content: '';
+  width: 100%;
+  height: 0%;
+  border-top: solid 0.3em #FFAFFA;
+  opacity: 0.2;
+  margin-top:  0.6em;
+
+}
+
+
+
+
+
+.bl_attribManager_desc {
+  color: #adbbe3;
+  font-size: 1em;
+
+}
+
+
+
+
+
+.bl_attr_textArea {
+  width: 97%;
+  color: #FFAFFA;
+  background: transparent;
+  font-size: 1.25em;
+  font-weight: 700;
+  font-family: 'nsjp';
+  text-align: left;
+
+}
+
+
+.bl_attribManager_container > h3 {
+  font-size: 1.5em;
+  /*margin-top: 2em;*/
+
+}
+
+.bl_attribManager_container > h3::before {
+  display:  block;
+  content: '';
+  width: 100%;
+  height: 0%;
+  border-top: solid 0.3em #FFAFFA;
+  opacity: 0.2;
+  margin-bottom:  1em;
+  
+}
+
+
+
+.bl_attr_font {
+  width: 97%;
+  color: #FFAFFA;
+  background: transparent;
+  font-size: 1.25em;
+  font-weight: 700;
+  font-family: 'nsjp';
+  outline: none;
+  border:  none;
+  text-align: left;
+}
+
+
+
+.bl_attr_input {
+
+  color: #FFAFFA;
+  background: #444444;
+  font-size: 1.25em;
+  font-weight: 700;
+  font-family: 'nsjp';
+  outline: none;
+  border:  none;
+  text-align: left;
+
+}
+
+
+.bl_attr_input_key_time {
+  color: #FFAFFA;
+  background: transparent;
+  font-size: 1.25em;
+  font-weight: 700;
+  font-family: 'nsjp';
+  outline: none;
+  border:  none;
+  text-align: center;
+  display: none;
+}
+
+
+
+
+
+
+.bl_zoomSelect {
+
+  background-color: #848790;
+  color: #c5c7cc;
+  text-align: center;
+  font-size: 0.75em;
+}
+
+.bl_keyframe_btn {
+
+  outline: none;
+  border:  none;
+  cursor:  pointer;
+  background-color: #848790;
+  color: #FF7FFA;
+  font-size: 1.25em;
+  font-weight: 700;
+
+}
+
+.bl_keyframe_btn:hover {
+
+  outline: none;
+  border:  none;
+  cursor:  pointer;
+  /*background-color: #ff3892;*/
+  color: #FFBFFB;
+  font-size: 1.25em;
+  font-weight: 700;
+  
+}
+
+
+.bl_btn_delete {
+
+  outline: none;
+  border:  none;
+  cursor:  pointer;
+  background-color: #ba8790;
+  color: #FF5F5A;
+  font-size: 1.25em;
+  font-weight: 700;
+
+
+}
+
+
+
+.bl_btn_delete:hover {
+
+  outline: none;
+  border:  none;
+  cursor:  pointer;
+  /*background-color: #fa8790;*/
+  color: #fa8790;
+  font-size: 1.25em;
+  font-weight: 700;
+
+
+}
+
+
+.bl_btn_duplicate {
+
+  outline: none;
+  border:  none;
+  cursor:  pointer;
+  /*background-color: #227a5e;*/
+  color: #0ebf82;
+  font-size: 1.25em;
+  font-weight: 700;
+
+
+}
+
+
+
+.bl_btn_duplicate:hover {
+
+  outline: none;
+  border:  none;
+  cursor:  pointer;
+  /*background-color: #0ebf82;*/
+  color: #aeef82;
+  font-size: 1.25em;
+  font-weight: 700;
+
+
+}
+
+
+
+.bl_attribManager_label {
+
+  font-size: 1em;
+  font-family: 'nsjp';
+}
+
+
+/*.bl_keyframe_btn::after {
+
+  display:  block;
+  content: '';
+  width: 100%;
+  height: 0%;
+  border-top: solid 2px #FF0000;
+  margin-top:  0.6em;
+
+}
+*/
+
+/*
+.bl_attribManager > label > span {
+
+  margin-bottom: 1.2em;
+
+}
+*/
+
+.bl_attr_span {
+
+
+  font-size: 1.1em;
+
+
+}
+
+
+
+
+.ly_btn_deleteall {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  margin-left: 2%;
+  font-weight: 700;
+}
+
+
+.ly_attr_span {
+  /*  https://stackoverflow.com/questions/11700985/margin-top-not-working-for-span-element  */
+  display: block;
+  margin-bottom: 1em;
+  
+}
+
+
+
+
+
+.ly_keyframe_btn {
+
+  width: 100%;
+  /*padding: 1em;*/
+
+
+}
+
+
+/*  https://css-tricks.com/multiple-class-id-selectors/  */
+.ly_keyframe_btn.keyAll {
+
+  margin-top: 1em;
+
+}
+
+
+
+.ly_btn_delete {
+
+ /* padding: 1em;
+  margin-top: 2em;
+  margin-bottom: 1.5em;*/
+
+}
+
+
+.ly_btn_duplicate {
+
+/*  padding: 1em;
+  margin-top: 2em;
+  margin-bottom: 1.5em;*/
+
+}
+
+
+.ly_attribManager_wrapper {
+  padding: 1em 0.6em 3em 0.6em;
+  position: absolute;
+  top: 2em;
+  right: 0;
+  width: 18em;
+  box-sizing: border-box;
+  height: 100%;
+  z-index: 10;
+  box-shadow: -3px 0px #555555;
+}
+
+
+.ly_attribManager {
+  display: grid;
+  grid-template-columns:  repeat(1, 1fr);
+  gap:  0.5em 1em;
+  justify-content: space-between;
+  margin-top: 1.25em;
+
+
+}
+
+
+.ly_attribManager_desc {
+  display: grid;
+  grid-template-columns:  repeat(1, 1fr);
+  gap:  0.5em 1em;
+  justify-content: space-between;
+  margin-top: 1.25em;
+
+
+}
+
+
+.ly_attribManager_label {
+
+  width: 100%;
+  margin-top: 1em;
+  /*margin-bottom: 1em;*/
+
+
+
+}
+
+
+.ly_zoomSelect {
+  padding-top: 0.2em;
+  margin-left: 12em;
+  display: block;
+  width:  8em;
+  height: 4em;
+}
+
+
+.ly_attr_input {
+
+  width: 97%;
+
+
+}
+
+
+.ly_attr_input_key_time {
+
+
+
+
+
+}
+
+
+
+.ly_attribManager_edit_btn {
+
+  margin-top: 1em;
+  padding: 1em;
+
+}
+
+
+.zoom_select {
+
+  outline: none;
+  border:  none;
+  cursor:  pointer;
+  background: transparent;
+  color: #d6d8db;
+  font-size: 1.25em;
+  font-weight: 700;
+
+
+}
+
+
+
+.zoom_select:hover {
+
+  color: #f6e8eb;
+
+
+}

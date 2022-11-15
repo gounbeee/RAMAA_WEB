@@ -35,7 +35,7 @@ class StateMachine {
 
 
   getCurrentState() {
-    //-// console.log(`%%  StateMachine.js : getCurrentState FUNCTION -- CURRENT --- ${this.stateStack[0].name}`)
+    //-// console.log(`%%  StateMachine.mjs : getCurrentState FUNCTION -- CURRENT --- ${this.stateStack[0].name}`)
 
     if( this.stateStack.length > 0) return this.stateStack[0]
     else {

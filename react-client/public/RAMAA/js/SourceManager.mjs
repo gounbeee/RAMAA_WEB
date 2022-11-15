@@ -144,7 +144,7 @@ class SourceManager {
       .then( (response) => {
         //-// console.log('2. RESPONSED FROM SERVER')
         //-// console.log(response)
-        return response.json()
+        return response.mjson()
       })
       .then( (data) => {
         //-// console.log('3. SUCCESSED IN THE CLIENT')
@@ -173,7 +173,7 @@ class SourceManager {
     //
     //   }).then( result => {
     //
-    //     const csrfJSON = result.json()
+    //     const csrfJSON = result.mjson()
     //     //-// console.log('3. CSRF DONE')
     //     return csrfJSON
     //
@@ -191,7 +191,7 @@ class SourceManager {
     //         body: JSON.stringify(objData),
     //       })
     //       .then( function (response) {
-    //         response.json()
+    //         response.mjson()
     //       })
     //       .then( data => {
     //         //-// console.log('Success:', data)

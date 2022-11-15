@@ -10,7 +10,7 @@ class SoundManager {
 
 
   constructor(name) {
-    //-// console.log('%%  SoundManager.js : SoundManager CONSTRUCTOR EXECUTED')
+    //-// console.log('%%  SoundManager.mjs : SoundManager CONSTRUCTOR EXECUTED')
 
     const instance = this.constructor.instance
     if( instance ) {
@@ -75,7 +75,7 @@ class SoundManager {
 
 
   load(name, url, type) {
-    //-// console.log('%%  SoundManager.js : load FUNCTION EXECUTED')
+    //-// console.log('%%  SoundManager.mjs : load FUNCTION EXECUTED')
 
     return new Promise((resolve, reject) => {
 

@@ -113,22 +113,33 @@ class LocalStorageManager {
     // https://stackoverflow.com/questions/5223/length-of-a-javascript-object
     //-// console.log(`LOCAL STORAGE COUNTS ::::      ${Object.keys(str).length}`)
 
+    //console.log(Object.keys(str))
+
+
     if(Object.keys(str).length > 0) {
+
       for(let keyName in str) {
-        // TO RETRIEVE SVG outerHTML STRINGS ONLY
-        // WE USE '-' LETTER FILTERING
-        // (WE HAVE 'FUNCTIONS' EITHER WITH THIS APPROACH)
-        // +
-        // EXCLUDE ANIMATION LOCAL STORAGE DATA
-        // +
-        // EXCLUDE ATTRBOX LOCAL STORAGE DATA
-        if(keyName.includes('-') && !keyName.includes('anim') && !keyName.includes('attrbox')) {
-          // console.log(keyName)
-          // console.log(str[keyName])
-          // console.log(JSON.parse(str[keyName]))
 
-          stateObj.addRenderObject(JSON.parse(str[keyName]), stateObj)
+        if(keyName === 'ally-supports-cache') {
+          delete str['ally-supports-cache']
+        }
 
+        if(keyName !== 'ally-supports-cache') {
+          // TO RETRIEVE SVG outerHTML STRINGS ONLY
+          // WE USE '-' LETTER FILTERING
+          // (WE HAVE 'FUNCTIONS' EITHER WITH THIS APPROACH)
+          // +
+          // EXCLUDE ANIMATION LOCAL STORAGE DATA
+          // +
+          // EXCLUDE ATTRBOX LOCAL STORAGE DATA
+          if(keyName.includes('-') && !keyName.includes('anim') && !keyName.includes('attrbox')) {
+            // console.log(keyName)
+            // console.log(str[keyName])
+            // console.log(JSON.parse(str[keyName]))
+
+            stateObj.addRenderObject(JSON.parse(str[keyName]), stateObj)
+
+          }
         }
       }
     }

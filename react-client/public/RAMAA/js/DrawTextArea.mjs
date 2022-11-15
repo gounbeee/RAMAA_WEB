@@ -458,7 +458,7 @@ class DrawTextArea extends Draw {
       //-// console.log(`---- SVG-TEXT DOUBLE CLICKED ::  -- ID -- ${this.groupId}`)
 
       // -----------------------------------------------------------
-      // USING GLOBAL-SCOPED EVENT (main_global.js)
+      // USING GLOBAL-SCOPED EVENT (main_global.mjs)
       // https://javascript.info/dispatch-events
       // https://blog.logrocket.com/custom-events-in-javascript-a-complete-guide/
       // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent

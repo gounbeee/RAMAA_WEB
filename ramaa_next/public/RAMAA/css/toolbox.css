@@ -1,0 +1,33 @@
+.bl_toolbox_wrapper {
+  background-color: #1e2433;
+
+
+}
+
+
+.bl_toolbbox_btn {
+  color: #ef5135;
+
+
+}
+
+
+
+
+.ly_toolbox_wrapper {
+  position: absolute;
+  left: 0;
+  text-align: center;
+  width: 69px;
+  height: 100%;
+  z-index: 2;
+}
+
+
+
+
+.ly_toolbbox_btn {
+
+
+
+}

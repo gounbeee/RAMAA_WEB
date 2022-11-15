@@ -219,7 +219,7 @@ class DrawArrow extends Draw {
     this.arrowDoubleClick = (ev) => {
       //console.log(`---- SVG-ARROW DOUBLE CLICKED ::  -- ID -- ${this.arrow.svgDom.getAttribute('id')}`)
       // -----------------------------------------------------------
-      // USING GLOBAL-SCOPED EVENT (main_global.js)
+      // USING GLOBAL-SCOPED EVENT (main_global.mjs)
       // https://javascript.info/dispatch-events
       // https://blog.logrocket.com/custom-events-in-javascript-a-complete-guide/
       // https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent

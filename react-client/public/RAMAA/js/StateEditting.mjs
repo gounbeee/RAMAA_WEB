@@ -404,9 +404,9 @@ class StateEditting extends State {
     // SCENE CHANGING BUTTONS
 
 
-    this.scenefileList = ["RAMAA/SCENE_1.json", 
-                          "RAMAA/SCENE_2.json", 
-                          "RAMAA/SCENE_3.json" ]
+    this.scenefileList = ["RAMAA/SCENE_1.mjson", 
+                          "RAMAA/SCENE_2.mjson", 
+                          "RAMAA/SCENE_3.mjson" ]
 
 
 
@@ -601,7 +601,7 @@ class StateEditting extends State {
     this.sourceBtnExportJsonClick = ( event ) => {
       //-// console.log("%% StateEditting.mjs :: MENU - sourceBtnExportJsonClick BUTTON CLICKED")
 
-      const fileNm = this.svgId = new Security().getUUIDv4() + ".json"
+      const fileNm = this.svgId = new Security().getUUIDv4() + ".mjson"
       const newFileName = 'GiveNameForThis_' + fileNm
       //console.log(fileNm)
 
@@ -882,7 +882,7 @@ class StateEditting extends State {
 
 
     this.createBtnClick = (event) => {
-      //-// console.log("%% StateEditting.js :: MENU - CREATE BUTTON CLICKED")
+      //-// console.log("%% StateEditting.mjs :: MENU - CREATE BUTTON CLICKED")
 
       event.stopPropagation()
 
@@ -914,7 +914,7 @@ class StateEditting extends State {
 
 
     this.sourceBtnClick = (event) => {
-      //-// console.log("%% StateEditting.js :: MENU - SOURCE BUTTON CLICKED")
+      //-// console.log("%% StateEditting.mjs :: MENU - SOURCE BUTTON CLICKED")
 
       event.stopPropagation()
 
@@ -1349,7 +1349,7 @@ class StateEditting extends State {
 
 
   addRenderObject(settings, stateObj) {
-    //-// console.log('%%  StateEditting.js : addRenderObject FUNCTION EXECUTED')
+    //-// console.log('%%  StateEditting.mjs : addRenderObject FUNCTION EXECUTED')
     let objCreated = this.drawFactory.draw(settings, stateObj)
 
     this.renderListAll[objCreated.groupId] = objCreated
@@ -1448,7 +1448,7 @@ class StateEditting extends State {
 
 
   update() {
-    //console.log('%%  StateEditting.js : update FUNCTION EXECUTED')
+    //console.log('%%  StateEditting.mjs : update FUNCTION EXECUTED')
 
 
 
@@ -1457,7 +1457,7 @@ class StateEditting extends State {
 
   // RENDER ELEMENT 'IF IT IS UPDATED'
   render() {
-    //-// console.log('%%  StateEditting.js : render FUNCTION EXECUTED')
+    //-// console.log('%%  StateEditting.mjs : render FUNCTION EXECUTED')
 
 
   }
@@ -1465,13 +1465,13 @@ class StateEditting extends State {
 
 
   onEnter() {
-    //-// console.log(`%%  StateEditting.js : onEnter FUNCTION OF ==  ${this.name}  ==  EXECUTED`)
+    //-// console.log(`%%  StateEditting.mjs : onEnter FUNCTION OF ==  ${this.name}  ==  EXECUTED`)
     this.initialize()
   }
 
 
   onExit() {
-    //-// console.log(`%%  StateEditting.js : onExit FUNCTION OF ==  ${this.name}  == EXECUTED`)
+    //-// console.log(`%%  StateEditting.mjs : onExit FUNCTION OF ==  ${this.name}  == EXECUTED`)
 
 
   }

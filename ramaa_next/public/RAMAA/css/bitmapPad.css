@@ -1,0 +1,149 @@
+.bl_bitmapPad {
+	
+  background-color: gray;
+
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+   
+}
+
+
+.bl_bitmapPad_div_root {
+
+  background-color: #BBBBBB;
+  width:  100%;
+  height:  100%;
+
+}
+
+
+.bl_bitmapPad_text_size {
+
+  font-family: "sawa_m";
+  font-size: 22px;
+  z-index: 15;
+  display: none;
+
+}
+
+
+.bl_bitmapPad_okBtn {
+
+  
+  
+}
+
+
+.bl_bitmapPad_SzHeightDownBtn {
+
+  
+  
+}
+
+
+
+.bl_bitmapPad_SzHeightUpBtn {
+
+  
+  
+}
+
+
+.bl_bitmapPad_SzLengthDownBtn {
+
+  
+  
+}
+
+
+
+.bl_bitmapPad_SzLengthUpBtn {
+
+  
+  
+}
+
+
+.bl_bitmapPad_cancelBtn {
+
+  
+  
+}
+
+
+
+.ly_bitmapPad {
+  position: absolute;
+/*  width: 800px;
+  height:  500px;*/
+  z-index: 10;
+  /*display: flex;
+  align-items: center;
+  justify-content: center;*/
+  top: 10%;
+  left: 10%;
+  right: 25%;
+  bottom: 20%;
+
+
+
+}
+
+
+.ly_bitmapPad_okBtn {
+
+  position: absolute;
+  top: 10%;
+  left: 10%;
+
+
+}
+
+.ly_bitmapPad_cancelBtn {
+
+  position: absolute;
+  top: 10%;
+  left: 20%;
+
+
+}
+
+
+.ly_bitmapPad_SzHeightDownBtn {
+
+  position: absolute;
+  top: 60%;
+  left: 40%;
+  
+}
+
+.ly_bitmapPad_SzHeightUpBtn {
+
+  position: absolute;
+  top: 40%;
+  left: 40%;
+  
+
+}
+
+
+.ly_bitmapPad_SzLengthDownBtn {
+
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  
+}
+
+
+
+.ly_bitmapPad_SzLengthUpBtn {
+
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  
+}

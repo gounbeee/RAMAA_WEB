@@ -5,7 +5,7 @@ class BitmapLoader {
 
 
   constructor(name) {
-    //-// console.log('%%  BitmapLoader.js : BitmapLoader CONSTRUCTOR EXECUTED')
+    //-// console.log('%%  BitmapLoader.mjs : BitmapLoader CONSTRUCTOR EXECUTED')
     
     const instance = this.constructor.instance
     if( instance ) {
@@ -23,7 +23,7 @@ class BitmapLoader {
 
 
   load(name, url) {
-    //-// console.log('%%  BitmapLoader.js : load FUNCTION EXECUTED')
+    //-// console.log('%%  BitmapLoader.mjs : load FUNCTION EXECUTED')
 
     return new Promise((resolve, reject) => {
 

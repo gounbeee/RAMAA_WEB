@@ -6,7 +6,7 @@ class FontLoader {
 
 
   constructor(name) {
-    //-// console.log('%%  FontLoader.js : FontLoader CONSTRUCTOR EXECUTED')
+    //-// console.log('%%  FontLoader.mjs : FontLoader CONSTRUCTOR EXECUTED')
     
     const instance = this.constructor.instance
     if( instance ) {

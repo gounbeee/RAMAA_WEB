@@ -174,6 +174,13 @@ function LandingPage() {
 	}
 
 
+	const routeToCryptoContents = (ev) => {
+		console.log("NAVIGATE TO routeToCryptoContents")
+
+
+		navigate("http://localhost:4000")
+	}
+
 
 
 	useEffect(() => {
@@ -214,7 +221,7 @@ function LandingPage() {
 			{userInfo === null && (
 				<div className="ml-20">
 					<Link className="cursor-pointer hover:text-ramaa_buttonHover" to="/subjects">LEARNING-MATERIALS</Link>
-					<Link className="ml-20 cursor-pointer hover:text-ramaa_buttonHover" to="/cryptocontents">CRYPTO-CONTENTS</Link>
+					<a className="ml-20 cursor-pointer hover:text-ramaa_buttonHover" href="http://localhost:4000" target="_blank">CRYPTO-CONTENTS</a>
 					<Link className="hidden ml-20 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/login">LOGIN</Link>
 					<Link className="hidden ml-16 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/make-account">SIGNUP</Link>
 				</div>
