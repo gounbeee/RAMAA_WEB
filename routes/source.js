@@ -82,6 +82,22 @@ exports.getYourContents = (req, res, next) => {
 
 
 
+
+exports.getSaveToJson = (req, res, next) => {
+	
+  console.log('getSaveToJson() EXECUTED')
+
+  res.send({  
+    "result": "getSaveToJson GET REQUEST OK"
+  })
+
+
+
+}
+
+
+
+
 exports.postSaveToJson = (req, res, next) => {
   console.log('----------------------------------------------')
   console.log('source.js ::  SAVING TO JSON !!')

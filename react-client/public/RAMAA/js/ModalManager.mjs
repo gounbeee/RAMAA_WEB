@@ -72,7 +72,11 @@ class ModalManager {
 
           // IF THERE ARE NO SELECTED OBJECTS,
           // DO NOTHING
-          let length = Object.keys(gl_SELECTEDLIST).length;
+	  
+	  let length = 0
+
+	  if( gl_SELECTEDLIST !== undefined ) length = Object.keys(gl_SELECTEDLIST).length;
+
           if(length > 0) {
 
 

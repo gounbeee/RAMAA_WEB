@@ -45,23 +45,23 @@ function SubjectsDetails(props) {
 
 		try {
 
-			console.log("setOpenContext  IS ...")
-			console.log(setOpenContext)
+			//console.log("setOpenContext  IS ...")
+			//console.log(setOpenContext)
 
 
-			console.log('PARAMS VALUE IS BELOW...')
-			console.log(categoryName)
+			//console.log('PARAMS VALUE IS BELOW...')
+			//console.log(categoryName)
 
-			console.log("BELOW VALUE PASSED FROM PREVIOUS ROUTE")
-			console.log(props.pathName)
+			//console.log("BELOW VALUE PASSED FROM PREVIOUS ROUTE")
+			//console.log(props.pathName)
 
-			console.log("SUBJECT PANEL CALLED")
-			console.log("1. GETTING DATA LIST FROM DATABASE")
+			//console.log("SUBJECT PANEL CALLED")
+			//console.log("1. GETTING DATA LIST FROM DATABASE")
 
 			
 			const targetURL = '/subjects/' + props.pathName
-			console.log("UserAdmin ::  TARGET URL IS ")
-			console.log(targetURL)
+			//console.log("UserAdmin ::  TARGET URL IS ")
+			//console.log(targetURL)
 
 
 
@@ -79,12 +79,12 @@ function SubjectsDetails(props) {
 						// setCsrf_tkn(res.data.csrfToken)
 						// axios.defaults.headers.common['CSRF-TOKEN'] = res.data.csrfToken
 
-						console.log(res)
+						//console.log(res)
 
 						if(res.status === 200) {
 
 							const foundSubjects = res.data.foundSubjects
-							console.log(foundSubjects)
+							//console.log(foundSubjects)
 
 
 							setSubjectList(foundSubjects)
@@ -109,11 +109,13 @@ function SubjectsDetails(props) {
 
 
 	const loadJsonSubject = async (e, subject) => {
+		
+		//console.log('loadJsonSubject() IS EXECUTED !')
 
-		console.log("LOAD THE JSON FILE !!!")
+		//console.log("LOAD THE JSON FILE !!!")
 
-		// console.log(e)
-		// console.log(subject)
+		//console.log(e)
+		//console.log(subject)
 
 		// OUR CURRENT PATH IS /subjects/math
 		// 										 ~~~~~~~~
@@ -128,12 +130,14 @@ function SubjectsDetails(props) {
 		
 		let currentFullPath = window.location.href
 		const pathForJson = currentFullPath.split('/')
+		
 		//console.log(pathForJson)
 
 		const fullPath = pathForJson[0] + '//' + pathForJson[2] + '/' + subject.json_path
 		//console.log(fullPath)
 
-		console.log(props.history)
+
+		// console.log(props.history)
 
 
 		// https://stackoverflow.com/questions/40385133/retrieve-data-from-a-readablestream-object
@@ -175,6 +179,12 @@ function SubjectsDetails(props) {
 
 
 		})
+			.catch(err => {
+				console.log(err)
+
+				navigate('/')
+
+			})
 
 
 

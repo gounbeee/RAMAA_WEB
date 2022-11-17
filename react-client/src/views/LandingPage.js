@@ -222,7 +222,7 @@ function LandingPage() {
 				<div className="ml-20">
 					<Link className="cursor-pointer hover:text-ramaa_buttonHover" to="/subjects">LEARNING-MATERIALS</Link>
 					<a className="ml-20 cursor-pointer hover:text-ramaa_buttonHover" href="http://localhost:4000" target="_blank">CRYPTO-CONTENTS</a>
-					<Link className="hidden ml-20 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/login">LOGIN</Link>
+					<Link className="text-black ml-20 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/login">-</Link>
 					<Link className="hidden ml-16 cursor-pointer hover:text-ramaa_buttonHover" to="/api/auth/make-account">SIGNUP</Link>
 				</div>
 	        )}

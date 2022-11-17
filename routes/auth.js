@@ -7,7 +7,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 
-const sendEmail = require("../utils/sendEmail");
+const sendEmail = require("../utils/sendEMail");
 
 const Token = require("../models/tokenModel");
 

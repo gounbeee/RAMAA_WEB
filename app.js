@@ -670,6 +670,7 @@ app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use('/jsons', express.static(path.join(__dirname, 'jsons')))
 
 
+app.get('/save-to-json', sourceController.getSaveToJson)
 app.post('/save-to-json', sourceController.postSaveToJson)
 
 

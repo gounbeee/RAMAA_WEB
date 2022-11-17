@@ -64,7 +64,7 @@ module.exports = async (user, mailType) => {
                         This homepage is maintained by personally, but is developing new functionalities step by step.<br><br>
                         To activate homepage, please click on the below link to verify your email address.<br>
                         </h3>
-                        <a href="http://localhost:3000/emailverify/${encryptedToken}">http://localhost:3000/emailverify/${encryptedToken}</a>  
+                        <a href="http://www.gounbeee.com/emailverify/${encryptedToken}">http://localhost:3000/emailverify/${encryptedToken}</a>  
                         <h3>
                         <br>
                         Have a fun!

@@ -5,7 +5,6 @@ import { StateEditting }          from "./StateEditting.mjs"
 import { LocalStorageManager }    from "./LocalStorageManager.mjs"
 
 
-
 class SourceManager {
 
 
@@ -69,6 +68,9 @@ class SourceManager {
   loadFromJsonReact(data, stateObj) {
     //-// console.log("%% SourceManager.mjs :: MENU - saveToJson BUTTON CLICKED")
 
+    console.log(data)
+
+
     // 1. OPEN DIALOG BOX TO SELECT FILE
     // DONE AT StateEditting.mjs : 239
 
@@ -77,7 +79,7 @@ class SourceManager {
 
     // WE DO NOT NEED FILE NAME ANYMORE
     delete parsedJson['fileName']
-    //-// console.log(parsedJson)
+    console.log(parsedJson)
 
     // 3. OVERWRITE CURRENT ANIMTION TIMELINE
 
@@ -96,6 +98,8 @@ class SourceManager {
     // USING STATEMACHINE, POP CURRENT STATE AND RE-START
     let stateMachineSM = new StateMachine()
     //stateMachineSM.changeState('EDITTING')
+
+    console.log(stateMachineSM)
 
     stateMachineSM.popState()
 
@@ -119,6 +123,21 @@ class SourceManager {
 
 
 
+
+  downloadToFile(content, filename, contentType) {
+
+    const a = document.createElement('a');
+    const file = new Blob([content], {type: contentType});
+    
+    a.href= URL.createObjectURL(file);
+    a.download = filename;
+    a.click();
+    
+    URL.revokeObjectURL(a.href);
+
+  }
+
+
   saveToJson(settings, objData) {
     //-// console.log("%% SourceManager.mjs :: MENU - saveToJson BUTTON CLICKED")
 
@@ -129,86 +148,17 @@ class SourceManager {
     console.log(document.getElementById('_csrfLandingPage').value)
     const csrfToken = document.getElementById('_csrfLandingPage').value
 
+    console.log( JSON.stringify(objData, undefined, 2) )
 
-    //-// console.log('1. BEFORE FETCH')
-    fetch('/save-to-json', {
-
-        method: 'POST',
-        mode: 'cors',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          'CSRF-Token'  : csrfToken                   // **** IMPORTANT !
-        }),
-        body: JSON.stringify(objData, undefined, 2),
-      })
-      .then( (response) => {
-        //-// console.log('2. RESPONSED FROM SERVER')
-        //-// console.log(response)
-        return response.mjson()
-      })
-      .then( (data) => {
-        //-// console.log('3. SUCCESSED IN THE CLIENT')
-        //-// console.log('Success:', JSON.stringify(data, undefined, 2))
-
-        // < PRETTY JSON FORMAT>
-        // http://jsfiddle.net/KJQ9K/554/
-        this.download(data.fileName, JSON.stringify(data, undefined, 2))
-      })
-      .catch( (error) => {
-        //-// console.log('Error:' , error)
-      })
+   
+   
+    this.downloadToFile( JSON.stringify(objData, undefined, 2) , 'rename_your_file.json', 'json');
+    
 
 
-    //
-    // const csrfJsonSend = async () => {
-    //
-    //   //-// console.log('1. BEFORE PROMISE')
-    //   await new Promise( (resolve, reject) => {
-    //
-    //     const csrfResult = fetch('/get-token', {
-    //   	  cache: 'no-store' // just in case
-    //     })
-    //     //-// console.log('2. CSRF REQUEST')
-    //     return csrfResult
-    //
-    //   }).then( result => {
-    //
-    //     const csrfJSON = result.mjson()
-    //     //-// console.log('3. CSRF DONE')
-    //     return csrfJSON
-    //
-    //
-    //   }).then( result => {
-    //
-    //     //-// console.log('4. BEFORE FETCH')
-    //     fetch('/save-to-json', {
-    //
-    //         method: 'POST',
-    //         headers: new Headers({
-    //           'content-type': 'application/json',
-    //           'CSRF-Token'  : result.csrfToken
-    //         }),
-    //         body: JSON.stringify(objData),
-    //       })
-    //       .then( function (response) {
-    //         response.mjson()
-    //       })
-    //       .then( data => {
-    //         //-// console.log('Success:', data)
-    //       })
-    //       .catch((error) => {
-    //         //-// console.log('Error:' , error)
-    //       })
-    //     //-// console.log('5. FETCH DONE')
-    //
-    //   })
-    //
-    //   //-// console.log('6. EVERYTHING DONE')
-    //
-    // }
-    //
-    //
-    // csrfJsonSend()
+
+
+
 
   }
 

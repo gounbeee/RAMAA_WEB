@@ -1,7 +1,5 @@
 // GLOBAL SCOPE OF RAMAA APP
 
-let gl_SCENEINDEX = 0
-
-
-let gl_SHIFTKEYPRESSED = undefined
-let gl_SELECTEDLIST = {}
+var gl_SCENEINDEX = 0
+var gl_SHIFTKEYPRESSED = undefined
+var gl_SELECTEDLIST = {}
