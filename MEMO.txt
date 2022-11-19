@@ -1,7 +1,28 @@
+/**
+ * 
+ * < USING TOKEN NUMBER TO PUSH TO GITHUB !!! >
+ * 
+ * https://techglimpse.com/git-push-github-token-based-passwordless/
+ * 
+ * 
+ * 
+ * **/
+
+
+
 
 
 // < SAVING TEXT FILE TO CLIENT PC >
 // https://codepen.io/robkendal/pen/dyYMqMP
 
+
+
+
+// <  >https://qiita.com/nimoca/items/73d8ef8a04270d4d7b77
+
+
+
+
+sudo vim /etc/nginx/conf.d/default.conf
 
 

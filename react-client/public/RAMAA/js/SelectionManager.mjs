@@ -99,49 +99,49 @@ class SelectionManager {
 		const container = document.getElementById('ramaaApp_overlay')
 
 
-    // DELETE ALL line ELEMENTS
-    for( let obj of container.children ) {
-		
-				// SEARCHING AND COUNTING DUPLICATION
-    	let counter = 0
-    	let collector = []
+	    // DELETE ALL line ELEMENTS
+	    for( let obj of container.children ) {
+			
+					// SEARCHING AND COUNTING DUPLICATION
+	    	let counter = 0
+	    	let collector = []
 
-    	for( let objSearch of container.children ) {
-    		if(obj.getAttribute('id') === objSearch.getAttribute('id')) {
-    			counter++
-    			collector.push(objSearch)
+	    	for( let objSearch of container.children ) {
+	    		if(obj.getAttribute('id') === objSearch.getAttribute('id')) {
+	    			counter++
+	    			collector.push(objSearch)
 
-    			//console.log("SAME ID APPEARED !!")
-    			//console.log(objSearch.getAttribute('id'))
-    		}
-    	}
+	    			//console.log("SAME ID APPEARED !!")
+	    			//console.log(objSearch.getAttribute('id'))
+	    		}
+	    	}
 
 
-    	//console.log('counter')
-    	//console.log(counter)
-    	//console.log('collector')
-    	//console.log(collector)
+	    	//console.log('counter')
+	    	//console.log(counter)
+	    	//console.log('collector')
+	    	//console.log(collector)
 
-    	// DELETE LEAVE 1 OBJECT (DO NOT ENTIRE DOM!)
-    	// counter -1 MEANS --> WE 
-    	if(counter > 1) {
-    		//console.log("DELETE DUPLICATION !!!!")
-    		//console.log(document.getElementById(obj.getAttribute('id')))
+	    	// DELETE LEAVE 1 OBJECT (DO NOT ENTIRE DOM!)
+	    	// counter -1 MEANS --> WE 
+	    	if(counter > 1) {
+	    		//console.log("DELETE DUPLICATION !!!!")
+	    		//console.log(document.getElementById(obj.getAttribute('id')))
 
-    		for( let i=0; i < collector.length; i++) {
-    			//console.log("DELETING...")
-    			//console.log(collector[i])
+	    		for( let i=0; i < collector.length; i++) {
+	    			//console.log("DELETING...")
+	    			//console.log(collector[i])
 
-    			// WITH OUR SELECTION PATTERN,
-    			// THE DOM OBJECTS EXCEPT INDEX NUMBER 0, WILL BE DUPLECATED OBJECT
-    			// SO WE DELETE THEM
+	    			// WITH OUR SELECTION PATTERN,
+	    			// THE DOM OBJECTS EXCEPT INDEX NUMBER 0, WILL BE DUPLECATED OBJECT
+	    			// SO WE DELETE THEM
 
-    			if(i>0) collector[i].remove()
-    		}
+	    			if(i>0) collector[i].remove()
+	    		}
 
-    	}
+	    	}
 
-    }
+	    }
 
 
 

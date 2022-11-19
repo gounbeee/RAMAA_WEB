@@ -10,6 +10,23 @@
 
 
 
+
+/**
+ * 
+ * < USING TOKEN NUMBER TO PUSH TO GITHUB !!! >
+ * 
+ * https://techglimpse.com/git-push-github-token-based-passwordless/
+ * 
+ * 
+ * 
+ * **/
+
+
+
+
+
+
+
 /**
 < require FUNCTION >
 https://nodejs.org/en/knowledge/getting-started/what-is-require/

@@ -11,6 +11,24 @@
 }
 
 
+.bl_bitmapPad_menu {
+  
+  background-color: #FF7777;
+
+}
+
+
+.bl_bitmapPad_menu_strk {
+
+
+}
+
+.bl_bitmapPad_menu_bg {
+
+
+}
+
+
 .bl_bitmapPad_div_root {
 
   background-color: #BBBBBB;
@@ -89,6 +107,32 @@
   bottom: 20%;
 
 
+
+}
+
+
+.ly_bitmapPad_menu {
+  
+
+
+}
+
+
+
+
+.ly_bitmapPad_menu_strk {
+
+  position: absolute;
+  right: 5%;
+
+}
+
+
+.ly_bitmapPad_menu_bg {
+
+  position: absolute;
+  top: 20%;
+  right: 5%;
 
 }
 

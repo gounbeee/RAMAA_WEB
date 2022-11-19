@@ -15,13 +15,13 @@ class BitmapPad {
     this.isDrawing = false
     this.rightButtonFlag = false
 
-    this.lineDrawWidth = 1.0
-
     this.linePoints = []
 
 
     this.pointerPosX = undefined
     this.pointerPosY = undefined
+    this.pointerPosAnchX = undefined
+    this.pointerPosAnchY = undefined
 
     this.editFlag = settings.editFlag
 
@@ -51,6 +51,9 @@ class BitmapPad {
     }
 
 
+
+
+
     // ==============================================================
     // CREATING UI TO INPUT DRAWING FROM USER
     this.inputUIRoot = document.createElement('div')
@@ -66,6 +69,88 @@ class BitmapPad {
 
     this.inputUIRoot.setAttribute('width', this.UIWidth)
     this.inputUIRoot.setAttribute('height', this.UIHeight)
+
+
+
+    // ==============================================================
+    // CREATING MENU UI
+    this.menuRoot = document.createElement('div')
+    this.menuRoot.id = 'BITMAP_PAD_MENU'
+    this.menuRoot.classList.add('bl_bitmapPad_menu')
+    this.menuRoot.classList.add('ly_bitmapPad_menu')
+
+    this.inputUIRoot.prepend(this.menuRoot)
+
+    // ----------------------------------------------------
+    // STROKE COLOR CONTROLLERS
+    this.menuRootStroke = document.createElement('div')
+    this.menuRoot.appendChild(this.menuRootStroke)
+
+    this.menuRootStroke.classList.add('bl_bitmapPad_menu_strk')
+    this.menuRootStroke.classList.add('ly_bitmapPad_menu_strk')
+
+    // LABEL
+    this.menuRootStrokeLb = document.createElement('label')
+    this.menuRootStrokeLb.id = 'BITMAP_PAD_MENU_STRK_LB'
+    this.menuRootStrokeLb.innerHTML = 'COLOR'
+
+    // INPUT ELEMENT
+    this.menuRootStrokeInpt = document.createElement('input')
+    this.menuRootStrokeInpt.type = 'color'
+    this.menuRootStrokeInpt.id = 'BITMAP_PAD_MENU_STRK'
+    this.menuRootStrokeInpt.style.backgroundColor = 'transparent'
+    this.menuRootStrokeInpt.style.borderColor = 'transparent'
+    this.menuRootStrokeInpt.style.borderRadius = '10px'
+    this.menuRootStrokeInpt.style.padding = '3px 0px 0px 0px'
+
+    this.menuRootStroke.appendChild(this.menuRootStrokeLb)
+    this.menuRootStroke.appendChild(this.menuRootStrokeInpt)
+
+    // IF CHANGES OCCURED IN INPUT ELEMENT, SET THE LINE COLOR TO THAT
+    this.menuRootStrokeInpt.addEventListener('change', e => {
+      this.canvasPadContext.strokeStyle = this.currentColor = e.target.value
+    })
+
+
+
+    // ----------------------------------------------------
+    // BACKGROUND COLOR CONTROLLERS
+    this.menuRootBg = document.createElement('div')
+    this.menuRoot.appendChild(this.menuRootBg)
+
+    this.menuRootBg.classList.add('bl_bitmapPad_menu_bg')
+    this.menuRootBg.classList.add('ly_bitmapPad_menu_bg')
+
+    // LABEL
+    this.menuRootBgLb = document.createElement('label')
+    this.menuRootBgLb.id = 'BITMAP_PAD_MENU_STRK_LB'
+    this.menuRootBgLb.innerHTML = 'CANVAS BG'
+
+    // INPUT ELEMENT
+    this.menuRootBgInpt = document.createElement('input')
+    this.menuRootBgInpt.type = 'color'
+    this.menuRootBgInpt.id = 'BITMAP_PAD_MENU_BG'
+    this.menuRootBgInpt.style.backgroundColor = 'transparent'
+    this.menuRootBgInpt.style.borderColor = 'transparent'
+    this.menuRootBgInpt.style.borderRadius = '10px'
+    this.menuRootBgInpt.style.padding = '3px 0px 0px 0px'
+    this.menuRootBgInpt.value = '#ffffff'
+
+
+    this.menuRootBg.appendChild(this.menuRootBgLb)
+    this.menuRootBg.appendChild(this.menuRootBgInpt)
+
+
+    // IF CHANGES OCCURED IN INPUT ELEMENT, SET THE LINE COLOR TO THAT
+    // < input EVENT TYPE USED !!!! >
+    // https://stackoverflow.com/questions/66065572/see-how-the-color-is-being-changed-with-input-type-color
+    this.menuRootBgInpt.addEventListener('input', e => {
+
+      this.canvasPad.style.backgroundColor = e.target.value
+
+    })
+
+
 
 
     // ==============================================================
@@ -106,7 +191,7 @@ class BitmapPad {
     this.penSzIndicator.setAttribute('r', '2')
     this.penSzIndicator.setAttribute('fill', 'black')
     this.penSzIndicator.setAttribute('cx', '75%')
-    this.penSzIndicator.setAttribute('cy', '6%')
+    this.penSzIndicator.setAttribute('cy', '9%')
 
     this.svgRoot.appendChild(this.penSzIndicator)
 
@@ -125,17 +210,24 @@ class BitmapPad {
     // ==============================================================
     // CANVAS PAD
     this.canvasDivRoot = document.createElement('div')
-    this.canvasDivRoot.id = this.inputUIRoot.id + '_DIV'
+    this.canvasDivRoot.id = 'BITMAP_PAD_DIV'
     this.canvasDivRoot.classList.add('bl_bitmapPad_div_root')
 
     this.canvasPad = document.createElement('canvas')
-    this.canvasPad.id = this.inputUIRoot.id + '_CANVAS'
+    this.canvasPad.id = 'BITMAP_PAD_CANVAS'
     this.canvasPad.setAttribute('width', this.width)
     this.canvasPad.setAttribute('height', this.height)
+
     this.svgForeign.appendChild(this.canvasDivRoot)
     this.canvasDivRoot.appendChild(this.canvasPad)
 
-    //this.canvasPad.style.border = '1px solid gray'
+    // THIS BACKGROUND COLOR IS JUST PREVIEW !
+    // DOES NOT INCLUDE TO CONTENT !!
+    this.canvasPad.style.backgroundColor = 'white'
+
+    //this.canvasPad.style.border = '3px solid black'
+
+
 
     this.canvasPadContext = this.canvasPad.getContext("2d")
 
@@ -145,16 +237,6 @@ class BitmapPad {
     this.canvasPadContext.lineCap = 'round'
     this.canvasPadContext.lineJoin = 'round'
 
-
-    // CANVAS FOR IN-MEMORY BACKUP
-    this.canvas_mem = document.createElement('canvas')
-    this.canvas_mem.width = this.width
-    this.canvas_mem.height = this.height
-    this.canvas_mem_ctx = this.canvas_mem.getContext('2d')
-    this.canvas_mem_ctx.beginPath()
-    this.canvas_mem_ctx.lineWidth = 2
-    this.canvas_mem_ctx.lineCap = 'round'
-    this.canvas_mem_ctx.lineJoin = 'round'
 
     // < DISABLE MOUSE'S RIGHT BUTTON CLICK >
     // https://codinhood.com/nano/dom/disable-context-menu-right-click-javascript
@@ -166,9 +248,6 @@ class BitmapPad {
     // LOAD THAT IMAGE
     if(this.editFlag) {
       this.canvasPadContext.drawImage(
-          this.preLoadedImg, 
-          0, 0, this.width, this.height)
-      this.canvas_mem_ctx.drawImage(
           this.preLoadedImg, 
           0, 0, this.width, this.height)
     }
@@ -189,8 +268,7 @@ class BitmapPad {
         bubbles: true,
         detail: {
           obj: this,
-          canvasContext: this.canvas_mem_ctx,
-          //canvasContext: this.canvasPad.getContext('2d'),
+          canvasContext: this.canvasPad.getContext('2d'),
           width: this.canvasPad.getAttribute('width'),
           height: this.canvasPad.getAttribute('height'),
           storedXPos: this.object_xPos,
@@ -273,10 +351,10 @@ class BitmapPad {
     // ==============================================================
     // SIZE HEIGHT UPPER BUTTON
     this.btnHndHeightSzUp = (ev) => {
-      //console.log('BITMAPPAD SIZE HEIGHT UP BUTTON CLICKED !!!!')
+
+      const imageData = this.canvasPadContext.getImageData(0, 0, this.width, this.height);
 
       let currentHeight = parseInt(this.svgTxtHeight.textContent)
-
       if(currentHeight > 100) {
 
         currentHeight -= 50
@@ -285,32 +363,22 @@ class BitmapPad {
       this.svgTxtHeight.textContent = currentHeight
       this.height = currentHeight
 
+
+      let newCanvas = document.createElement('canvas')
+      newCanvas.id = 'NEW_CANVAS'
+
+      newCanvas.setAttribute('width', this.width)
+      newCanvas.setAttribute('height', this.height)
+
+
       // ADJUSTING SIZE
       this.svgForeign.setAttribute('height', this.height)
       this.canvasDivRoot.setAttribute('height', this.height)
       this.canvasPad.setAttribute('height', this.height)
-      this.canvas_mem.setAttribute('height', this.height)
-
-      // RE-SETTING CONTEXT
-      this.canvasPadContext.height = this.height
-      this.canvasPadContext.lineCap = 'round'
-      this.canvasPadContext.lineJoin = 'round'
-      this.canvasPadContext.strokeStyle = this.currentColor
-      this.canvasPadContext.lineWidth = parseInt(this.penSzIndicator.getAttribute('r'))
-
-      // RE-SETTING CONTEXT
-      this.canvas_mem_ctx.height = this.height
-      this.canvas_mem_ctx.lineCap = 'round'
-      this.canvas_mem_ctx.lineJoin = 'round'
-      this.canvas_mem_ctx.lineWidth = parseInt(this.penSzIndicator.getAttribute('r'))
-
-      // CLEARING IN-MEMORY CANVAS
-      //this.canvasPadContext.clearRect(0, 0, this.canvasPadContext.width, this.canvasPadContext.height)
-      //this.canvas_mem_ctx.clearRect(0, 0, this.canvas_mem_ctx.width, this.canvas_mem_ctx.height)
-      // RESETTING POINT ARRAY
-      this.linePoints = []
+      this.canvasPad.getContext('2d').putImageData(imageData, 0, 0)
 
     }
+
 
     const buttonHeightSzUpSettings = {
       target: this.svgRoot,
@@ -334,7 +402,8 @@ class BitmapPad {
     // ==============================================================
     // SIZE HEIGHT DOWN BUTTON
     this.btnHndHeightSzDown = (ev) => {
-      //console.log('BITMAPPAD CANCEL BUTTON CLICKED !!!!')
+
+      const imageData = this.canvasPadContext.getImageData(0, 0, this.width, this.height);
 
       let currentHeight = parseInt(this.svgTxtHeight.textContent)
       if(currentHeight < 400) {
@@ -345,30 +414,20 @@ class BitmapPad {
       this.svgTxtHeight.textContent = currentHeight
       this.height = currentHeight
 
+
+      let newCanvas = document.createElement('canvas')
+      newCanvas.id = 'NEW_CANVAS'
+
+      newCanvas.setAttribute('width', this.width)
+      newCanvas.setAttribute('height', this.height)
+
+
       // ADJUSTING SIZE
       this.svgForeign.setAttribute('height', this.height)
       this.canvasDivRoot.setAttribute('height', this.height)
       this.canvasPad.setAttribute('height', this.height)
-      this.canvas_mem.setAttribute('height', this.height)
+      this.canvasPad.getContext('2d').putImageData(imageData, 0, 0)
 
-      // RE-SETTING CONTEXT
-      this.canvasPadContext.height = this.height
-      this.canvasPadContext.lineCap = 'round'
-      this.canvasPadContext.lineJoin = 'round'
-      this.canvasPadContext.strokeStyle = this.currentColor
-      this.canvasPadContext.lineWidth = parseInt(this.penSzIndicator.getAttribute('r'))
-
-      // RE-SETTING CONTEXT
-      this.canvas_mem_ctx.height = this.height
-      this.canvas_mem_ctx.lineCap = 'round'
-      this.canvas_mem_ctx.lineJoin = 'round'
-      this.canvas_mem_ctx.lineWidth = parseInt(this.penSzIndicator.getAttribute('r'))
-
-      // CLEARING IN-MEMORY CANVAS
-      //this.canvasPadContext.clearRect(0, 0, this.canvasPadContext.width, this.canvasPadContext.height)
-      //this.canvas_mem_ctx.clearRect(0, 0, this.canvas_mem_ctx.width, this.canvas_mem_ctx.height)
-      // RESETTING POINT ARRAY
-      this.linePoints = []
     }
 
     const buttonHeightSzDownSettings = {
@@ -396,42 +455,32 @@ class BitmapPad {
     // ==============================================================
     // SIZE LENGTH UPPER BUTTON
     this.btnHndLengthSzUp = (ev) => {
-      //console.log('BITMAPPAD SIZE LENGTH UP BUTTON CLICKED !!!!')
 
-      let currentLength = parseInt(this.svgTxtWidth.textContent)
+      const imageData = this.canvasPadContext.getImageData(0, 0, this.width, this.height);
 
-      if(currentLength < 700) {
+      let currentWidth = parseInt(this.svgTxtWidth.textContent)
+      if(currentWidth < 700) {
 
-        currentLength += 50
+        currentWidth += 50
 
       } 
-      this.svgTxtWidth.textContent = currentLength
-      this.width = currentLength
+      this.svgTxtWidth.textContent = currentWidth
+      this.width = currentWidth
+
+
+      let newCanvas = document.createElement('canvas')
+      newCanvas.id = 'NEW_CANVAS'
+
+      newCanvas.setAttribute('width', this.width)
+      newCanvas.setAttribute('height', this.height)
+
 
       // ADJUSTING SIZE
       this.svgForeign.setAttribute('width', this.width)
       this.canvasDivRoot.setAttribute('width', this.width)
       this.canvasPad.setAttribute('width', this.width)
-      this.canvas_mem.setAttribute('width', this.width)
+      this.canvasPad.getContext('2d').putImageData(imageData, 0, 0)
 
-      // RE-SETTING CONTEXT
-      this.canvasPadContext.width = this.width
-      this.canvasPadContext.lineCap = 'round'
-      this.canvasPadContext.lineJoin = 'round'
-      this.canvasPadContext.strokeStyle = this.currentColor
-      this.canvasPadContext.lineWidth = parseInt(this.penSzIndicator.getAttribute('r'))
-
-      // RE-SETTING CONTEXT
-      this.canvas_mem_ctx.width = this.width
-      this.canvas_mem_ctx.lineCap = 'round'
-      this.canvas_mem_ctx.lineJoin = 'round'
-      this.canvas_mem_ctx.lineWidth = parseInt(this.penSzIndicator.getAttribute('r'))
-
-      // CLEARING IN-MEMORY CANVAS
-      //this.canvasPadContext.clearRect(0, 0, this.canvasPadContext.width, this.canvasPadContext.height)
-      //this.canvas_mem_ctx.clearRect(0, 0, this.canvas_mem_ctx.width, this.canvas_mem_ctx.height)
-      // RESETTING POINT ARRAY
-      this.linePoints = []
     }
 
     const buttonLengthSzUpSettings = {
@@ -456,42 +505,32 @@ class BitmapPad {
     // ==============================================================
     // SIZE LENGTH DOWN BUTTON
     this.btnHndLengthSzDown = (ev) => {
-      //console.log('BITMAPPAD CANCEL BUTTON CLICKED !!!!')
 
-      let currentLength = parseInt(this.svgTxtWidth.textContent)
+      const imageData = this.canvasPadContext.getImageData(0, 0, this.width, this.height);
 
-      if(currentLength > 100) {
+      let currentWidth = parseInt(this.svgTxtWidth.textContent)
+      if(currentWidth > 100) {
 
-        currentLength -= 50
+        currentWidth -= 50
 
       } 
-      this.svgTxtWidth.textContent = currentLength
-      this.width = currentLength
+      this.svgTxtWidth.textContent = currentWidth
+      this.width = currentWidth
+
+
+      let newCanvas = document.createElement('canvas')
+      newCanvas.id = 'NEW_CANVAS'
+
+      newCanvas.setAttribute('width', this.width)
+      newCanvas.setAttribute('height', this.height)
+
 
       // ADJUSTING SIZE
       this.svgForeign.setAttribute('width', this.width)
       this.canvasDivRoot.setAttribute('width', this.width)
       this.canvasPad.setAttribute('width', this.width)
-      this.canvas_mem.setAttribute('width', this.width)
+      this.canvasPad.getContext('2d').putImageData(imageData, 0, 0)
 
-      // RE-SETTING CONTEXT
-      this.canvasPadContext.width = this.width
-      this.canvasPadContext.lineCap = 'round'
-      this.canvasPadContext.lineJoin = 'round'
-      this.canvasPadContext.strokeStyle = this.currentColor
-      this.canvasPadContext.lineWidth = parseInt(this.penSzIndicator.getAttribute('r'))
-
-      // RE-SETTING CONTEXT
-      this.canvas_mem_ctx.width = this.width
-      this.canvas_mem_ctx.lineCap = 'round'
-      this.canvas_mem_ctx.lineJoin = 'round'
-      this.canvas_mem_ctx.lineWidth = parseInt(this.penSzIndicator.getAttribute('r'))
-
-      // CLEARING IN-MEMORY CANVAS
-      //this.canvasPadContext.clearRect(0, 0, this.canvasPadContext.width, this.canvasPadContext.height)
-      //this.canvas_mem_ctx.clearRect(0, 0, this.canvas_mem_ctx.width, this.canvas_mem_ctx.height)
-      // RESETTING POINT ARRAY
-      this.linePoints = []
     }
 
     const buttonLengthSzDownSettings = {
@@ -520,13 +559,164 @@ class BitmapPad {
 
 
 
+
+
+    // ==============================================================================
+    // < CANVAS OFFSET SLIDE >
+
+
+    // ==============================================================
+    // OFFSET HEIGHT UPPER BUTTON
+    this.btnHndHeightOffsetUp = (ev) => {
+
+      const imageData = this.canvasPadContext.getImageData(0, 0, this.width, this.height);
+      this.canvasPad.getContext('2d').clearRect(0, 0, this.width, this.height)
+      this.canvasPad.getContext('2d').putImageData(imageData, 0, -10)
+
+    }
+
+
+    const buttonHeightOffsetUpSettings = {
+      target: this.svgRoot,
+      id: 'bitmapPad_buttonHeightOffsetUp',
+      stylesheets: ['bl_bitmapPad_OffsetHeightUpBtn', 'ly_bitmapPad_OffsetHeightUpBtn'],
+      pathShape: "4,29 21,8 37,29 21,23 ",
+      width: 40,
+      height: 40,
+      fill: "#5035ee",
+      fillHover: "#866cfb",
+      opacity: 1.0,
+      clickHnd: this.btnHndHeightOffsetUp
+    }
+
+    this.buttonHeightOffsetUp = new ButtonSimple(buttonHeightOffsetUpSettings)
+    this.buttonHeightOffsetUp.svgRoot.setAttribute('x', '8%')
+    this.buttonHeightOffsetUp.svgRoot.setAttribute('y', '19%')
+
+
+
+    // ==============================================================
+    // Offset HEIGHT DOWN BUTTON
+    this.btnHndHeightOffsetDown = (ev) => {
+
+      const imageData = this.canvasPadContext.getImageData(0, 0, this.width, this.height);
+      this.canvasPad.getContext('2d').clearRect(0, 0, this.width, this.height)
+      this.canvasPad.getContext('2d').putImageData(imageData, 0, 10)
+
+    }
+
+    const buttonHeightOffsetDownSettings = {
+      target: this.svgRoot,
+      id: 'bitmapPad_buttonHeightOffsetDown',
+      stylesheets: ['bl_bitmapPad_OffsetHeightDownBtn', 'ly_bitmapPad_OffsetHeightDownBtn'],
+      pathShape: "37,9 20,30 4,9 20,15 ",
+      width: 40,
+      height: 40,
+      fill: "#5035ee",
+      fillHover: "#866cfb",
+      opacity: 1.0,
+      clickHnd: this.btnHndHeightOffsetDown
+    }
+
+    this.buttonHeightOffsetDown = new ButtonSimple(buttonHeightOffsetDownSettings)
+    this.buttonHeightOffsetDown.svgRoot.setAttribute('x', '8%')
+    this.buttonHeightOffsetDown.svgRoot.setAttribute('y', '47%')
+
+
+
+
+
+
+    // ==============================================================
+    // Offset LENGTH UPPER BUTTON
+    this.btnHndLengthOffsetUp = (ev) => {
+
+      const imageData = this.canvasPadContext.getImageData(0, 0, this.width, this.height);
+      this.canvasPad.getContext('2d').clearRect(0, 0, this.width, this.height)
+      this.canvasPad.getContext('2d').putImageData(imageData, 10, 0 )
+
+    }
+
+    const buttonLengthOffsetUpSettings = {
+      target: this.svgRoot,
+      id: 'bitmapPad_buttonLengthOffsetUp',
+      stylesheets: ['bl_bitmapPad_OffsetLengthUpBtn', 'ly_bitmapPad_OffsetLengthUpBtn'],
+      pathShape: "10,3 31,20 10,36 16,20 ",
+      width: 40,
+      height: 40,
+      fill: "#5035ee",
+      fillHover: "#866cfb",
+      opacity: 1.0,
+      clickHnd: this.btnHndLengthOffsetUp
+    }
+
+    this.buttonLengthOffsetUp = new ButtonSimple(buttonLengthOffsetUpSettings)
+    this.buttonLengthOffsetUp.svgRoot.setAttribute('x', '40%')
+    this.buttonLengthOffsetUp.svgRoot.setAttribute('y', '2%')
+
+
+
+    // ==============================================================
+    // Offset LENGTH DOWN BUTTON
+    this.btnHndLengthOffsetDown = (ev) => {
+
+      const imageData = this.canvasPadContext.getImageData(0, 0, this.width, this.height);
+      this.canvasPad.getContext('2d').clearRect(0, 0, this.width, this.height)
+      this.canvasPad.getContext('2d').putImageData(imageData, -10, 0 )
+
+    }
+
+    const buttonLengthOffsetDownSettings = {
+      target: this.svgRoot,
+      id: 'bitmapPad_buttonLengthOffsetDown',
+      stylesheets: ['bl_bitmapPad_SzLengthDownBtn', 'ly_bitmapPad_OffsetLengthDownBtn'],
+      pathShape: "31,36 10,19 31,3 25,19 ",
+      width: 40,
+      height: 40,
+      fill: "#5035ee",
+      fillHover: "#866cfb",
+      opacity: 1.0,
+      clickHnd: this.btnHndLengthOffsetDown
+    }
+
+    this.buttonLengthOffsetDown = new ButtonSimple(buttonLengthOffsetDownSettings)
+    this.buttonLengthOffsetDown.svgRoot.setAttribute('x', '20%')
+    this.buttonLengthOffsetDown.svgRoot.setAttribute('y', '2%')
+
+
+
+
+
+    // ===============================================================================
+
+
+
+
+    // ==================================================================
+    // PEN PRESSURE SETUP
+
+    this.getPenPressureWidth = (event) => {
+        // console.log(event.pointerId);
+        // console.log(event.pointerType);
+        // console.log(event.pressure);
+
+        this.canvasPadContext.lineWidth = parseFloat(this.penSzIndicator.getAttribute('r')) * event.pressure * 5
+        //this.penSzIndicator.setAttribute('r', this.canvasPadContext.lineWidth)
+
+        //console.log(this.canvasPadContext.lineWidth);
+
+    }
+    this.canvasPad.addEventListener("pointermove", this.getPenPressureWidth, true);
+
+
+
+
     // ==============================================================
     // PEN WIDTH WIDER BUTTON
     this.btnHndPenSzUp = (ev) => {
       //console.log('PEN SIZE UP BUTTON CLICKED !!!!')
       if(this.canvasPadContext.lineWidth < 20) {
         this.canvasPadContext.lineWidth += 1
-        this.canvas_mem_ctx.lineWidth += 1
         this.penSzIndicator.setAttribute('r', this.canvasPadContext.lineWidth)
       } 
     }
@@ -544,7 +734,7 @@ class BitmapPad {
     }
     this.buttonPenSzUp = new ButtonSimple(buttonPenSzUpSettings)
     this.buttonPenSzUp.svgRoot.setAttribute('x', '68%')
-    this.buttonPenSzUp.svgRoot.setAttribute('y', '1%')
+    this.buttonPenSzUp.svgRoot.setAttribute('y', '4%')
 
 
     // ==============================================================
@@ -553,7 +743,6 @@ class BitmapPad {
       //console.log('PEN SIZE DOWN BUTTON CLICKED !!!!')
       if(this.canvasPadContext.lineWidth > 1) {
         this.canvasPadContext.lineWidth -= 1
-        this.canvas_mem_ctx.lineWidth -= 1
         this.penSzIndicator.setAttribute('r', this.canvasPadContext.lineWidth)
       } 
     }
@@ -571,7 +760,7 @@ class BitmapPad {
     }
     this.buttonPenSzDown = new ButtonSimple(buttonPenSzDownSettings)
     this.buttonPenSzDown.svgRoot.setAttribute('x', '68%')
-    this.buttonPenSzDown.svgRoot.setAttribute('y', '5%')
+    this.buttonPenSzDown.svgRoot.setAttribute('y', '8%')
 
 
 
@@ -608,6 +797,11 @@ class BitmapPad {
     this.onDown = (e) => {
       //console.log('DRAWING :: MOUSE CLICKED')
 
+
+      this.canvasPadContext.strokeStyle = this.currentColor
+      this.canvasPadContext.lineCap = 'round';
+
+
       // -----------------------------------------------------------------------------
       // < RIGHT MOUSE BUTTON CHECK >
       // https://stackoverflow.com/questions/2405771/is-right-click-a-javascript-event
@@ -618,25 +812,27 @@ class BitmapPad {
       } else if ("button" in e) {                                
         this.rightButtonFlag = e.button == 2                      // IE, Opera
       }
-      //console.log(this.rightButtonFlag)
+      console.log(this.rightButtonFlag)
 
 
       // -----------------------------------------------------------------------------
       // GETTING NEW POSITION
-      let position = this.screenPointToDivPoint(this.inputUIRoot, this.svgForeign, e.clientX, e.clientY)
+      this.pointerPosAnchX = e.clientX - this.canvasPad.getBoundingClientRect().x;
+      this.pointerPosAnchY = e.clientY - this.canvasPad.getBoundingClientRect().y;
 
-      this.pointerPosX = position.x
-      this.pointerPosY = position.y
+      this.pointerPosX = this.pointerPosAnchX
+      this.pointerPosY = this.pointerPosAnchY
 
-      // -----------------------------------------------------------------------------
-      // STORING POSITION
-      this.linePoints.push({
-        x: position.x,
-        y: position.y
-      })
+      // console.log("+++++++")
+      // console.log(`this.pointerPosAnchX  IS  --   ${this.pointerPosAnchX}`)
+      // console.log(`this.pointerPosAnchY  IS  --   ${this.pointerPosAnchY}`)
 
-      // console.log(this.pointerPosX)
-      // console.log(this.pointerPosY)
+
+      // console.log("+++++++")
+      // console.log(`this.canvasPad.getBoundingClientRect()  IS  -- `)
+      // console.log(this.canvasPad.getBoundingClientRect())
+      // //console.log(`this.pointerPosAnchY  IS  --   ${this.pointerPosAnchY}`)
+
 
       // -----------------------------------------------------------------------------
       // isDrawing FLAG IS NOW ON
@@ -650,49 +846,50 @@ class BitmapPad {
     // **** CONSTANTLY CALLING ****
     this.onMove = (e) => {
       //console.log('DRAWING :: MOUSE MOVING')
-      //console.log(this.pointerInput.penPressure)
 
       // GATE USING FLAG TO DRAW
       if(!this.isDrawing) return
 
-      // 'CONSTANTLY' RESET CURRENT CANVAS
-      // EVEN WE DELETE CURRENT IMAGE, WE ARE RESTORING UPDATED IMAGE FROM 
-      //
-      // --> SO, TECHNICALLY WE DO NOT 'DROP' PIXELS TO CANVAS UNTIL WE RELEASE THE BUTTON !!!!
-      //     JUST 'PREVIEWING' THE NEW LINE
-      this.canvasPadContext.clearRect(0, 0, this.width, this.height)
-      
-      // 'CONSTANTLY' RESTORING LAST IMAGE FROM MEMORY
-      // :: SO, IT WILL DRAW ONLY 1 LINE WHICH IS CURRENTLY DRAWING
-      // 
-      // --> UNTIL WE ARE PREVIEWING CURRENT LINE,
-      //     BELOW DRAWS 'CURRENT RESULT' FROM LAST CANVAS(IN-MEMORY)
-      this.canvasPadContext.drawImage(this.canvas_mem, 0, 0)
+
 
       // GETTING NEW POSITION (SLIGHTLY MOVED)
-      let newPosition = this.screenPointToDivPoint(this.inputUIRoot, this.svgForeign, e.clientX, e.clientY)
-      this.pointerPosX = newPosition.x
-      this.pointerPosY = newPosition.y
+    
+      this.pointerPosX += e.movementX
+      this.pointerPosY += e.movementY
 
-      // STORING THAT NEW POSITION
-      this.linePoints.push({
-        x: newPosition.x,
-        y: newPosition.y
-      })
+      // console.log("+++++++")
+      // console.log(`this.pointerPosX  IS  --   ${this.pointerPosX}`)
+      // console.log(`this.pointerPosY  IS  --   ${this.pointerPosY}`)
+
+
+      // < DRAWING OR ERASING >
+      // LEFT MOUSE BUTTON TO DRAW
+      
+
+
 
       // < DRAWING >
       // LEFT MOUSE BUTTON TO DRAW
       if(!this.rightButtonFlag) {
 
-        this.canvas_mem_ctx.globalCompositeOperation = "source-over"
-
-        this.drawLine(this.canvasPadContext)
+        this.canvasPadContext.globalCompositeOperation = "source-over"
+        this.drawLine()
 
       } else {
+        // DRAW BRUSH CIRCLE FOR ERASER
+        console.log(this.pointerPosX)
 
-        this.canvas_mem_ctx.globalCompositeOperation = "destination-out"
+        // this.canvasPadContext.beginPath();
+        // this.canvasPadContext.arc(this.pointerPosX, this.pointerPosY, this.canvasPadContext.lineWidth, 0, 2 * Math.PI, false);
+        // this.canvasPadContext.fillStyle = 'green';
+        // this.canvasPadContext.fill()
 
-        this.drawLine(this.canvas_mem_ctx)  
+
+
+        this.canvasPadContext.globalCompositeOperation = "destination-out"
+
+
+        this.drawLine()
 
       }
 
@@ -700,93 +897,12 @@ class BitmapPad {
 
 
 
+    // DRAWING FUNCTION 
+    this.drawLine = () => {
+      this.canvasPadContext.lineTo(this.pointerPosX, this.pointerPosY);
+      this.canvasPadContext.stroke();
 
-    this.drawLine = (context) => {
-
-      // UNTIL STORED POSITIONS ARE NOT REACHED SOME LEVEL,
-      // JUST DRAW CIRCLE?
-      if(this.linePoints.length < 6) {
-        // let startPoint = this.linePoints[0]
-        // this.canvasPadContext.beginPath()
-        // this.canvasPadContext.strokeStyle = this.currentColor
-        // this.canvasPadContext.arc(startPoint.x, startPoint.y, this.canvasPadContext.lineWidth/2, 0, Math.PI * 2, !0)
-        // this.canvasPadContext.closePath()
-        // this.canvasPadContext.fill()
-        return
-      }
-
-      // AFTER POSITIONS ARE STORED ENOUGH,
-      // WE CAN DRAW SMOOTH CURVE USING THAT POINTS
-      context.beginPath()
-
-      // FIRST POINT
-      context.moveTo(this.linePoints[0].x, this.linePoints[0].y)
-
-      // CREATING CURVE USING MULTIPLE POINTS
-      // USING MID-POSITION BETWEEN TWO
-      for(let i = 1; i < this.linePoints.length - 2; i++) {
-        let midX = (this.linePoints[i].x + this.linePoints[i + 1].x) / 2
-        let midY = (this.linePoints[i].y + this.linePoints[i + 1].y) / 2
-        context.quadraticCurveTo(this.linePoints[i].x, this.linePoints[i].y, midX, midY)
-        
-      }
-
-
-      //console.log(this.linePoints.length)
-      context.lineCap = 'round'
-      context.lineJoin = 'round'
-      context.shadowColor = this.currentColor
-      context.shadowBlur = 1
-      // DRAW
-      context.strokeStyle = this.currentColor
-      context.stroke()
-
-      context.shadowBlur = 0
-
-
-
-
-      // ==================================================================
-      // USING BELOW,
-      // WE CAN USE 'PEN PRESSURE'
-      // AND,
-      // WE CAN CREATE 'DOTTED' LINE USING HERE --------------
-      //                                                     |
-      //                                                     V
-      // for(let i = 0; i < this.linePoints.length - 3; i += 3) {
-
-      //   // AFTER POSITIONS ARE STORED ENOUGH,
-      //   // WE CAN DRAW SMOOTH CURVE USING THAT POINTS
-      //   this.canvasPadContext.beginPath()
-      //   // FIRST POINT
-      //   this.canvasPadContext.moveTo(this.linePoints[i].x, this.linePoints[i].y)
-
-      //   // CREATING CURVE USING MULTIPLE POINTS
-      //   // USING MID-POSITION BETWEEN TWO
-      //   for(let j = 0; j < 3; j++) {
-      //     let midX = (this.linePoints[i + j].x + this.linePoints[i + j + 1].x) / 2
-      //     let midY = (this.linePoints[i + j].y + this.linePoints[i + j + 1].y) / 2
-      //     this.canvasPadContext.quadraticCurveTo(this.linePoints[i+j].x, this.linePoints[i+j].y, midX, midY)
-      //   }
-
-      //   // GETTING PRESSURE
-      //   this.canvasPadContext.lineWidth = 2
-      //   //this.canvasPadContext.lineWidth = 2 * this.pointerInput.penPressure
-
-      //   this.canvasPadContext.shadowColor = 'black'
-      //   this.canvasPadContext.shadowBlur = 1
-
-      //   // DRAW
-      //   this.canvasPadContext.stroke()
-
-      //   // CLEARING IN-MEMORY CANVAS
-      //   this.canvas_mem_ctx.clearRect(0, 0, this.canvas_mem_ctx.width, this.canvas_mem_ctx.height)
-      //   // STORING CURRENT CANVAS TO IN-MEMORY CANVAS
-      //   this.canvas_mem_ctx.drawImage(this.canvasPad, 0, 0)
-
-      //   this.canvasPadContext.shadowBlur = 0
-      // }
-
+      this.canvasPadContext.beginPath()
     }
 
 
@@ -794,65 +910,53 @@ class BitmapPad {
     // MOUSE BUTTON :: <UP>
     this.onUp = (e) => {
       //console.log('DRAWING :: MOUSE UP')
-
-      if(this.isDrawing) {
-        // isDrawing FLAG OFF
         this.isDrawing = false
-        // RESETTING POINT ARRAY
-        this.linePoints = []
-
-        if(!this.rightButtonFlag) {
-          // CLEARING IN-MEMORY CANVAS
-          this.canvas_mem_ctx.clearRect(0, 0, this.width, this.height)
-          // STORING CURRENT CANVAS TO IN-MEMORY CANVAS
-          this.canvas_mem_ctx.drawImage(this.canvasPad, 0, 0)
-        } 
-
-      }
     }
 
 
 
     // MOUSE BUTTON :: <LEAVE>
     this.onLeave = (e) => {
-      if(this.isDrawing) {
-        // isDrawing FLAG OFF
-        this.isDrawing = false
-        // RESETTING POINT ARRAY
-        this.linePoints = []
 
-        if(!this.rightButtonFlag) {
-          // CLEARING IN-MEMORY CANVAS
-          this.canvas_mem_ctx.clearRect(0, 0, this.width, this.height)
-          // STORING CURRENT CANVAS TO IN-MEMORY CANVAS
-          this.canvas_mem_ctx.drawImage(this.canvasPad, 0, 0)
-        }       
-      }
+      this.isDrawing = false
     }
 
 
 
     // MOUSE EVENT LISTENER
-    this.canvasPad.addEventListener('mousedown',this.onDown)
-    this.canvasPad.addEventListener('mousemove',this.onMove)
-    this.canvasPad.addEventListener('mouseup',this.onUp)
-    this.canvasPad.addEventListener('mouseleave',this.onLeave)
 
+    this.setupAllEventListeners = () => {
+      this.canvasPad.addEventListener('mousedown' ,this.onDown)
+      this.canvasPad.addEventListener('mousemove' ,this.onMove)
+      this.canvasPad.addEventListener('mouseup'   ,this.onUp)
+      this.canvasPad.addEventListener('mouseleave',this.onLeave)
+    }
+    this.setupAllEventListeners()
 
-
-
-
-
+    this.removeAllEventListeners = () => {
+      this.canvasPad.removeEventListener('mousedown' ,this.onDown)
+      this.canvasPad.removeEventListener('mousemove' ,this.onMove)
+      this.canvasPad.removeEventListener('mouseup'   ,this.onUp)
+      this.canvasPad.removeEventListener('mouseleave',this.onLeave)
+    }
 
 
 
     // ==================================================================
     // TABLET POINTER SETTING
 
-    const pointerInputSettings = {
-      target: this.canvasPad
-    }
-    this.pointerInput = new PointerInput(pointerInputSettings)
+    // const pointerInputSettings = {
+    //   target: this.canvasPad
+    // }
+    // this.pointerInput = new PointerInput(pointerInputSettings)
+
+    
+
+
+
+
+
+
 
 
 
@@ -883,12 +987,16 @@ class BitmapPad {
         clickHnd: (ev) => {
           //console.log(`COLOR :: ${this.colorSwatches[i]}    IS SELECTED`)
           this.currentColor = this.colorSwatches[i]
+
+          this.menuRootStrokeInpt.value = this.colorSwatches[i]
+
+
         }
       }
 
       let swatchBtn = new ButtonSimple(swatchSettings)
       swatchBtn.svgRoot.setAttribute('x', `${85 + i*2}%`)
-      swatchBtn.svgRoot.setAttribute('y', '3%')
+      swatchBtn.svgRoot.setAttribute('y', '6%')
       result[`swatch_${i}`] = swatchBtn
     }
 
@@ -903,9 +1011,7 @@ class BitmapPad {
 
     this.buttonOK.remove()
     this.buttonCancel.remove()
-
     this.penSzIndicator.remove()
-
     this.inputUIRoot.remove()
     this.svgRoot.remove()
     this.svgTxtWidth.remove()
@@ -913,9 +1019,9 @@ class BitmapPad {
     this.svgForeign.remove()
     this.canvasDivRoot.remove()
     this.canvasPad.remove()
-    this.canvas_mem.remove()
 
     delete this
+
   }
 
 
