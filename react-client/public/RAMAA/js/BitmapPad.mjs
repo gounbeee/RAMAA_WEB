@@ -15,6 +15,8 @@ class BitmapPad {
     this.isDrawing = false
     this.rightButtonFlag = false
 
+    this.interPolCount = 50
+
     this.linePoints = []
 
 
@@ -22,6 +24,9 @@ class BitmapPad {
     this.pointerPosY = undefined
     this.pointerPosAnchX = undefined
     this.pointerPosAnchY = undefined
+    this.pointerPosXOld = undefined
+    this.pointerPosYOld = undefined
+
 
     this.editFlag = settings.editFlag
 
@@ -225,11 +230,8 @@ class BitmapPad {
     // DOES NOT INCLUDE TO CONTENT !!
     this.canvasPad.style.backgroundColor = 'white'
 
-    //this.canvasPad.style.border = '3px solid black'
-
-
-
     this.canvasPadContext = this.canvasPad.getContext("2d")
+
 
     this.canvasPadContext.beginPath()
     this.canvasPadContext.strokeStyle = this.currentColor
@@ -694,7 +696,8 @@ class BitmapPad {
 
     // ==================================================================
     // PEN PRESSURE SETUP
-
+    // https://stackoverflow.com/questions/51911711/pointerevents-not-detecting-wacom-tablet
+    //
     this.getPenPressureWidth = (event) => {
         // console.log(event.pointerId);
         // console.log(event.pointerType);
@@ -797,7 +800,7 @@ class BitmapPad {
     this.onDown = (e) => {
       //console.log('DRAWING :: MOUSE CLICKED')
 
-
+      
       this.canvasPadContext.strokeStyle = this.currentColor
       this.canvasPadContext.lineCap = 'round';
 
@@ -812,7 +815,7 @@ class BitmapPad {
       } else if ("button" in e) {                                
         this.rightButtonFlag = e.button == 2                      // IE, Opera
       }
-      console.log(this.rightButtonFlag)
+      //console.log(this.rightButtonFlag)
 
 
       // -----------------------------------------------------------------------------
@@ -837,6 +840,12 @@ class BitmapPad {
       // -----------------------------------------------------------------------------
       // isDrawing FLAG IS NOW ON
       this.isDrawing = true
+      this.pointerPosX += e.movementX
+      this.pointerPosY += e.movementY
+
+      // THIS IS CRITICAL FOR NEXT STROKE !!!!
+      // WITH OUT THIS, YOU WILL SEE SOME IRREGULAR CONNECTION !!!
+      this.updateCursorPos()
 
     }
 
@@ -847,70 +856,117 @@ class BitmapPad {
     this.onMove = (e) => {
       //console.log('DRAWING :: MOUSE MOVING')
 
-      // GATE USING FLAG TO DRAW
-      if(!this.isDrawing) return
-
-
-
       // GETTING NEW POSITION (SLIGHTLY MOVED)
-    
       this.pointerPosX += e.movementX
       this.pointerPosY += e.movementY
-
       // console.log("+++++++")
       // console.log(`this.pointerPosX  IS  --   ${this.pointerPosX}`)
       // console.log(`this.pointerPosY  IS  --   ${this.pointerPosY}`)
 
 
+      // GATE USING FLAG TO DRAW
+      if(!this.isDrawing) {
+        // THIS IS CRITICAL FOR NEXT STROKE !!!!
+        // WITH OUT THIS, YOU WILL SEE SOME IRREGULAR CONNECTION !!!
+        this.updateCursorPos()
+
+        return
+      }
+
+      //console.log('DRAWING :: MOUSE MOVING')
+
       // < DRAWING OR ERASING >
       // LEFT MOUSE BUTTON TO DRAW
       
-
-
-
       // < DRAWING >
       // LEFT MOUSE BUTTON TO DRAW
       if(!this.rightButtonFlag) {
 
+        // PAITING OVER MODE
         this.canvasPadContext.globalCompositeOperation = "source-over"
+        
+        // MAIN DRAW FUNCTION
         this.drawLine()
+
+        // AFTER DRAW, UPDATE CURSOR
+        // THIS IS CRITICAL FOR NEXT STROKE !!!!
+        // WITH OUT THIS, YOU WILL SEE SOME IRREGULAR CONNECTION !!!
+        this.updateCursorPos()
+
 
       } else {
         // DRAW BRUSH CIRCLE FOR ERASER
-        console.log(this.pointerPosX)
 
         // this.canvasPadContext.beginPath();
         // this.canvasPadContext.arc(this.pointerPosX, this.pointerPosY, this.canvasPadContext.lineWidth, 0, 2 * Math.PI, false);
         // this.canvasPadContext.fillStyle = 'green';
         // this.canvasPadContext.fill()
 
-
-
+        // ERASING MODE
         this.canvasPadContext.globalCompositeOperation = "destination-out"
-
-
+        
+        // MAIN DRAW FUNCTION
         this.drawLine()
+
+        // AFTER DRAW, UPDATE CURSOR
+        // THIS IS CRITICAL FOR NEXT STROKE !!!!
+        // WITH OUT THIS, YOU WILL SEE SOME IRREGULAR CONNECTION !!!
+        this.updateCursorPos()
 
       }
 
     }
 
 
-
-    // DRAWING FUNCTION 
-    this.drawLine = () => {
-      this.canvasPadContext.lineTo(this.pointerPosX, this.pointerPosY);
-      this.canvasPadContext.stroke();
-
-      this.canvasPadContext.beginPath()
+    // AFTER DRAW, UPDATE CURSOR
+    // THIS IS CRITICAL FOR NEXT STROKE !!!!
+    // WITH OUT THIS, YOU WILL SEE SOME IRREGULAR CONNECTION !!!
+    this.updateCursorPos = () => {
+      this.pointerPosXOld = this.pointerPosX
+      this.pointerPosYOld = this.pointerPosY
+      this.canvasPadContext.moveTo(this.pointerPosX, this.pointerPosY)
     }
 
+
+    // DRAW FUNCTION 
+    this.drawLine = () => {
+
+      
+
+      // console.log('---')
+      // console.log(`this.pointerPosXOld :: ${this.pointerPosXOld}`)
+      // console.log(`this.pointerPosYOld :: ${this.pointerPosYOld}`)
+      // console.log(`this.pointerPosX :: ${this.pointerPosX}`)
+      // console.log(`this.pointerPosY :: ${this.pointerPosY}`)
+
+      for( let i=0; i < this.interPolCount ; i++) {
+
+        const xDiff = this.pointerPosX - this.pointerPosXOld
+        const yDiff = this.pointerPosY - this.pointerPosYOld
+
+        const xInterp = xDiff / this.interPolCount * (i+1)
+        const yInterp = yDiff / this.interPolCount * (i+1)
+
+        this.canvasPadContext.beginPath()
+        this.canvasPadContext.lineTo(this.pointerPosXOld + xInterp, this.pointerPosYOld + yInterp);
+        this.canvasPadContext.stroke();
+        
+
+      }
+
+    }
 
 
     // MOUSE BUTTON :: <UP>
     this.onUp = (e) => {
       //console.log('DRAWING :: MOUSE UP')
-        this.isDrawing = false
+      this.isDrawing = false
+
+      // AFTER DRAW, UPDATE CURSOR
+      // THIS IS CRITICAL FOR NEXT STROKE !!!!
+      // WITH OUT THIS, YOU WILL SEE SOME IRREGULAR CONNECTION !!!
+      this.updateCursorPos()
+
     }
 
 
@@ -919,8 +975,13 @@ class BitmapPad {
     this.onLeave = (e) => {
 
       this.isDrawing = false
-    }
 
+      // AFTER DRAW, UPDATE CURSOR
+      // THIS IS CRITICAL FOR NEXT STROKE !!!!
+      // WITH OUT THIS, YOU WILL SEE SOME IRREGULAR CONNECTION !!!
+      this.updateCursorPos()
+
+    }
 
 
     // MOUSE EVENT LISTENER
@@ -951,12 +1012,6 @@ class BitmapPad {
     // this.pointerInput = new PointerInput(pointerInputSettings)
 
     
-
-
-
-
-
-
 
 
 

@@ -332,7 +332,7 @@ class DrawBitmap extends Draw {
 
 
       this.selectionManager.drawOverlayBox()
-
+      this.selectionManager.deleteDuplicated()
 
 
 
@@ -347,7 +347,7 @@ class DrawBitmap extends Draw {
       console.log('MOUSE IS UP !!')
       // DELETE BOUNDING BOX !!!!
       //superClass.removeBoundingBox()
-
+      this.selectionManager.deleteDuplicated()
 
     }
 

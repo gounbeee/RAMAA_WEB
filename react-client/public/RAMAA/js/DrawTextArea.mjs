@@ -382,8 +382,10 @@ class DrawTextArea extends Draw {
           // DISPATCH EVENTS TO INTERACT WITH THIS OBJECT
           this.group.dispatchEvent(updateWithTextArea)
 
-          document.getElementById('ramaaApp_overlay').dispatchEvent(updateSelectBox)
 
+          // WE DECIDED TO DELETE SELECTION BOX WHEN DRAGGED
+          //this.selectionManager.removeSelectingObjsAll()
+          document.getElementById('ramaaApp_overlay').dispatchEvent(updateSelectBox)
 
 
         }
@@ -476,6 +478,11 @@ class DrawTextArea extends Draw {
       // DELETE BOUNDING BOX !!!!
       //superClass.removeBoundingBox()
 
+      //console.log('DrawTextArea ::   mouseUpHnd ')
+      //document.getElementById('ramaaApp_overlay').dispatchEvent(updateSelectBox)
+
+      this.selectionManager.deleteDuplicated()
+
     }
 
 
@@ -534,9 +541,10 @@ class DrawTextArea extends Draw {
 
       }
 
+
+      
       this.selectionManager.drawOverlayBox()
-
-
+      this.selectionManager.deleteDuplicated()
 
 
 
