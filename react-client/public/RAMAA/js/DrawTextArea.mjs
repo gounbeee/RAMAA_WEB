@@ -384,9 +384,9 @@ class DrawTextArea extends Draw {
 
 
           // WE DECIDED TO DELETE SELECTION BOX WHEN DRAGGED
-          //this.selectionManager.removeSelectingObjsAll()
+          
           document.getElementById('ramaaApp_overlay').dispatchEvent(updateSelectBox)
-
+          this.selectionManager.removeSelectingObjsAll()
 
         }
       }
