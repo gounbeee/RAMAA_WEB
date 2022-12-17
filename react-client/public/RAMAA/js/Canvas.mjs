@@ -395,9 +395,9 @@ class Canvas {
         // this.mainCanvas_area.dispatchEvent(resetHandles)
         this.canvas_dom.dispatchEvent(resetHandles)
 
-        console.log("RESETTING gl_SELECTEDLIST")
+        //console.log("RESETTING gl_SELECTEDLIST")
         this.stateObj.selectionManager.deleteOverlayBox()
-        console.log(gl_SELECTEDLIST)
+        //console.log(gl_SELECTEDLIST)
 
 
         // -------------------------------------------------------------

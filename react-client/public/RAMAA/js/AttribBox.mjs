@@ -423,6 +423,116 @@ class AttribBox {
                 },
         },
 
+      image:
+        {
+        input_1: { id: "attr_image_x",
+                   attr: "x",
+                   evHandles:
+                   {
+                     mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                     mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                     //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
+                   },
+                   markers: []
+                 },
+        input_2: { id: "attr_image_y",
+                  attr: "y",
+                  evHandles:
+                  {
+                    mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
+                  },
+                  markers: []
+                },
+        input_3: { id: "attr_image_pos_key_time",
+                  attr: "time",
+                  evHandles:
+                  {
+                  },
+                  markers: []
+                },
+        input_4: { id: "attr_image_width",
+                  attr: "width",
+                  evHandles:
+                  {
+                    mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
+                  },
+                  markers: []
+                },
+        input_5: { id: "attr_image_height",
+                  attr: "height",
+                  evHandles:
+                  {
+                    mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
+                  },
+                  markers: []
+                },
+        input_6: { id: "attr_image_widhgt_key_time",
+                  attr: "time",
+                  evHandles:
+                  {
+                  },
+                  markers: []
+                },
+        input_7: { id: "attr_image_opacity",
+                  attr: "opacity",
+                  evHandles:
+                  {
+                    mousedown: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    mouseover: (ev) => {this.displayLocalTimeline(this.groupId, ev.target.id)},
+                    //blur: (ev) => {this.removeLocalTimeline(this.groupId, ev.target.id)}
+                  },
+                  markers: []
+                },
+        input_8: { id: "attr_image_opacity_key_time",
+                  attr: "time",
+                  evHandles:
+                  {
+                  },
+                  markers: []
+                },
+        button_1: { id: "attr_image_pos_key",
+                  attr: "key_posistion",
+                  evHandles:
+                  {
+                    click: (ev) => {this.setKeybutton_pos(ev.target.id)}
+                  }
+                },
+        button_2: { id: "attr_image_widhgt_key",
+                  attr: "key_size",
+                  evHandles:
+                  {
+                    click: (ev) => {this.setKeybutton_widhgt(ev.target.id)}
+                  }
+                },
+        button_3: { id: "attr_image_opacity_key",
+                  attr: "key_opacity",
+                  evHandles:
+                  {
+                    click: (ev) => {this.setKeybutton_opacity(ev.target.id)}
+                  }
+                },
+        button_4: { id: "attr_image_delete",
+                  attr: "delete",
+                  evHandles:
+                  {
+                    click: (ev) => {this.setDeletebutton(ev.target.id)}
+                  }
+                },
+        button_5: { id: "attr_image_duplicate",
+                  attr: "duplicate",
+                  evHandles:
+                  {
+                    click: (ev) => {this.setDuplicatebutton(ev.target.id)}
+                  }
+                },
+        },
+
       arrow:
         {
         input_1: { id: "attr_arrow_fill",
@@ -1208,6 +1318,75 @@ class AttribBox {
     </div>
     `
 
+
+    this.imageHtmlSource = `
+    <div class="bl_attribManager_container" id="attribManager_image" data-id=${this.groupId}>
+      <div class="bl_attribManager ly_attribManager">
+        
+      </div>
+      <h3>Image</h3>
+      <div class="bl_attribManager ly_attribManager">
+        <!-- IMAGE ZINDEX -->
+        <label class="bl_attribManager_label ly_attribManager_label">
+          <span class="bl_attr_span ly_attr_span">LAYER No.</span>
+          <input class="bl_attr_input ly_attr_input" id="attr_image_zindex" type="number" />
+        </label>
+      </div>
+      <div class="bl_attribManager ly_attribManager">
+        <!-- TEXT AREA DELETE -->
+        <button class="bl_btn_delete ly_btn_delete" id="attr_image_delete" type="button">Delete Object</button>
+        <!-- TEXT AREA DUPLICATE -->
+        <button class="bl_btn_duplicate ly_btn_duplicate" id="attr_image_duplicate" type="button">Duplicate Object</button>
+      </div>
+      <!-- SHAPE -->
+      <div class="bl_attribManager ly_attribManager">
+        <!-- X POSITION -->
+        <label class="bl_attribManager_label ly_attribManager_label">
+          <span class="bl_attr_span ly_attr_span">X</span>
+          <input class="bl_attr_input ly_attr_input" id="attr_image_x" type="number" />
+        </label>
+        <!-- Y POSITION -->
+        <label class="bl_attribManager_label ly_attribManager_label">
+          <span class="bl_attr_span ly_attr_span">Y</span>
+          <input class="bl_attr_input ly_attr_input" id="attr_image_y" type="number" />
+        </label>
+        <!-- CREATE KEYFRAME -->
+        <button class="bl_keyframe_btn ly_keyframe_btn" id="attr_image_pos_key" type="button">Keyframe</button>
+        <!-- KEYFRAME'S TIME -->
+        <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_image_pos_key_time" type="number" value=${this.timelinePercent} />
+      </div>
+      <div class="bl_attribManager ly_attribManager">
+        <!-- WIDTH -->
+        <label class="bl_attribManager_label ly_attribManager_label">
+          <span class="bl_attr_span ly_attr_span">Width</span>
+          <input class="bl_attr_input ly_attr_input" id="attr_image_width" type="number" />
+        </label>
+        <!-- HEIGHT -->
+        <label class="bl_attribManager_label ly_attribManager_label">
+          <span class="bl_attr_span ly_attr_span">Height</span>
+          <input class="bl_attr_input ly_attr_input" id="attr_image_height" type="number" />
+        </label>
+        <!-- CREATE KEYFRAME -->
+        <!-- DISPLAY : NONE -->
+        <button class="bl_keyframe_btn ly_keyframe_btn" id="attr_image_widhgt_key" type="button" style="display:none;">Keyframe</button>
+        <!-- KEYFRAME'S TIME -->
+        <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_image_widhgt_key_time" type="number" value=${this.timelinePercent} />
+      </div>
+      <div class="bl_attribManager ly_attribManager">
+        <!-- OPACITY COLOR -->
+        <label class="bl_attribManager_label ly_attribManager_label">
+          <span class="bl_attr_span ly_attr_span">Opacity</span>
+          <input class="bl_attr_input ly_attr_input" id="attr_image_opacity" type="number" step="0.1" min="0.0" max="1.0" />
+        </label>
+        <!-- CREATE KEYFRAME -->
+        <button class="bl_keyframe_btn ly_keyframe_btn" id="attr_image_opacity_key" type="button">Keyframe</button>
+        <!-- KEYFRAME'S TIME -->
+        <input class="bl_attr_input_key_time ly_attr_input_key_time" id="attr_image_opacity_key_time" type="number" value=${this.timelinePercent} />
+      </div>
+    </div>
+    `
+
+
     this.arrowHtmlSource = `
     <div class="bl_attribManager_container" id="attribManager_arrow" data-id=${this.groupId}>
       <h3>Bridge</h3>
@@ -1505,6 +1684,10 @@ class AttribBox {
         this.HtmlSource = this.bitmapHtmlSource
         this.currentShapeType = 'bitmap'
         break
+      case 'IMAGE':
+        this.HtmlSource = this.imageHtmlSource
+        this.currentShapeType = 'image'
+        break
     }
 
     this.elRoot.innerHTML = this.HtmlSource
@@ -1551,12 +1734,15 @@ class AttribBox {
       let attrName = splittedId[2]
       const domName = 'attr_' + this.currentShapeType + '_' + attrName
 
-      let shapeType
-      if(domName.includes('arrow')) shapeType = 'ARROW'
-      else if(domName.includes('rect')) shapeType = 'RECTANGLE'
-      else if(domName.includes('textarea')) shapeType = 'TEXTAREA'
-      else if(domName.includes('ball')) shapeType = 'BALL'
-      else if(domName.includes('bitmap')) shapeType = 'BITMAP'
+      let shapeType = document.getElementById(groupId).dataset.type
+
+
+      // if(domName.includes('arrow')) shapeType = 'ARROW'
+      // else if(domName.includes('rect')) shapeType = 'RECTANGLE'
+      // else if(domName.includes('textarea')) shapeType = 'TEXTAREA'
+      // else if(domName.includes('ball')) shapeType = 'BALL'
+      // else if(domName.includes('bitmap')) shapeType = 'BITMAP'
+      // else if(domName.includes('image')) shapeType = 'IMAGE'
 
 
       // ADJUSTING ATTRNAME FOR BALL OBJECT (CX, CY)
@@ -1643,8 +1829,8 @@ class AttribBox {
 
 
     this.hideLocalTimeline = (id, controlId) => {
-      console.log(`AttribBox ::  hideLocalTimeline ::    ${id}    ${controlId}`)
-      console.log(this.localTimelineMarker)
+      // console.log(`AttribBox ::  hideLocalTimeline ::    ${id}    ${controlId}`)
+      // console.log(this.localTimelineMarker)
 
       if(this.localTimeline) this.localTimeline.remove()
 
@@ -1652,6 +1838,11 @@ class AttribBox {
 
 
     this.setLocalTimelineEvHnd = (shapeType) => {
+
+      // console.log(shapeType)
+      // console.log(this.domCfgs)
+
+
       for(let elemName in this.domCfgs[shapeType]) {
 
         // < GETTING KEY NAME OF OBJECT >
@@ -2096,9 +2287,9 @@ class AttribBox {
 
     this.setKeybutton_all = (controlId) => {
 
-      console.log(this.domCfgs)
+      // console.log(this.domCfgs)
 
-      console.log(`----  this.setKeybutton_all ::    ${controlId}`)
+      // console.log(`----  this.setKeybutton_all ::    ${controlId}`)
       // controlId -> attr_rect_pos_key
       let splittedId = controlId.split('_')
       let type = splittedId[1]

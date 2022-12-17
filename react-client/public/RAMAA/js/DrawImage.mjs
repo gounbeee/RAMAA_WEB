@@ -6,14 +6,18 @@ import { ZIndexManager }    from "./ZIndexManager.mjs"
 import { DraggableScreen }  from "./DraggableScreen.mjs"
 import { LocalStorage }     from "./LocalStorage.mjs"
 
+//import { BitmapPad }        from "./BitmapPad.mjs"
 
-// DRAW SVG OBJECT : RECTANGLE SHAPE
 
-class DrawBall extends Draw {
+
+class DrawImage extends Draw {
 
   constructor(settings, stateObj) {
-    //-// console.log('%% DrawBall.mjs :: DrawBall CONSTRUCTOR EXECUTED')
+    console.log('%% DrawImage.mjs :: DrawImage CONSTRUCTOR EXECUTED')
     
+    console.log(stateObj)
+
+
     const superClass = super()
 
     const settingsToSuper = {
@@ -23,32 +27,28 @@ class DrawBall extends Draw {
     superClass.initialize(settingsToSuper)
 
 
-
     // ----------------------------------------------------------------------
     // GETTING ZOOM SCALER 
     this.panscaler = parseFloat(document.getElementById('zoom_select').dataset.panScaler)
 
 
-
     // ------------------------------------
     // CREATE SVG ELEMENT
-    this.domRoot = document.getElementById('svgcanvas')
-
-    // CREATE ADDITIONAL SVG ELEMEMENT FOR 'DEFS'
-    if(!document.getElementById('canvas_dom_defs')) {
-      this.svgDefs = document.createElementNS(this.nsSvg, 'svg')
-      this.svgDefs.id = 'canvas_dom_defs'
-      this.domRoot.appendChild(this.svgDefs)
-    } else {
-      this.svgDefs = document.getElementById('canvas_dom_defs')
-    }
-
     this.svgRoot = document.getElementById('canvas_dom')
     this.group = document.createElementNS(this.nsSvg, 'g')
-    this.svgDom = document.createElementNS(this.nsSvg, 'ellipse')
+    this.foreignDom = document.createElementNS(this.nsSvg, 'foreignObject')
+
+    // FLAG IF IT WAS EDITTING PRE-EXISTED BITMAP PAD
+    // AND PRESSED 'OK' BUTTON IN THE UI
+    this.wasEditting = settings.isEditting
+    this.storedZIndex = settings.storedZIndex
 
 
-    this.group.dataset.type = 'BALL'
+    //this.imageElem = settings.imageElem
+
+
+    this.group.dataset.type = 'IMAGE'
+
 
 
     // ------------------------------------
@@ -61,21 +61,87 @@ class DrawBall extends Draw {
     this.animStore = {}
 
 
+
+
     // ======================================================================
     // PRELOADING (LOCAL STORAGE)
     // ======================================================================
 
-
     // ------------------------------------
     // PRELOADING (IF NECESSARY)
-    if(settings.isStored) this.preload(settings)
+    if(settings.isStored) {
 
+      this.preload(settings)
 
-    // ------------------------------------
-    // SETTING NEW ID
-    if(!this.groupId) {
+    } else {
+      // ------------------------------------
+      // SETTING NEW ID
       this.groupId = new Security().getUUIDv4()
+
+
+      // ------------------------------------
+      // CREATE CANVAS ELEMENT
+      this.canvas = document.createElement('canvas')
+      this.foreignDom.appendChild(this.canvas)
+      this.foreignDom.id = this.groupId + '_foreign'
+      this.canvas.id = this.groupId + '_canvas'
+      this.canvas.setAttribute('width', settings.width)
+      this.canvas.setAttribute('height', settings.height)
+      this.canvas.style.opacity = settings.opacity
+
+      // ********** 
+      // < THESE 'PUTTING IMAGE DATA TO CANVAS' MUST LOCATED AFTER SETTING ATTRIBUTES >
+      //this.canvas.getContext('2d').putImageData(settings.imageElem, 0, 0)
+
+      console.log(settings.imageElem)
+
+      if(settings.imageElem) {
+        this.canvas.getContext('2d').drawImage(settings.imageElem, 0, 0, parseInt(settings.width), parseInt(settings.height))
+      
+
+      } else {
+
+
+        let tmpImg = new Image(settings.width, settings.height)
+        tmpImg.src = settings.canvasDataURL                             // THIS IS FROM LOCALSTORAGE
+
+        tmpImg.onload = () => {
+
+          //console.log(this.preLoadedImg)
+
+          let canvasWidth  = settings.width
+          let canvasHeight = settings.height
+
+          // **** WE DO NOT NEED TO USE THE FORM LIKE BELOW
+          // this.canvas.getContext('2d').drawImage(
+          //   this.preLoadedImg, 
+          //   0, 0, canvasWidth, canvasHeight, 
+          //   0, 0, settings.width, settings.height
+          // )
+
+          this.canvas.getContext('2d').drawImage(
+            tmpImg, 
+            0, 0, canvasWidth, canvasHeight)
+
+          this.setDataStore()
+          this.localStorage.saveToLocalStr(this.dataStore)
+        }
+
+      }
+
+
+
+      this.preLoadedImg = this.imagedata_to_image(this.canvas.getContext('2d').getImageData(0, 0, parseInt(settings.width), parseInt(settings.height)))
+
+
     }
+
+
+
+    //console.log(this.preLoadedImg)
+
+
+
 
     // ------------------------------------
     this.group.setAttribute("id", this.groupId)
@@ -86,8 +152,8 @@ class DrawBall extends Draw {
 
     this.svgRoot.appendChild(this.group)
 
-    this.posX = 0
-    this.posY = 0
+    this.posX = settings.x
+    this.posY = settings.y
     this.anchorPosX = 0
     this.anchorPosY = 0
 
@@ -98,95 +164,14 @@ class DrawBall extends Draw {
 
 
 
-
-    // CREATE SVG BALL GRADIENT
-    this.ballGradDefs = document.createElementNS(this.nsSvg, 'defs')
-    this.ballGradDefs.id = this.groupId + '_defs'
-    this.ballGrad = document.createElementNS(this.nsSvg, 'radialGradient')
-    this.ballGrad.id = 'gradient-ball'
-    this.ballGrad.setAttribute('cx', '0.5')
-    this.ballGrad.setAttribute('cy', '0.5')
-    this.ballGrad.setAttribute('r', '0.65')
-    this.ballGrad.setAttribute('fx', '0.25')
-    this.ballGrad.setAttribute('fy', '0.25')
-    this.ballGradDefs.appendChild(this.ballGrad)
-
-
-    // Store an array of stop information for the <linearGradient>
-    let stops = [
-      {
-        "color": "#FFFFFF",
-        "offset": "0%"
-      },
-      {
-        "color": "#FFFFFF",
-        "offset": "3%"
-      },
-      {
-        "color": "#FFd8db",
-        "offset": "17%"
-      },
-      {
-        "color": "#fb866c",
-        "offset": "25%"
-      },
-      {
-        "color": "#FF0000",
-        "offset": "55%"
-      },
-      {
-        "color": "#fb866c",
-        "offset": "80%"
-      },
-      {
-        "color": "#d6d8db",
-        "offset": "100%"
-      }
-    ]
-
-    // Parses an array of stop information and appends <stop> elements to the <linearGradient>
-    for (let i = 0, length = stops.length; i < length; i++) {
-
-      // Create a <stop> element and set its offset based on the position of the for loop.
-      let stop = document.createElementNS(this.nsSvg, 'stop');
-      stop.setAttribute('offset', stops[i].offset);
-      stop.setAttribute('stop-color', stops[i].color);
-
-      // Add the stop to the <lineargradient> element.
-      this.ballGrad.appendChild(stop);
-
-    }
-
-
-
-    this.svgDefs.appendChild(this.ballGradDefs)
-
-
-
-
     // ------------------------------------
-    // CREATE RECTANGLE SHAPE
-    this.svgDom.setAttribute("cx", 0)
-    this.svgDom.setAttribute("cy", 0)
-    this.svgDom.setAttribute("rx", settings.width)
-    this.svgDom.setAttribute("ry", settings.height)
-
-
-    //this.svgDom.setAttribute("fill", settings.fill)
-
-    
-    this.svgDom.setAttribute("fill", 'url(#gradient-ball)')
-
-
-    // this.svgDom.setAttribute("stroke", "grey")
-    // this.svgDom.setAttribute("stroke-width", "3px")
-    //this.svgDom.setAttribute("rx", "10px")
-    this.svgDom.setAttribute("id", this.groupId + '_ball')
-    this.svgDom.style.opacity = settings.opacity
-    this.group.appendChild(this.svgDom)
-
-
-
+    // CREATE BITMAP SHAPE
+    this.foreignDom.setAttribute("x", this.posX)
+    this.foreignDom.setAttribute("y", this.posY)
+    this.foreignDom.setAttribute("width", settings.width)
+    this.foreignDom.setAttribute("height", settings.height)
+    this.foreignDom.style.opacity = settings.opacity
+    this.group.appendChild(this.foreignDom)
 
 
 
@@ -216,9 +201,8 @@ class DrawBall extends Draw {
       bubbles: true,                                            // TODO :: DOCUMENT THIS!
                                                                 //         THIS IS CIRITICAL TO BUBBLING UP !!
       detail: {
-        type: 'BALL',
-        //shapeDom: this.svgDom,
-        ballObject: this
+        type: 'IMAGE',
+        imageObject: this
       }
     })
 
@@ -227,8 +211,8 @@ class DrawBall extends Draw {
     let eventToAttribBox = new CustomEvent('attrManagerUpdate', {
       bubles: true,
       detail:{
-        type: 'BALL',
-        ballObject: this
+        type: 'IMAGE',
+        imageObject: this
       }
     })
 
@@ -236,9 +220,8 @@ class DrawBall extends Draw {
     // SETTING UP OBSERVER FOR ATTRIBUTE CHANGES !!!
     const observeConfig = {
       attributes: true,
-      subtree: true
+      subtree: false
     }
-
 
     // ----------------------------------------------------------------------
     // SCREEN DRAGGING OBJECT
@@ -247,8 +230,8 @@ class DrawBall extends Draw {
     this.mutationHandler = (mutationList, observer) => {
       for(const mutation of mutationList) {
         if( mutation.type === 'attributes' ) {
-          // console.log(`${mutation.target.id} :::   ${mutation.attributeName}   WAS MODIFIED`)
-          // console.log(mutation.target.getAttribute(mutation.attributeName))
+          //-// console.log(`${mutation.target.id} :::   ${mutation.attributeName}   WAS MODIFIED`)
+          //-// console.log(mutation.target.getAttribute(mutation.attributeName))
 
           let targetX
           let targetY
@@ -261,34 +244,30 @@ class DrawBall extends Draw {
             this.posY = targetY
           }
 
-
-          const mappedPosition = this.screenPointToSVGPoint( this.svgRoot, this.svgDom, this.posX, this.posY)
+          const mappedPosition = this.screenPointToSVGPoint( this.svgRoot, this.foreignDom, this.posX, this.posY)
           //-// console.log(`MAPPED POSITION X :::  ${this.posX}  ----  Y :::  ${this.posY}`)
 
-          if(mappedPosition.x) this.svgDom.setAttribute("cx", Math.floor(mappedPosition.x - this.anchorPosX))
-          if(mappedPosition.y) this.svgDom.setAttribute("cy", Math.floor(mappedPosition.y - this.anchorPosY))
+          if(mappedPosition.x) this.foreignDom.setAttribute("x", Math.floor(mappedPosition.x - this.anchorPosX))
+          if(mappedPosition.y) this.foreignDom.setAttribute("y", Math.floor(mappedPosition.y - this.anchorPosY))
 
-          //if(mappedPosition.x) this.svgDom.setAttribute("cx", Math.floor(mappedPosition.x))
-          //if(mappedPosition.y) this.svgDom.setAttribute("cy", Math.floor(mappedPosition.y))
-
-
+          //this.group.setAttribute('transform', `translate( ${Math.floor(mappedPosition.x - this.anchorPosX)}, ${Math.floor(mappedPosition.y - this.anchorPosY)})`)
+        
 
 
           // // ----------------------------------------
           // // UPDATE BOUNDING BOX EITHER !!!!
           // superClass.updateBoundingBox({
-          //   x: parseInt(this.svgDom.getAttribute('cx')) - parseInt(this.svgDom.getBBox().width/2),
-          //   y: parseInt(this.svgDom.getAttribute('cy')) - parseInt(this.svgDom.getBBox().height/2),
-          //   width: this.svgDom.getBBox().width,
-          //   height: this.svgDom.getBBox().height
+          //   x: parseInt(this.foreignDom.getAttribute('x')),
+          //   y: parseInt(this.foreignDom.getAttribute('y')),
+          //   width: this.foreignDom.getBBox().width,
+          //   height: this.foreignDom.getBBox().height
           // })
 
-          
           this.selectionManager.deleteOverlayBox()
 
 
 
-          this.svgDom.dispatchEvent(eventToAttribBox)
+          this.foreignDom.dispatchEvent(eventToAttribBox)
 
         }
       }
@@ -298,61 +277,74 @@ class DrawBall extends Draw {
 
       for(const mutation of mutationsList) {
         if( mutation.type === 'attributes' ) {
-          // console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
-          // console.log(`${mutation.attributeName}   WAS MODIFIED`)
-          // console.log(`TO ${mutation.target.getAttribute(mutation.attributeName)}`)
-
+          //-// console.log(`---- CHANGED DOM ID::  ${mutation.target.id}`)
+          // //-// console.log(`${mutation.attributeName}   WAS MODIFIED`)
+          //-// console.log(`TO ${mutation.target.getAttribute(mutation.attributeName)}`)
 
           // ----------------------
           // UPDATING LOCAL STORAGE
-          this.dataStore.x = parseInt(this.svgDom.getAttribute('cx'))
-          this.dataStore.y = parseInt(this.svgDom.getAttribute('cy'))
-          this.dataStore.width = parseInt(this.svgDom.getAttribute('rx'))
-          this.dataStore.height = parseInt(this.svgDom.getAttribute('ry'))
-          this.dataStore.fill = this.svgDom.getAttribute('fill')
-          this.dataStore.zIndex = this.group.dataset.zIndex
-          this.dataStore.opacity = this.svgDom.style.opacity
+          this.dataStore.x = parseInt(this.foreignDom.getAttribute('x'))
+          this.dataStore.y = parseInt(this.foreignDom.getAttribute('y'))
+          this.dataStore.width = parseInt(this.foreignDom.getAttribute('width'))
+          this.dataStore.height = parseInt(this.foreignDom.getAttribute('height'))
+
+          this.dataStore.opacity = this.foreignDom.style.opacity
 
           this.localStorage.saveToLocalStr(this.dataStore)
           //-// console.log(this.dataStore)
         }
       }
     })
-    this.observer.observe(this.group, observeConfig)
+    this.observer.observe(this.foreignDom, observeConfig)
+
+
+    // ZINDEX MUTATES IN group DOM OBJECT
+    this.zIndexObserver = new MutationObserver((mutationsList, observer) => {
+      for(const mutation of mutationsList) {
+        if( mutation.type === 'attributes' ) {
+          this.dataStore.zIndex = this.group.dataset.zIndex
+          this.localStorage.saveToLocalStr(this.dataStore)
+        }
+      }
+    })
+    this.zIndexObserver.observe(this.group, observeConfig)
+
+
 
 
     this.mouseDownHnd = (ev) => {
-      //console.log(`---- SVG-RECT CLICKED ::  ${this.groupId}`)
+      //console.log(`---- IMAGE CLICKED ::  ${this.groupId}`)
 
       ev.stopImmediatePropagation()
       ev.preventDefault()
 
-      const mappedPosition = this.screenPointToDivPoint(this.svgRoot, this.svgDom, ev.clientX, ev.clientY)
+      const mappedPosition = this.screenPointToDivPoint(this.svgRoot, this.foreignDom, ev.clientX, ev.clientY)
 
       // STORING ANCHOR POSITION
       this.screenDrag.setScreen({
-        dragObj: this.svgDom,
+        dragObj: this.foreignDom,
         mutationHandler: this.mutationHandler,
         mouseupHandler: this.mouseUpHnd
       })
 
       // ****  PANSCALER IS NEEDED ! (ZOOMED POSITION !!)
-      this.anchorPosX = Math.floor(mappedPosition.x) * parseFloat(document.getElementById('zoom_select').dataset.panScaler) - parseInt(this.svgDom.getBBox().width/2)
-      this.anchorPosY = Math.floor(mappedPosition.y) * parseFloat(document.getElementById('zoom_select').dataset.panScaler) - parseInt(this.svgDom.getBBox().height/2)
+      this.anchorPosX = Math.floor(mappedPosition.x) * parseFloat(document.getElementById('zoom_select').dataset.panScaler)
+      this.anchorPosY = Math.floor(mappedPosition.y) * parseFloat(document.getElementById('zoom_select').dataset.panScaler)
 
-      //-// console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
+      //console.log(`ANCHOR :  POSITION  ::   X:  ${this.anchorPosX}      Y:  ${this.anchorPosY}`)
 
 
-      // // ------------------------
-      // // DRAW BOUNDING BOX !
 
-      // //console.log(this.svgDom)
-      // superClass.boundBoxCoords.x = parseInt(this.svgDom.getAttribute('cx')) - parseInt(this.svgDom.getBBox().width/2)
-      // superClass.boundBoxCoords.y = parseInt(this.svgDom.getAttribute('cy')) - parseInt(this.svgDom.getBBox().height/2)
-      // superClass.boundBoxCoords.width = this.svgDom.getBBox().width
-      // superClass.boundBoxCoords.height = this.svgDom.getBBox().height
+      // ------------------------
+      // DRAW BOUNDING BOX !
+      //console.log(this.foreignDom)
 
-      // superClass.drawBoundingBox(this.svgDom)
+      superClass.boundBoxCoords.x = parseInt(this.foreignDom.getAttribute('x'))
+      superClass.boundBoxCoords.y = parseInt(this.foreignDom.getAttribute('y'))
+      superClass.boundBoxCoords.width = this.foreignDom.getBBox().width
+      superClass.boundBoxCoords.height = this.foreignDom.getBBox().height
+
+
 
 
 
@@ -360,9 +352,16 @@ class DrawBall extends Draw {
 
       // ------------------------
       // GLOBAL SELECT LIST !!!!
-      console.log(gl_SELECTEDLIST[this.groupId])
-      console.log(gl_SHIFTKEYPRESSED)
+      // console.log(gl_SELECTEDLIST)
+      // console.log(gl_SELECTEDLIST[this.groupId])
+      // console.log(gl_SHIFTKEYPRESSED)
+
+
       let size = Object.keys(gl_SELECTEDLIST).length;
+
+
+      //console.log(this.selectionManager)
+
 
       if(size === 0) this.selectionManager.add(this)
       else if (gl_SELECTEDLIST[this.groupId] === undefined && gl_SHIFTKEYPRESSED) this.selectionManager.add(this)
@@ -373,23 +372,24 @@ class DrawBall extends Draw {
 
       }
 
-      //this.selectionManager.drawOverlayBox()
 
+      this.selectionManager.drawOverlayBox()
+      this.selectionManager.deleteDuplicated()
 
 
 
       ev.target.dispatchEvent(evAttrManOn)
     }
-    this.svgDom.addEventListener("mousedown", this.mouseDownHnd, false)
+    this.foreignDom.addEventListener("mousedown", this.mouseDownHnd, false)
 
 
 
 
     this.mouseUpHnd = (ev) => {
-      console.log('MOUSE IS UP !!')
+      //console.log('MOUSE IS UP !!')
       // DELETE BOUNDING BOX !!!!
       //superClass.removeBoundingBox()
-
+      this.selectionManager.deleteDuplicated()
 
     }
 
@@ -399,7 +399,6 @@ class DrawBall extends Draw {
     // =========================================
     // CREATING KEYFRAME
     // =========================================
-
     this.createKeyframe = (ev) => {
       //-// console.log(`CREATE KEYFRAME EVENT OCCURED   ::  ${ev.detail.id}`)
 
@@ -413,23 +412,16 @@ class DrawBall extends Draw {
         let keyObjs = {}
 
         // VALUE TYPE CHEKCING
-
-        // TODO :: CREATE THE FUNCTION TO CONVERT THE NAME OF KEY VALUES
         switch (type) {
           case 'POSITION':
-          values['cx'] = parseInt(values['cx'])
-          values['cy'] = parseInt(values['cy'])
+          values['x'] = parseInt(values['x'])
+          values['y'] = parseInt(values['y'])
           break
           case 'SIZE':
-            values['rx'] = parseInt(values['width'])
-            values['ry'] = parseInt(values['height'])
-            break
-          case 'COLOR':
-            values['fill'] = values['fill']
-            break
-          case 'OPACITY':
-            values['opacity'] = parseFloat(values['opacity'])
-            break
+            values['width'] = parseInt(values['width'])
+            values['height'] = parseInt(values['height'])
+          break
+
         }
 
 
@@ -480,7 +472,7 @@ class DrawBall extends Draw {
             this.keyframeManager.setEventHandler({
               targetId: timelineName,
               obj: this,
-              objType: 'BALL'
+              objType: 'IMAGE'
             })
 
           }
@@ -508,7 +500,7 @@ class DrawBall extends Draw {
               this.keyframeManager.setEventHandler({
                 targetId: timelineName,
                 obj: this,
-                objType: 'BALL'
+                objType: 'IMAGE'
               })
 
 
@@ -545,9 +537,7 @@ class DrawBall extends Draw {
         this.setAttribBoxStore(dataForAttribBox, this.group)
 
       }
-
     }
-
     document.body.addEventListener("createKeyFrame", this.createKeyframe, true)
 
 
@@ -572,12 +562,16 @@ class DrawBall extends Draw {
 
       // CHECKING INCOMING ATTRIBUTE NAME IS CORRECT
       if(incomingAttrName === 'x') {
-        incomingAttrName = 'c' + incomingAttrName
-        attrName_linked = 'cy'
+        
+        attrName_linked = 'y'
       } else if(incomingAttrName === 'y') {
-        incomingAttrName = 'c' + incomingAttrName
-        attrName_linked = 'cx'
+
+        attrName_linked = 'x'
+      } else if(incomingAttrName === 'opacity') {
+
+        attrName_linked = 'opacity'
       }
+
 
 
       // IF INCOMING EVENT IS SENT FROM SAME OBJECT
@@ -597,6 +591,7 @@ class DrawBall extends Draw {
         let attrboxStorageObj = JSON.parse(str[attrboxKeyName])
 
         for(let timelnName in this.timelines) {
+
           // timelnName
           // bf8c86a0-32b6-483a-a5fe-21f48d8a3370_rect_fill
           const shapeType = timelnName.split('_')[1]
@@ -608,8 +603,6 @@ class DrawBall extends Draw {
             timelnName_linked = timelnName.split('_')[0] + '_' + timelnName.split('_')[1] + '_' + attrName_linked
             //console.log(timelnName_linked)
           }
-
-
 
 
           if(shapeType === incomingShape && attrName === incomingAttrName) {
@@ -666,7 +659,6 @@ class DrawBall extends Draw {
 
 
 
-
     // =========================================
     // DELETE BUTTON EVENT HANDLING
     // =========================================
@@ -692,12 +684,14 @@ class DrawBall extends Draw {
         // 3. DELETE CURRENT OBJECT
         this.remove()
 
+        
         // ======================================================================
         // RE-ALIGN DOMs ACCORDING TO Z-INDEX
         // ======================================================================
         ZIndexManager.refreshAllSvg()
         // RESET TIMELINE
         this.ZIndexManager.remove()
+
 
         // 4. RESET ATTRIB BOX LIST OF ATTRIB MANAGER
         const evToAttrMan = new CustomEvent('resetAttrBox', {
@@ -720,6 +714,7 @@ class DrawBall extends Draw {
       }
     }
     this.group.addEventListener('deleteObject', this.deleteObjectHandler,false)
+
 
 
 
@@ -750,7 +745,6 @@ class DrawBall extends Draw {
         timeline: this.timelines
       }
       this.setAttribBoxStore(dataForAttribBox, this.group)
-
 
     } else {
       this.setDataStore()
@@ -844,7 +838,7 @@ class DrawBall extends Draw {
             this.keyframeManager.setEventHandler({
               targetId: keyframe.timelineName,
               obj: this,
-              objType: 'BALL'
+              objType: 'IMAGE'
             })
 
 
@@ -863,7 +857,7 @@ class DrawBall extends Draw {
             this.keyframeManager.setEventHandler({
               targetId: keyframe.timelineName,
               obj: this,
-              objType: 'BALL'
+              objType: 'IMAGE'
             })
 
 
@@ -891,7 +885,6 @@ class DrawBall extends Draw {
       }
       this.setAttribBoxStore(dataForAttribBox, this.group)
 
-
     }
 
 
@@ -904,15 +897,26 @@ class DrawBall extends Draw {
     // ======================================================================
     // RE-ALIGN DOMs ACCORDING TO Z-INDEX
     // ======================================================================
-    ZIndexManager.refreshAllSvg()
+    if(!this.wasEditting) ZIndexManager.refreshAllSvg()
+    else {
+      // UPDATE ZINDEX OF DOM
+      this.group.dataset.zIndex = parseInt(this.storedZIndex)
 
+      // UPDATE LOCAL STORAGE
+      this.dataStore.zIndex = parseInt(this.storedZIndex)
+      this.localStorage.saveToLocalStr(this.dataStore)
 
+      ZIndexManager.refreshAllSvg()
+    }
+      
 
 
     // SELECTION MANAGER 
     this.selectionManager = stateObj.selectionManager
 
 
+    console.log(stateObj.selectionManager)
+    console.log(this.selectionManager)
 
 
   }
@@ -923,37 +927,73 @@ class DrawBall extends Draw {
 
   setDataStore() {
     this.dataStore = {
-      type: 'BALL',
+      type: 'IMAGE',
       isStored: true,
       id: this.groupId,
       zIndex: this.group.dataset.zIndex,
-      svg_id: this.svgDom.id,
-      x: parseInt(this.svgDom.getAttribute('cx')),
-      y: parseInt(this.svgDom.getAttribute('cy')),
-      width: parseInt(this.svgDom.getAttribute('rx')),
-      height: parseInt(this.svgDom.getAttribute('ry')),
-      fill: this.svgDom.getAttribute('fill'),
-      opacity: parseFloat(this.svgDom.style.opacity)
+      svg_id: this.foreignDom.id,
+      x: parseInt(this.foreignDom.getAttribute('x')),
+      y: parseInt(this.foreignDom.getAttribute('y')),
+      width: parseInt(this.canvas.width),
+      height: parseInt(this.canvas.height),
+      opacity: parseFloat(this.foreignDom.style.opacity),
+      canvasDataURL: this.canvas.toDataURL(),
     }
   }
 
   preload(settings) {
+    // =======================================================
     //-// console.log(` (LOCAL STORAGE) PRELOADING ->   ${settings.id}`)
     // OVERLOADING REQUIRED MEMBERS
     this.groupId = settings.id
+
+
+    // ------------------------------------
+    // CREATE CANVAS ELEMENT
+    this.canvas = document.createElement('canvas')
+    this.foreignDom.appendChild(this.canvas)
+    this.canvas.id = this.groupId + '_canvas'
+    this.canvas.style.opacity = settings.opacity
+    
+    this.canvas.setAttribute('width', settings.width)
+    this.canvas.setAttribute('height', settings.height)
+
+    this.preLoadedImg = new Image(settings.width, settings.height)
+    this.preLoadedImg.src = settings.canvasDataURL                             // THIS IS FROM LOCALSTORAGE
+
+    this.preLoadedImg.onload = () => {
+
+      //console.log(this.preLoadedImg)
+
+      let canvasWidth  = this.canvas.getAttribute('width')
+      let canvasHeight = this.canvas.getAttribute('height')
+
+      // **** WE DO NOT NEED TO USE THE FORM LIKE BELOW
+      // this.canvas.getContext('2d').drawImage(
+      //   this.preLoadedImg, 
+      //   0, 0, canvasWidth, canvasHeight, 
+      //   0, 0, settings.width, settings.height
+      // )
+
+      this.canvas.getContext('2d').drawImage(
+        this.preLoadedImg, 
+        0, 0, canvasWidth, canvasHeight)
+
+      this.setDataStore()
+      this.localStorage.saveToLocalStr(this.dataStore)
+    }
   }
 
   afterload(settings) {
     //-// console.log(` (LOCAL STORAGE) AFTERLOADING ->   ${settings.id}`)
     // RE-SETTING REQUIRED OBJECTS
     this.group.dataset.zIndex = settings.zIndex
-    this.svgDom.setAttribute("id", settings.id + '_ball')
-    this.svgDom.setAttribute("cx", settings.x)
-    this.svgDom.setAttribute("cy", settings.y)
-    this.svgDom.setAttribute("rx", settings.width)
-    this.svgDom.setAttribute("ry", settings.height)
-    this.svgDom.setAttribute("fill", settings.fill)
-    this.svgDom.style.opacity = parseFloat(settings.opacity)
+    this.foreignDom.setAttribute("id", settings.id + '_foreign')
+    this.foreignDom.setAttribute("x", settings.x)
+    this.foreignDom.setAttribute("y", settings.y)
+    this.foreignDom.setAttribute("width", settings.width)
+    this.foreignDom.setAttribute("height", settings.height)
+    this.foreignDom.style.opacity = parseFloat(settings.opacity)
   }
 
 
@@ -976,12 +1016,9 @@ class DrawBall extends Draw {
   remove() {
     // REMOVE EVENT LISTENER
     document.body.removeEventListener("createKeyFrame", this.createKeyframe, true)
-    this.svgDom.removeEventListener("mousedown", this.mouseDownHnd, false)
+    this.foreignDom.removeEventListener("mousedown", this.mouseDownHnd, false)
     this.keyframeManager.remove()
 
-    // DELETE DEFS
-    this.ballGrad.remove()
-    this.ballGradDefs.remove()
 
     // RESET TIMELINE
     this.timelines = {}
@@ -991,7 +1028,7 @@ class DrawBall extends Draw {
     this.keyframeManager = undefined
 
     // DELETE DOM
-    this.svgDom.remove()
+    this.foreignDom.remove()
     this.group.remove()
 
   }
@@ -1001,23 +1038,56 @@ class DrawBall extends Draw {
   // -----------------------------------
 
 
-
   duplicateSetting(prevObj) {
 
-    this.posX = prevObj.posX
-    this.posY = prevObj.posY
-    this.anchorPosX = prevObj.anchorPosX
-    this.anchorPosY = prevObj.anchorPosY
+    console.log(prevObj)
 
-    this.svgDom.setAttribute("cx", parseInt(prevObj.svgDom.getAttribute("cx")))
-    this.svgDom.setAttribute("cy", parseInt(prevObj.svgDom.getAttribute("cy")))
-    this.svgDom.setAttribute("rx", parseInt(prevObj.svgDom.getAttribute("rx")))
-    this.svgDom.setAttribute("ry", parseInt(prevObj.svgDom.getAttribute("ry")))
+    this.posX = prevObj.x
+    this.posY = prevObj.y
 
-    this.svgDom.style.opacity = prevObj.svgDom.style.opacity
+
+    this.canvas.setAttribute('width', prevObj.canvas.getAttribute('width'))
+    this.canvas.setAttribute('height', prevObj.canvas.getAttribute('height'))
+    this.canvas.style.opacity = prevObj.canvas.style.opacity
+
+    this.foreignDom.setAttribute("x", prevObj.foreignDom.getAttribute("x"))
+    this.foreignDom.setAttribute("y", prevObj.foreignDom.getAttribute("y"))
+    this.foreignDom.setAttribute("width", prevObj.foreignDom.getAttribute("width"))
+    this.foreignDom.setAttribute("height", prevObj.foreignDom.getAttribute("height"))
+    this.foreignDom.style.opacity = prevObj.foreignDom.style.opacity
+
+
+    //this.canvas.getContext('2d').drawImage(prevObj.canvasContext, 0, 0, parseInt(prevObj.canvas.getAttribute('width')), parseInt(prevObj.canvas.getAttribute('height')))
+
+    // this.canvasImageData = prevObj.canvasImageData
+    // this.canvas.getContext('2d').putImageData(this.canvasImageData, 0, 0)
+
+    this.preLoadedImg = prevObj.preLoadedImg
 
   }
 
+
+
+
+
+
+
+
+
+  // https://stackoverflow.com/questions/13416800/how-to-generate-an-image-from-imagedata-in-javascript
+  imagedata_to_image(imagedata) {
+      var canvas = document.createElement('canvas')
+      var ctx = canvas.getContext('2d')
+      canvas.width = imagedata.width
+      canvas.height = imagedata.height
+      ctx.putImageData(imagedata, 0, 0)
+
+      var image = new Image()
+      image.src = canvas.toDataURL()
+      image.width = imagedata.width
+      image.height = imagedata.height
+      return image
+  }
 
 
 
@@ -1033,7 +1103,7 @@ class DrawBall extends Draw {
     // GETTING DOMs FROM HANDLES
     //domlist = this.handles.A.getDomList().concat(this.handles.B.getDomList()).concat(this.handles.C.getDomList())
 
-    domlist.push(this.svgDom)
+    domlist.push(this.foreignDom)
 
     return domlist
 
@@ -1118,4 +1188,4 @@ class DrawBall extends Draw {
 }
 
 
-export { DrawBall }
+export { DrawImage }

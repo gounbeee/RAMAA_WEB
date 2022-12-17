@@ -7,6 +7,7 @@ import { DrawBitmap } from "./DrawBitmap.mjs"
 import { DrawArrow } from "./DrawArrow.mjs"
 import { DrawSlotMatrix } from "./DrawSlotMatrix.mjs"
 import { DrawBall } from "./DrawBall.mjs"
+import { DrawImage } from "./DrawImage.mjs"
 
 
 
@@ -51,6 +52,9 @@ class DrawFactory {
 
         case 'BITMAP':
             return new DrawBitmap(setting, stateObj)
+
+        case 'IMAGE':
+            return new DrawImage(setting, stateObj)
 
         default:
           throw new Error(`THERE IS NO CHANCE TO DRAW OBJECT LIKE --  ${setting.type}`)

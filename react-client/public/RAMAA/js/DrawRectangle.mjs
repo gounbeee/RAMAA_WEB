@@ -46,6 +46,9 @@ class DrawRectangle extends Draw {
     this.animStore = {}
 
 
+    this.group.dataset.type = 'RECTANGLE'
+
+
     // ======================================================================
     // PRELOADING (LOCAL STORAGE)
     // ======================================================================

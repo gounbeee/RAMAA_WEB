@@ -298,7 +298,38 @@ class KeyframeManager {
         )
 
 
+      } else if( settings.targetId.includes('image') && !settings.targetId.includes('opacity')) {
+
+        let resultId = id.split('_')[0] + '_foreign'
+
+
+        document.getElementById(resultId).setAttribute(
+          attrName,
+          value
+        )
+
       } else if( settings.targetId.includes('bitmap') && settings.targetId.includes('opacity') ) {
+
+        let resultId = id.split('_')[0] + '_foreign'
+
+        document.getElementById(resultId).setAttribute(
+          'style',
+          `opacity:${value};`
+        )
+
+
+
+      } else if( settings.targetId.includes('image') && settings.targetId.includes('opacity') ) {
+
+        let resultId = id.split('_')[0] + '_foreign'
+
+        document.getElementById(resultId).setAttribute(
+          'style',
+          `opacity:${value};`
+        )
+
+
+      } else if( settings.targetId.includes('z') && settings.targetId.includes('opacity') ) {
 
         let resultId = id.split('_')[0] + '_foreign'
 
@@ -315,6 +346,12 @@ class KeyframeManager {
 
         // ------------------------------------------
         // < KEYFRAME ANIMATION :: EVERY SHAPES MOVE (WITHOUT ARROW) >
+
+
+        // console.log(id)
+        // console.log(document.getElementById(id))
+        // console.log(attrName)
+        // console.log(value)
 
         // SETTING VALUE TO 'SVG OBJECT'
         document.getElementById(id).setAttribute(

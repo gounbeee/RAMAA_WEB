@@ -509,6 +509,172 @@ class AttribManager {
       },
     }
 
+
+    // -------------------------------------------------------
+    // EVENT HANDLERS FOR SHAPE
+    this.imageDomEvHandlers = {
+      // KEY : DOM ID
+
+      image_xPos : function(ev, groupDom, shape) {
+        let newXPos = ev.target.value
+        groupDom.childNodes.forEach( child => {
+          if(child.tagName === 'foreignObject') {
+            child.setAttribute('x', newXPos)
+          }
+        })
+      },
+      image_yPos : function(ev, groupDom, shape) {
+        let newYPos = ev.target.value
+        groupDom.childNodes.forEach( child => {
+          if(child.tagName === 'foreignObject') {
+            child.setAttribute('y', newYPos)
+          }
+        })
+      },
+      image_width : function(ev, groupDom, shape) {
+        let newWidth = parseInt(ev.target.value)
+
+        let imgwidth = shape.canvas.offsetWidth
+        let imgheight = shape.canvas.offsetHeight
+        
+        // CLEARING CANVAS
+        //shape.canvas.getContext('2d').clearRect(0, 0, imgwidth, imgheight)
+
+        // UPDATING NEW WIDTH
+        shape.foreignDom.setAttribute('width', newWidth)
+        shape.canvas.setAttribute('width', newWidth)
+
+        // DRAW 
+        shape.canvas.getContext('2d').drawImage(
+          shape.preLoadedImg, 
+          0, 0, newWidth, shape.canvas.getAttribute('height'))
+
+
+        // UPDATE PIXEL (SCALED) DATA
+        shape.preLoadedImg.src = shape.canvas.toDataURL()        
+        shape.preLoadedImg.width = newWidth
+
+
+        // STORING DATA TO LOCALSTORAGE
+        //console.log(shape.preLoadedImg)
+        shape.dataStore.width = newWidth
+        shape.dataStore.canvasDataURL = shape.canvas.toDataURL()   
+        shape.setDataStore()
+        shape.localStorage.saveToLocalStr(shape.dataStore)
+
+
+      },
+      image_height : function(ev, groupDom, shape) {
+        let newHeight = parseInt(ev.target.value)
+
+        let imgwidth = shape.canvas.offsetWidth
+        let imgheight = shape.canvas.offsetHeight
+
+        // CLEARING CANVAS
+        shape.canvas.getContext('2d').clearRect(0, 0, imgwidth, imgheight)
+
+        // UPDATING NEW HEIGHT
+        shape.foreignDom.setAttribute('height', newHeight)
+        shape.canvas.setAttribute('height', newHeight)
+        
+        shape.canvas.getContext('2d').drawImage(
+          shape.preLoadedImg, 
+          0, 0, imgwidth, imgheight, 
+          0, 0, shape.canvas.getAttribute('width'), newHeight)
+
+
+        // UPDATE PIXEL (SCALED) DATA
+        shape.preLoadedImg.src = shape.canvas.toDataURL()        
+        shape.preLoadedImg.height = newHeight
+
+        // STORING DATA TO LOCALSTORAGE
+        //console.log(shape.preLoadedImg)
+        shape.dataStore.height = newHeight
+        shape.dataStore.canvasDataURL = shape.canvas.toDataURL()   
+        shape.setDataStore()
+        shape.localStorage.saveToLocalStr(shape.dataStore)
+
+
+      },
+      image_zindex : function(ev, groupDom, shape, groupObject) {
+        //-// console.log('text_zindex EXECUTED')
+        //-// console.log(groupObject)
+
+        // CHECK FOR HIGHEST LOWEST VALUE
+        // ****  0 INDEX IS 'RECT' SVG ELEMENT FOR CANVAS  ****
+        let lowest = 1
+        let highest = shape.svgRoot.children.length - 1
+
+        //-// console.log(`    ----    highest   ::    ${highest}`)
+        //-// console.log(groupObject.getGroupId())
+
+        let zIndexTo
+        if(ev.target.value >= highest) {
+          zIndexTo = highest
+          ev.target.value = highest
+        } else if(ev.target.value <= lowest) {
+          zIndexTo = lowest
+          ev.target.value = lowest
+        } else {
+          zIndexTo = ev.target.value
+        }
+        let zIndexFrom = shape.group.dataset.zIndex
+
+        //-// console.log(`OBJECT'S Z-INDEX :: ${groupObject.group.dataset.zIndex}`)
+        //-// console.log(`INPUT DOM VALUE :: ${ev.target.value}`)
+
+
+        // CALCUALTING DIRECTION TO CHANGE ZINDEX
+        // changePlus ->  true :: POSITIVE CHANGE
+        //            ->  false :: NEGATIVE CHANGE
+        //            ->  undefined :: SAME VALUE -> WILL NOT USE
+        let changePlus
+
+        if(zIndexTo - zIndexFrom > 0) {
+          changePlus = true
+        } else if(zIndexTo - zIndexFrom < 0) {
+          changePlus = false
+        } else if(zIndexTo - zIndexFrom === 0){
+          changePlus = undefined
+        }
+
+        //-// console.log(`   %%%%     zIndexFrom ::   ${zIndexFrom}      -----   zIndexTo ::   ${zIndexTo}   -----     changePlus ::  ${changePlus}`)
+
+
+        // DISPATCHING EVENT THAT ALL ELEMENTS UPDATE THEIR Z INDEX!
+        // THIS WILL BE EXECUTED Draw CLASS (BASE CLASS OF ALL 'Drawed' ELEMENTS)
+        let evToUpdateZIndex = new CustomEvent("updateZIndex", {
+          bubbles: true,
+          detail: {
+            obj: shape,
+            zIndexFrom: zIndexFrom,
+            zIndexTo: zIndexTo,
+            changePlus: changePlus
+          }
+        })
+        ev.target.dispatchEvent(evToUpdateZIndex)
+
+        // SEND EVENT TO UPDATE LOCAL STORAGE
+        // (FOR ALL OBJECTS)
+        //const evToObj = new Event('update_storage_zindex')
+        //groupObject.group.dispatchEvent(evToUpdateZIndex)
+
+
+      },
+      image_color_opacity : function(ev, groupDom, shape) {
+        //-// console.log('ATTRIB MANAGER rect_color_opacity FUNCTION EXECUTED')
+        let newOpacity = ev.target.value
+        groupDom.childNodes.forEach( child => {
+          if(child.tagName === 'foreignObject') {
+
+            child.style.opacity = parseFloat(newOpacity)
+
+          }
+        })
+      },
+    }
+
+
     // -------------------------------------------------------
     // EVENT HANDLERS FOR ARROW
     this.arrowDomEvHandlers = {
@@ -845,37 +1011,11 @@ class AttribManager {
           // EXCLUDING text TAG AND tspan
           //if( child.tagName !== 'text' && child.tagName !== 'tspan') {
 
-          switch( child.tagName ) {
-            case 'line':                              // WE CAN HAVE line SVG ELEMENT FOR ALL TYPES
-            case 'tspan':
-              type = 'TEXTAREA'
-              break
-            case 'line': 
-            case 'text':
-              type = 'TEXTAREA'
-              break
-            case 'line': 
-            case 'rect':
-              type = 'RECTANGLE'
-              break
-            case 'line':             
-            case 'ellipse':
-              type = 'BALL'
-              break
-            case 'line':   
-            case 'foreignObject':
-              type = 'BITMAP'
-              break
-            case 'line':   
-            case 'circle':                            
-              type = 'CIRCLE'
-              break
-            // case 'line':                            
-            //   type = 'CONNECTION'
-            //   break
-            default:
-              throw new Error(`THERE IS NO MATCHED TYPE --- INPUT -- ${child.tagName}`)
-          }
+          // console.log(child.tagName)
+          // console.log(groupDom)
+          // console.log( groupDom.dataset.type )
+
+          type = groupDom.dataset.type
 
         })
 
@@ -1062,7 +1202,7 @@ class AttribManager {
 
       switch(searchedType) {
 
-        case 'TEXTAREA':
+
         case 'TEXTAREA':
           this.allAttribs = AttribManager.getTextAreaAttributes(this.selectedObj.group)
           // MAP TO DOMs
@@ -1083,6 +1223,13 @@ class AttribManager {
           this.mapBitmapAttributes(this.allAttribs, this.selectedObj)
           // SETUP EVENT HANDLERS TO ATTRIBUTE PANEL
           this.setBitmapDomEventListeners(this.selectedObj.group, this.selectedObj)
+          break
+        case 'IMAGE':
+          this.allAttribs = AttribManager.getImageAttributes(this.selectedObj.group)
+          // MAP TO DOMs
+          this.mapImageAttributes(this.allAttribs, this.selectedObj)
+          // SETUP EVENT HANDLERS TO ATTRIBUTE PANEL
+          this.setImageDomEventListeners(this.selectedObj.group, this.selectedObj)
           break
         case 'ARROW':    // CASE OF DRAWING CURVE PATH IN SVG ELEMENT
           this.allAttribs = AttribManager.getArrowAttributes(this.selectedObj.group)
@@ -1153,6 +1300,15 @@ class AttribManager {
           this.allAttribs = attribs
           // MAP TO DOMs
           this.mapBitmapAttributes(attribs, this.selectedObj)
+
+        // THE CASE THAT DATA IS FROM RECTANGLE OBJECT...
+        } else if(event.detail.type === 'IMAGE') {
+          // ALL ATTRIBUTES
+          let attribs = AttribManager.getImageAttributes(document.getElementById(grpId))
+          // PASS REFERENCE TO CLASS VARIABLE
+          this.allAttribs = attribs
+          // MAP TO DOMs
+          this.mapImageAttributes(attribs, this.selectedObj)
 
         // THE CASE THAT DATA IS FROM RECTANGLE OBJECT...
         } else if(event.detail.type === 'TEXTAREA') {
@@ -1236,6 +1392,10 @@ class AttribManager {
       selected = detail.bitmapObject
     }
 
+    if(detail.imageObject) {
+      selected = detail.imageObject
+    }
+
     return selected
 
   }
@@ -1298,7 +1458,7 @@ class AttribManager {
 
     // PUT OUT FROM SELECTED LIST
     if(this.selectedObj && gl_SELECTEDLIST[this.selectedObj.groupId] === this.selectedObj) {
-      console.log("resetAttribBox :: RESETTED") 
+      //console.log("resetAttribBox :: RESETTED") 
       //console.log(gl_SHIFTKEYPRESSED) 
       this.selectedObj.selectionManager.removeFromList(this.selectedObj)
     
@@ -1475,6 +1635,36 @@ class AttribManager {
       this.bitmapDomEvHandlers.bitmap_color_opacity(ev, groupDom, shape)
     })
     document.getElementById('attr_bitmap_opacity').addEventListener('change', this.forceDecimalsOne)
+
+  }
+
+  // REFLECT THE VALUE TO SVG OBJECT
+  setImageDomEventListeners(groupDom, shape) {
+
+    document.getElementById('attr_image_x').addEventListener('input', (ev) => {
+      this.imageDomEvHandlers.image_xPos(ev, groupDom, shape)
+    })
+
+    document.getElementById('attr_image_y').addEventListener('input', (ev) => {
+      this.imageDomEvHandlers.image_yPos(ev, groupDom, shape)
+    })
+
+    document.getElementById('attr_image_width').addEventListener('input', (ev) => {
+      this.imageDomEvHandlers.image_width(ev, groupDom, shape)
+    })
+
+    document.getElementById('attr_image_height').addEventListener('input', (ev) => {
+      this.imageDomEvHandlers.image_height(ev, groupDom, shape)
+    })
+
+    document.getElementById('attr_image_zindex').addEventListener('input', (ev) => {
+      this.imageDomEvHandlers.image_zindex(ev, groupDom, shape, this.imageObject)
+    })
+
+    document.getElementById('attr_image_opacity').addEventListener('input', (ev) => {
+      this.imageDomEvHandlers.image_color_opacity(ev, groupDom, shape)
+    })
+    document.getElementById('attr_image_opacity').addEventListener('change', this.forceDecimalsOne)
 
   }
 
@@ -1686,6 +1876,24 @@ class AttribManager {
   }
 
   // THIS FUNCTION DISPLAY SVG'S ATTRIBUTES TO ATTRIBUTE PANEL (HTML DOM)
+  mapImageAttributes(attribs, selectedObj){
+    let xPos = document.getElementById('attr_image_x')
+    let yPos = document.getElementById('attr_image_y')
+    let width = document.getElementById('attr_image_width')
+    let height = document.getElementById('attr_image_height')
+    let opacity = document.getElementById('attr_image_opacity')
+    let zindex = document.getElementById('attr_image_zindex')
+
+    if(xPos) xPos.value = attribs.imageElem.x
+    if(yPos) yPos.value = attribs.imageElem.y
+    if(width) width.value = attribs.imageElem.width
+    if(height) height.value = attribs.imageElem.height
+    if(opacity) opacity.value = parseFloat(attribs.imageElem.opacity).toFixed(1)
+    if(zindex) zindex.value = selectedObj.group.dataset.zIndex
+
+  }
+
+  // THIS FUNCTION DISPLAY SVG'S ATTRIBUTES TO ATTRIBUTE PANEL (HTML DOM)
   mapArrowAttributes(attribs, selectedObj){
     // MAPPING TO DOMS
 
@@ -1880,6 +2088,38 @@ class AttribManager {
     }
 
   }
+
+
+
+  static getImageAttributes(groupDom) {
+    //-// console.log(`%% AttribManager.mjs :: GETTING ATTRIBUTE ---  ${groupDom}`)
+
+    // GETTING rect AND text ELEMENT EITHER
+    let imageElem
+
+    groupDom.childNodes.forEach( child => {
+      if(child.tagName === 'foreignObject') {
+
+        imageElem = {
+          type: 'IMAGE',
+          id: child.id,
+          x: child.x.baseVal.value,
+          y: child.y.baseVal.value,
+          width: child.width.baseVal.value,
+          height: child.height.baseVal.value,
+          opacity: child.style.opacity,
+        }
+
+      }
+
+    })
+
+    return {
+      imageElem
+    }
+
+  }
+
 
 
 

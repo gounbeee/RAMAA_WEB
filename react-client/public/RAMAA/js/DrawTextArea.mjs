@@ -63,6 +63,9 @@ class DrawTextArea extends Draw {
     this.currentConnArray = []
 
 
+    this.group.dataset.type = 'TEXTAREA'
+
+
     // ======================================================================
     // PRELOADING (LOCAL STORAGE)
     // ======================================================================

@@ -55,6 +55,8 @@ class Draw {
 
         //console.log(`DUPLICATE OBJECT BUTTON PRESSED !!!!  --->    ${ev.detail.id}`)
 
+        console.log(ev)
+
         // < GETTING CLASS NAME >
         // https://stackoverflow.com/questions/332422/get-the-name-of-an-objects-type
         let className = this.currentObj.constructor.name
@@ -96,6 +98,24 @@ class Draw {
             createdObjNew = this.stateObj.createBitmap(bitmapInitSet)
             createdObjNew.duplicateSetting(this.currentObj)
 
+
+          break
+          case 'DrawImage':
+
+            console.log(this.currentObj.canvas.getContext('2d'))
+
+            let imageInitSet = {
+              posX: this.currentObj.posX,
+              posY: this.currentObj.posY,
+              width: parseInt(this.currentObj.canvas.getAttribute('width')),
+              height: parseInt(this.currentObj.canvas.getAttribute('height')),
+              canvasContext:  this.currentObj.canvas.getContext('2d'),
+              canvasDataURL:  this.currentObj.canvas.toDataURL(),
+            }
+
+            // CREATE NEW ONE
+            createdObjNew = this.stateObj.createImage(imageInitSet)
+            createdObjNew.duplicateSetting(this.currentObj)
 
 
 

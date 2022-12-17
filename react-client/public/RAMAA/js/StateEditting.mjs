@@ -760,6 +760,114 @@ class StateEditting extends State {
     // ---------------------------------------------------------------------
 
 
+
+    // https://www.youtube.com/watch?v=-MnoHScYMW8&t=541s
+    this.createBtnImageClick = (event) => {
+      console.log("%% StateEditting.mjs :: MENU - createBtnImageClick BUTTON CLICKED")
+      //event.stopPropagation()
+
+
+
+      // OPEN FILE PICKER
+      document.getElementById('loadImageFile').onchange = (ev) => {
+        // fire the upload here
+        console.log("%% StateEditting.mjs :: MENU - IMAGE SELECTED")
+        // console.log(ev)
+
+        let file = ev.target.files[0];
+
+        // console.log(file)
+
+
+        let imgType = /image.*/;
+
+        if(file.type.match(imgType)) {
+
+          let reader = new FileReader();
+
+          reader.onloadend = (event) => {
+
+            // console.log(event);
+
+            let prevDom = document.getElementById("drawPreviewImage")
+
+
+            prevDom.onload = (e) => {
+
+              // console.log(e.target)
+              // console.log(e.target.width)
+              // console.log(e.target.height)
+              
+              let imageInitSet = {
+
+                isStored: false,                  // true  -->  ALREADY EXISTS IN LOCAL STORAGE
+                stateObj: this,
+                type: 'IMAGE',
+                width: e.target.width,
+                height: e.target.height,
+                x: 0,
+                y: 0,
+                opacity: 1.0,
+                imageElem: e.target,
+                
+              }
+
+              // GETTING STATEMACHINE WHICH IS SINGLETON OBJECT
+              let singletonSM = new StateMachine()
+              let stateNow = singletonSM.getCurrentState()
+
+              if( stateNow.name === 'editting' ) {
+                stateNow.addRenderObject(imageInitSet, this)
+              }
+
+            }
+
+            prevDom.src = event.target.result
+
+          }
+          reader.readAsDataURL(file);
+
+        }
+      };
+
+    }
+
+
+    this.createImage = (settings) => {
+
+      let imageAreaSetting = {
+
+        isStored: false,                  // true  -->  ALREADY EXISTS IN LOCAL STORAGE
+        isDuplicating: true,
+        stateObj: this,
+        type: 'IMAGE',
+        width: settings.width,
+        height: settings.height,
+        x: settings.posX,
+        y: settings.posY,
+        opacity: 1.0,
+        canvasContext: settings.canvasContext,
+        canvasDataURL: settings.canvasDataURL
+
+      }
+
+      // GETTING STATEMACHINE WHICH IS SINGLETON OBJECT
+      let singletonSM = new StateMachine()
+      let stateNow = singletonSM.getCurrentState()
+
+      if( stateNow.name === 'editting' ) {
+        return stateNow.addRenderObject(imageAreaSetting, this)
+      }
+  
+ 
+
+    }
+
+
+    // ---------------------------------------------------------------------
+
+
+
     this.drawingInitSet = {
       width: 300,
       height: 300,
@@ -995,6 +1103,9 @@ class StateEditting extends State {
 
     this.createBtnBitmap = document.getElementById("menu_create_bitmap")
     this.createBtnBitmap.addEventListener("click", this.createBtnBitmapClick )
+
+    this.createBtnImage = document.getElementById("menu_create_image")
+    this.createBtnImage.addEventListener("click", this.createBtnImageClick )
 
     this.createBtnBall = document.getElementById("menu_create_ball")
     this.createBtnBall.addEventListener("click", this.createBtnBallClick )
@@ -1376,6 +1487,7 @@ class StateEditting extends State {
     this.createBtn.removeEventListener("click", this.createBtnClick )
     this.createBtnRect.removeEventListener("click", this.createBtnRectClick )
     this.createBtnBitmap.removeEventListener("click", this.createBtnBitmapClick )
+    this.createBtnImage.removeEventListener("click", this.createBtnImageClick )
     this.createBtnArrow.removeEventListener("click", this.createBtnArrowClick )
     this.createBtnTextArea.removeEventListener("click", this.createBtnTextAreaClick )
     this.createBtnBall.removeEventListener("click", this.createBtnBallClick )

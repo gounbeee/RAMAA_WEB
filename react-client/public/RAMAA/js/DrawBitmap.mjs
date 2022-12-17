@@ -51,6 +51,9 @@ class DrawBitmap extends Draw {
 
 
 
+    this.group.dataset.type = 'BITMAP'
+
+
 
     // ======================================================================
     // PRELOADING (LOCAL STORAGE)
@@ -525,6 +528,9 @@ class DrawBitmap extends Draw {
       } else if(incomingAttrName === 'y') {
 
         attrName_linked = 'x'
+      } else if(incomingAttrName === 'opacity') {
+
+        attrName_linked = 'opacity'
       }
 
 

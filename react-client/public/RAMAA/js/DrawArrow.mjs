@@ -53,7 +53,7 @@ class DrawArrow extends Draw {
 
 
 
-
+    this.group.dataset.type = 'ARROW'
 
 
 
